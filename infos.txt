@@ -1,0 +1,4 @@
+LPMiniMK3 MIDI
+
+const s1 = "MIDIIN2 (LPMiniMK3 MIDI)";
+const s2 = "LPMiniMK3 MIDI";
