@@ -1,0 +1,8 @@
+{
+    "FlexIP" : "192.168.1.1",
+    "FlexPort" : 4711,
+    "JogCoolDown" : 100,
+    "MidimapFile" : "midimap.csv",
+    "FuncmapFile" : "funcmap.csv",
+    "WindowsMidiName" : "DJControl Starlight"
+}
