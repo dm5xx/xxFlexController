@@ -8,9 +8,10 @@ const port = "4711";
 const jogCoolDown = 100;
 
 const masterEmitter = new EventEmitter();
-const controller = new Controller("DJControl Starlight", "map.csv", masterEmitter);
-const xxFlex = new xxFlexRadio(ip, port);
-const flexDominator = new FlexDominator(xxFlex);
+const controller = new Controller("DJControl Starlight", "midimap.csv", "funcmap.csv", masterEmitter);
+
+const flexDominator = new FlexDominator();
+const xxFlex = new xxFlexRadio(ip, port, flexDominator);
 
 var timeLock = false;
 
@@ -36,7 +37,7 @@ masterEmitter.on("ce", function (elm)
     {
         try
         {
-            flexDominator[elm.MappedTo](elm);
+            xxFlex.FlexDominator[elm.MappedTo](elm);
         }
         catch(error)
         {
@@ -44,6 +45,15 @@ masterEmitter.on("ce", function (elm)
         }
     }
 
+    // 3 is handled as a basefunctionality in djcontroller class
+    if(elm.BtnTyp == 2)
+    {
+        setTimeout(() => controller.switchLedOff(elm.Id), 500);
+    }
+    else if(elm.BtnTyp == 4)
+    {
+        setTimeout(() => controller.setElementandLedOff(elm.Id), 500);
+    }
 });
 
 // const intervalID = setInterval(myCallback, 1000);

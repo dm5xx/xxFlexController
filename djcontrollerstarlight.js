@@ -1,8 +1,8 @@
 const controller = require("./controller");
 
 class djcontrollerstarlight extends controller {
-    constructor(conname, mapfilename, masteremit) {
-        super(conname, mapfilename, masteremit);
+    constructor(conname, mapfilename, funcmapfilename, masteremit) {
+        super(conname, mapfilename, funcmapfilename, masteremit);
     }
 
     handle(msg)
@@ -26,9 +26,46 @@ class djcontrollerstarlight extends controller {
         {
             if(this.Elements[res].Type=="Btn")
             {
-                if(msg.velocity == 127)
+                if(msg.velocity == 127 && this.Elements[res].GrpId > 0)
                 {
-                    this.Elements[res].toggleState();
+                    let grpMembers = this.Elements.filter(eli => eli.GrpId == this.Elements[res].GrpId);
+
+                    grpMembers.forEach(element => {
+                        if(element.Id != this.Elements[res].Id)
+                        {
+                            if(element.State == 1)
+                            {
+                                let gin = this.Elements.findIndex((elm) => elm.Id == element.Id);        
+
+                                if(gin > -1)
+                                {
+                                    if(this.Elements[gin].State == 1)
+                                    {
+                                        this.Elements[gin].State = 0;
+                                        this.handleHardware(this.Elements[gin]);
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+                if(this.Elements[res].BtnTyp != 3)
+                {
+                    if(msg.velocity == 127)
+                    {
+                        this.Elements[res].toggleState();
+                        this.handleHardware(this.Elements[res]);
+                    }    
+                }
+                else {
+                    if(msg.velocity == 127)
+                    {                        
+                        this.Elements[res].OnState();
+                    }
+                    else
+                    {
+                        this.Elements[res].OffState();
+                    }
                     this.handleHardware(this.Elements[res]);
                 }
             }
@@ -43,24 +80,49 @@ class djcontrollerstarlight extends controller {
         }
     }
 
+
+    setElementandLedOff(id)
+    {
+        res = this.Elements.findIndex((elm) => elm.Id == id);
+        this.Elements[res].State = 0;
+        this.handleHardware(this.Elements[res]);
+    }
+
+    switchLedOff(id)
+    {
+        for(let i=0; i < this.Elements.length; i++)
+        {
+            if(this.Elements[i].Id == id)
+            {
+                this.Elements[i].State = 0;
+                this.switchLed(this.Elements[i]);
+                return
+            }
+        }
+
+        console.log("Led not found");
+    }
+
+    switchLed(element)
+    {
+        let resultLed = {};
+
+        resultLed.channel = element.Channel;
+        resultLed.note = element.Controller;
+
+        if(element.State == 1)
+            resultLed.velocity = element.OnValue
+        else
+            resultLed.velocity = element.OffValue
+
+        this.Output.send("noteon", resultLed);
+    }
+
     handleHardware(element)
     {
         if(element.Type=="Btn")
-        {            
-            let resultLed = {};
-
-            resultLed.channel = element.Channel;
-            resultLed.note = element.Controller;
-
-            if(element.State == 1)
-                resultLed.velocity = element.OnValue
-            else
-                resultLed.velocity = element.OffValue
-            
-            this.Output.send("noteon", resultLed);
-
-            //console.log(element.Name);
-            //emit to Master to call flexapi
+        {                        
+            this.switchLed(element);
         }
         // else
         // {
@@ -75,9 +137,10 @@ class djcontrollerstarlight extends controller {
         trans.Controller = element.Controller;
         trans.MappedTo = element.MappedTo;
         trans.State = element.State;
-        
-        this.MasterEmitter.emit("ce", trans);
+        trans.BtnTyp = element.BtnTyp;
+        trans.GrpId = element.GrpId;
 
+        this.MasterEmitter.emit("ce", trans);
     }
 
     handelBaseColor(id, col)

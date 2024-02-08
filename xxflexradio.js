@@ -1,6 +1,7 @@
 class xxFlexRadio {
-    constructor(ip, port) 
+    constructor(ip, port, fdom) 
     {
+        this.FlexDominator = fdom;
         this.connect(); 
     }
     connect()
