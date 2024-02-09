@@ -17,7 +17,7 @@ class xxFlexRadio extends Radio{
 
         this.on('status', function(status) {
             // capture asynchronous status messages
-            console.log('received status: ' + JSON.stringify(status));
+            //console.log('received status: ' + JSON.stringify(status));
             if(status.payload !== undefined)
             {
                 try {
@@ -60,7 +60,7 @@ class xxFlexRadio extends Radio{
     fire(cmd)
     {
         this.send(cmd, function(response) {
-            console.log('recevied response: ' + JSON.stringify(response));
+            //console.log('recevied response: ' + JSON.stringify(response));
         });
     }
 }

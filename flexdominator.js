@@ -1,7 +1,8 @@
 class flexDominator {
-    constructor(nvm = ["AM", "SAM", "FM", "NFM", "DFM"]) 
+    constructor(nvm = ["AM", "SAM", "FM", "NFM", "DFM"], nvs = [ 1,1000, 2000,3000]) 
     {
-        this.NotValidModes = nvm
+        this.NotValidModes = nvm;
+        this.NotValidSteps = nvs;
     }
 
     xmit(elm, flx)
@@ -9,18 +10,15 @@ class flexDominator {
         return "xmit "+elm.State;
     }
 
-    /* mode = USB
-    /*  .mode_list = ["LSB", "USB", "AM*", "CW", "DIGL", "DIGU", "SAM*", "FM*", "NFM*", "DFM*", "RTTY*",]*/
     modes(elm, flx)
     {
         let sl = this.getRequestedSlice(elm);
-        //let next_mode = flx["Slice0"].mode_list.indexOf(flx["Slice0"].mode);
-        let n_mode = this.#getNextMode(flx["Slice"+sl].mode, flx["Slice"+sl].mode_list);
+        let n_mode = this.#getNext(flx["Slice"+sl].mode, flx["Slice"+sl].mode_list, this.NotValidModes);
 
         return "slice s "+ sl + " mode=" + n_mode;
     }
 
-    #getNextMode(mode, modelist)
+    #getNext(mode, modelist, notlist)
     {
         let cur_idx = modelist.indexOf(mode);
         cur_idx++;
@@ -28,7 +26,7 @@ class flexDominator {
         if(cur_idx == modelist.length)
             cur_idx = 0;
 
-        while(this.NotValidModes.indexOf(modelist[cur_idx]) > -1)
+        while(notlist.indexOf(modelist[cur_idx]) > -1)
         {
             cur_idx++;
 
@@ -39,17 +37,70 @@ class flexDominator {
         return modelist[cur_idx];
     }
 
+    #hundret27to100Converter(value127)
+    {
+        return Math.round(value127*0.7874);
+    }
+
+    #ritSpreader(state, factor)
+    {
+        let realstate = state-64; 
+        return Math.round(realstate*factor);
+    }
+
+    rit(elm, flx)
+    {
+        let sl = this.getRequestedSlice(elm);
+
+
+        let ritfac = 70
+        if(flx["Slice"+sl].mode == "CW")
+            ritfac=7;
+
+        let getRealRit = this.#ritSpreader(elm.State, ritfac)
+
+        if(getRealRit == 0 )
+            return "slice s "+ sl + " rit_on=01 rit_freq=0";
+
+        return "slice s "+ sl + " rit_on=1 rit_freq=" + this.#ritSpreader(elm.State, ritfac);
+    }
+
+    volume(elm, flx)
+    {
+        let sl = this.getRequestedSlice(elm);
+        //audio client id slice 0 gain 10
+        return "audio client "+ flx.client_handle + " slice " + sl + " gain " + this.#hundret27to100Converter(elm.State);
+    }
+
+    agc(elm, flx)
+    {
+        let sl = this.getRequestedSlice(elm);
+
+        return "slice s "+ sl + " agc_threshold=" + elm.State;
+    }
+
     vfo(elm, flx)
     {
         let sl = this.getRequestedSlice(elm);
 
         if(elm.State == 1)
         {
-            let fr= flx["Slice"+sl].RF_frequency+flx["Slice"+sl].step*0.000001;
-
-            return "slice tune "+ sl + " " + fr;
+            flx["Slice"+sl].RF_frequency= flx["Slice"+sl].RF_frequency+flx["Slice"+sl].step*0.000001;
         }
+        else
+        {
+            flx["Slice"+sl].RF_frequency= flx["Slice"+sl].RF_frequency-flx["Slice"+sl].step*0.000001;
+        }
+        return "slice tune "+ sl + " " + flx["Slice"+sl].RF_frequency;
         // flx.RF_frequency
+    }
+
+    steps(elm, flx)
+    {
+        let sl = this.getRequestedSlice(elm);
+        flx["Slice"+sl].step = this.#getNext(flx["Slice"+sl].step, flx["Slice"+sl].step_list, this.NotValidSteps);
+
+        return "slice s "+ sl + " step=" + flx["Slice"+sl].step;
     }
 
     getRequestedSlice(elm)

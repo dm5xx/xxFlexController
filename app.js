@@ -44,7 +44,7 @@ masterEmitter.on("ce", function (elm)
         {
             console.log("Method not found");
         }
-    // }
+    //}
 
     // 3 is handled as a basefunctionality in djcontroller class
     if(elm.BtnTyp == 2)

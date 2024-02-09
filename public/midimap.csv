@@ -1,4 +1,5 @@
 ﻿A;Tempo;Poti;cc;1;8;127;0
+A;Jog;Jog;cc;1;9;1;127
 A;Jog;Jog;cc;1;10;1;127
 A;JogBtn;Btn;noteon;1;8;127;0
 A;Sync;Btn;noteon;1;5;127;0
@@ -20,6 +21,7 @@ A;Master;Poti;cc;0;0;127;0
 A;Volume;Poti;cc;1;1;127;0
 A;Bass/Fil;Poti;cc;1;0;127;0
 B;Tempo;Poti;cc;2;8;127;0
+B;Jog;Jog;cc;2;9;1;127
 B;Jog;Jog;cc;2;10;1;127
 B;JogBtn;Btn;noteon;2;8;127;0
 B;Sync;Btn;noteon;2;5;127;0

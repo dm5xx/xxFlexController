@@ -19,7 +19,7 @@ class djcontrollerstarlight extends controller {
         if(msg._type == "noteon")
             id = msg.channel+"|"+msg.note;
 
-        res = this.Elements.findIndex((elm) => elm.Id == id && elm.MsgType == msg._type);        
+        res = this.Elements.findIndex((elm) => (id.localeCompare(elm.Id) == 0 && elm.MsgType.localeCompare(msg._type) == 0));        
         Object.assign(this.OldCalledElement, this.CurrentCalledElement);
 
         if(res > -1 && msg._type == this.Elements[res].MsgType)
