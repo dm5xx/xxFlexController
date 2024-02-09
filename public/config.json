@@ -1,6 +1,6 @@
 {
-    "FlexIP" : "192.168.1.1",
-    "FlexPort" : 4711,
+    "FlexIP" : "192.168.0.110",
+    "FlexPort" : 4992,
     "JogCoolDown" : 100,
     "MidimapFile" : "midimap.csv",
     "FuncmapFile" : "funcmap.csv",

@@ -8,11 +8,11 @@ A;Headphone;Btn;noteon;1;12;127;0
 A;Shift;Btn;noteon;0;3;127;0
 A;HotCue;Btn;noteon;1;15;127;0
 A;Loop;Btn;noteon;1;16;127;0
-A;CBtn1;Btn;noteon;6;0;127;0;mapped1
+A;CBtn1;Btn;noteon;6;0;127;0
 A;CBtn2;Btn;noteon;6;1;127;0
 A;CBtn3;Btn;noteon;6;2;127;0
 A;CBtn4;Btn;noteon;6;3;127;0
-A;LBtn1;Btn;noteon;6;16;127;0;mapped2
+A;LBtn1;Btn;noteon;6;16;127;0
 A;LBtn2;Btn;noteon;6;17;127;0
 A;LBtn3;Btn;noteon;6;18;127;0
 A;LBtn4;Btn;noteon;6;19;127;0

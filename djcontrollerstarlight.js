@@ -130,17 +130,17 @@ class djcontrollerstarlight extends controller {
         //     //emit to Masater ti cakk flexapi
         // }
 
-        let trans = {};
-        trans.Id = element.Id;
-        trans.Type = element.Type;
-        trans.Channel = element.Channel;
-        trans.Controller = element.Controller;
-        trans.MappedTo = element.MappedTo;
-        trans.State = element.State;
-        trans.BtnTyp = element.BtnTyp;
-        trans.GrpId = element.GrpId;
+        // let trans = {};
+        // trans.Id = element.Id;
+        // trans.Type = element.Type;
+        // trans.Channel = element.Channel;
+        // trans.Controller = element.Controller;
+        // trans.MappedTo = element.MappedTo;
+        // trans.State = element.State;
+        // trans.BtnTyp = element.BtnTyp;
+        // trans.GrpId = element.GrpId;
 
-        this.MasterEmitter.emit("ce", trans);
+        this.MasterEmitter.emit("ce", element);
     }
 
     handelBaseColor(id, col)

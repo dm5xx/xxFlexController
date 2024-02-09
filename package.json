@@ -10,5 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "easymidi": "^3.1.0"
+  },
+  "devDependencies": {
+    "flexradio-js": "^1.1.0"
   }
 }
