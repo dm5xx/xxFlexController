@@ -3,6 +3,8 @@ class flexDominator {
     {
         this.NotValidModes = nvm;
         this.NotValidSteps = nvs;
+        this.CWFilter = [50,100,250,400,500,800,1000,3000];
+        this.Filter = [1200,1800,2100,2400,2700,2900,3300,4000,6000];
     }
 
     xmit(elm, flx)
@@ -18,7 +20,7 @@ class flexDominator {
         return "slice s "+ sl + " mode=" + n_mode;
     }
 
-    #getNext(mode, modelist, notlist)
+    #getNext(mode, modelist, notlist = null)
     {
         let cur_idx = modelist.indexOf(mode);
         cur_idx++;
@@ -26,12 +28,15 @@ class flexDominator {
         if(cur_idx == modelist.length)
             cur_idx = 0;
 
-        while(notlist.indexOf(modelist[cur_idx]) > -1)
+        if(notlist != null)
         {
-            cur_idx++;
-
-            if(cur_idx == modelist.length)
-                cur_idx = 0;
+            while(notlist.indexOf(modelist[cur_idx]) > -1)
+            {
+                cur_idx++;
+    
+                if(cur_idx == modelist.length)
+                    cur_idx = 0;
+            }    
         }
 
         return modelist[cur_idx];
@@ -101,6 +106,34 @@ class flexDominator {
         flx["Slice"+sl].step = this.#getNext(flx["Slice"+sl].step, flx["Slice"+sl].step_list, this.NotValidSteps);
 
         return "slice s "+ sl + " step=" + flx["Slice"+sl].step;
+    }
+
+    filters(elm, flx)
+    {
+        let sl = this.getRequestedSlice(elm);
+
+        let fildif = flx["Slice"+sl].filter_hi-flx["Slice"+sl].filter_lo;
+        if(flx["Slice"+sl].mode=="CW")
+        {
+            let n_fil = this.#getNext(fildif, this.CWFilter, null)
+
+            let half = n_fil/2;
+            flx["Slice"+sl].filter_lo= -half;
+            flx["Slice"+sl].filter_hi= half;
+
+        }
+        else
+        {
+            let n_fil = this.#getNext(fildif, this.Filter, null);
+
+            flx["Slice"+sl].filter_hi= flx["Slice"+sl].filter_lo+n_fil;
+        }
+        return "filt "+sl+" "+ flx["Slice"+sl].filter_lo +" "+flx["Slice"+sl].filter_hi;
+    }
+
+    monitor(elm, flx)
+    {
+        return "transmit s mon="+elm.State;
     }
 
     getRequestedSlice(elm)

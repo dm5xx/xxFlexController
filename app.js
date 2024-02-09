@@ -24,7 +24,7 @@ masterEmitter.on("ce", function (elm)
     //         if(!timeLock)
     //         {
     //             timeLock = true;
-    //             console.log("Fire for"+JSON.stringify(elm));
+                //console.log("Fire for"+JSON.stringify(elm));
     //             setTimeout(() => timeLock = false, Config.JogCoolDown);
     //         };
     //         break;
