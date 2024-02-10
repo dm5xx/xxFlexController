@@ -11,7 +11,7 @@ if(Config.WindowsMidiName == "DJControl Starlight")
 const masterEmitter = new EventEmitter();
 const controller = new Controller(Config.WindowsMidiName, Config.MidimapFile, Config.FuncmapFile, masterEmitter);
 
-const flexDominator = new FlexDominator();
+const flexDominator = new FlexDominator(masterEmitter);
 const xxFlex = new xxFlexRadio(Config.FlexIP, Config.FlexPort);
 
 var timeLock = false;
@@ -55,4 +55,9 @@ masterEmitter.on("ce", function (elm)
     {
         setTimeout(() => controller.setElementandLedOff(elm.Id), 500);
     }
+});
+
+masterEmitter.on("ct", function (freq)
+{
+    xxFlex.fire("display panf s "+ xxFlex.DisplayPan.StreamId + " center="+freq);
 });

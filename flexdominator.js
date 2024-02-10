@@ -1,10 +1,9 @@
 class flexDominator {
-    constructor(nvm = ["AM", "SAM", "FM", "NFM", "DFM"], nvs = [ 1,1000, 2000,3000]) 
+    constructor(masterEmit, nvm = ["AM", "SAM", "FM", "NFM", "DFM"], nvs = [ 1,1000, 2000,3000]) 
     {
         this.NotValidModes = nvm;
         this.NotValidSteps = nvs;
-        this.CWFilter = [50,100,250,400,500,800,1000,3000];
-        this.Filter = [1200,1800,2100,2400,2700,2900,3300,4000,6000];
+        this.Emitter = masterEmit;
     }
 
     xmit(elm, flx)
@@ -47,9 +46,9 @@ class flexDominator {
         return Math.round(value127*0.7874);
     }
 
-    #ritSpreader(state, factor)
+    #Spreader(state, factor, middle = 64)
     {
-        let realstate = state-64; 
+        let realstate = state-middle; 
         return Math.round(realstate*factor);
     }
 
@@ -62,12 +61,12 @@ class flexDominator {
         if(flx["Slice"+sl].mode == "CW")
             ritfac=7;
 
-        let getRealRit = this.#ritSpreader(elm.State, ritfac)
+        let getRealRit = this.#Spreader(elm.State, ritfac)
 
         if(getRealRit == 0 )
             return "slice s "+ sl + " rit_on=01 rit_freq=0";
 
-        return "slice s "+ sl + " rit_on=1 rit_freq=" + this.#ritSpreader(elm.State, ritfac);
+        return "slice s "+ sl + " rit_on=1 rit_freq=" + this.#Spreader(elm.State, ritfac);
     }
 
     volume(elm, flx)
@@ -115,7 +114,7 @@ class flexDominator {
         let fildif = flx["Slice"+sl].filter_hi-flx["Slice"+sl].filter_lo;
         if(flx["Slice"+sl].mode=="CW")
         {
-            let n_fil = this.#getNext(fildif, this.CWFilter, null)
+            let n_fil = this.#getNext(fildif, flx.CWFilter, null)
 
             let half = n_fil/2;
             flx["Slice"+sl].filter_lo= -half;
@@ -124,11 +123,99 @@ class flexDominator {
         }
         else
         {
-            let n_fil = this.#getNext(fildif, this.Filter, null);
+            let n_fil = this.#getNext(fildif, flx.Filter, null);
 
             flx["Slice"+sl].filter_hi= flx["Slice"+sl].filter_lo+n_fil;
         }
+
+        flx["Slice"+sl].InitFilterBW = flx["Slice"+sl].filter_hi-flx["Slice"+sl].filter_lo;
+
         return "filt "+sl+" "+ flx["Slice"+sl].filter_lo +" "+flx["Slice"+sl].filter_hi;
+    }
+
+    toggleRXANT(elm, flx)
+    {
+        let sl = this.getRequestedSlice(elm);
+
+        let antNum = 1;
+        let rxnum = "A";
+
+        if(sl == 1)
+        {
+            antNum = 2;
+            rxnum = "B";    
+        }
+
+        if(flx["Slice"+sl].rxant == flx["Slice"+sl].txant)
+            flx["Slice"+sl].rxant = "RX_"+rxnum;
+        else
+            flx["Slice"+sl].rxant = flx["Slice"+sl].txant;
+
+        return "slice s "+ sl + " rxant=" + flx["Slice"+sl].rxant;
+    }
+
+    toggleTXANT(elm, flx)
+    {
+        let sl = this.getRequestedSlice(elm);
+
+        if(flx["Slice"+sl].txant == "ANT1")
+            flx["Slice"+sl].txant = "ANT2";
+        else
+            flx["Slice"+sl].txant = "ANT1";
+
+        return "slice s "+ sl + " txant=" + flx["Slice"+sl].txant;
+    }
+
+    panBW(elm, flx)
+    {
+        if(flx.PanBW.indexOf(flx["DisplayPan"].bandwidth) == -1)
+        {
+            flx["DisplayPan"].bandwidth = flx.PanBW[flx.PanBW.length-1];
+        }
+
+        let n_bw = this.#getNext(flx["DisplayPan"].bandwidth, flx.PanBW, null);
+        flx["DisplayPan"].bandwidth = n_bw;
+
+        let sl = this.getRequestedSlice(elm);
+
+        setTimeout(() => this.Emitter.emit("ct", flx["Slice"+sl].RF_frequency), 1000);
+        return "display panf s "+ flx["DisplayPan"].StreamId + " bandwidth=" + flx["DisplayPan"].bandwidth;
+    }
+
+    fadePan(elm, flx)
+    {
+        let val = this.#Spreader(this.#hundret27to100Converter(elm.State), 1, 50);
+
+        let cv = (50+val);
+
+        if(cv < 50)
+        {
+            return "audio client "+ flx.client_handle + " slice 0 pan " + cv;
+        }
+        return "audio client "+ flx.client_handle + " slice 1 pan " + cv;
+    }
+
+    freeFilter(elm, flx)
+    {
+
+        let sl = this.getRequestedSlice(elm);
+        let val = (this.#hundret27to100Converter(elm.State));
+
+        let fildif = flx["Slice"+sl].InitFilterBW;
+        let newval = 0; 
+
+        if(val<50)
+        {
+            newval= flx["Slice"+sl].filter_lo + flx["Slice"+sl].filter_hi-(((50-val)*2/100)*fildif);
+        }
+        else if(val==50)
+        {
+            newval= flx["Slice"+sl].filter_lo + fildif;
+        }
+        else{
+            newval= flx["Slice"+sl].filter_lo + flx["Slice"+sl].filter_hi+(((val-50)*2/100)*fildif);
+        }
+        return "filt "+sl+" "+ flx["Slice"+sl].filter_lo +" "+newval;
     }
 
     monitor(elm, flx)
