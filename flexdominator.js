@@ -1,8 +1,8 @@
 class flexDominator {
-    constructor(masterEmit, nvm = ["AM", "SAM", "FM", "NFM", "DFM"], nvs = [ 1,1000, 2000,3000]) 
+    constructor(masterEmit, defcon) 
     {
-        this.NotValidModes = nvm;
-        this.NotValidSteps = nvs;
+        this.NotValidModes = defcon.NotValidModes;
+        this.NotValidSteps = defcon.NotValidSteps;
         this.Emitter = masterEmit;
     }
 
@@ -203,24 +203,68 @@ class flexDominator {
 
         let fildif = flx["Slice"+sl].InitFilterBW;
         let newval = 0; 
+        let neloval = 0; 
 
-        if(val<50)
+        if(flx["Slice"+sl].mode=="USB")
         {
-            newval= flx["Slice"+sl].filter_lo + flx["Slice"+sl].filter_hi-(((50-val)*2/100)*fildif);
+            if(val<50)
+            {
+                newval= flx["Slice"+sl].filter_lo + flx["Slice"+sl].filter_hi-(((50-val)*2/100)*fildif);
+            }
+            else if(val==50)
+            {
+                newval= flx["Slice"+sl].filter_lo + fildif;
+            }
+            else{
+                newval= flx["Slice"+sl].filter_lo + flx["Slice"+sl].filter_hi+(((val-50)*2/100)*fildif);
+            }    
+            return "filt "+sl+" "+ flx["Slice"+sl].filter_lo +" "+newval;
         }
-        else if(val==50)
+        else if(flx["Slice"+sl].mode=="LSB")
         {
-            newval= flx["Slice"+sl].filter_lo + fildif;
+            if(val<50)
+            {
+                newval= flx["Slice"+sl].filter_lo + (((50-val)*2/100)*fildif) -100;
+            }
+            else if(val==50)
+            {
+                newval= flx["Slice"+sl].filter_hi - fildif;
+            }
+            else{
+                newval= flx["Slice"+sl].filter_lo - (((val-50)*2/100)*fildif);
+            }    
+            return "filt "+sl+" "+ newval +" "+flx["Slice"+sl].filter_hi;
         }
-        else{
-            newval= flx["Slice"+sl].filter_lo + flx["Slice"+sl].filter_hi+(((val-50)*2/100)*fildif);
+        else if(flx["Slice"+sl].mode=="CW")
+        {
+            let half = fildif/2;
+            if(val<50)
+            {
+                neloval=-1*half-((val-50)*2/100)*half;
+                newval=half+((val-50)*2/100)*half;
+            }
+            else if(val==50)
+            {
+                neloval= -1*half;
+                newval= half;
+            }
+            else
+            {
+                neloval=-1*half-((val-50)*2/100)*half;
+                newval=half+((val-50)*2/100)*half;
+            }    
+            return "filt "+sl+" "+ neloval +" "+newval;
         }
-        return "filt "+sl+" "+ flx["Slice"+sl].filter_lo +" "+newval;
     }
 
     monitor(elm, flx)
     {
         return "transmit s mon="+elm.State;
+    }
+
+    setdefault(elm, flx)
+    {
+        this.Emitter.emit("def", flx.Slice0.RF_frequency, flx.Slice0.mode);
     }
 
     getRequestedSlice(elm)

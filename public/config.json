@@ -2,7 +2,6 @@
     "FlexIP" : "192.168.0.110",
     "FlexPort" : 4992,
     "JogCoolDown" : 100,
-    "MidimapFile" : "midimap.csv",
-    "FuncmapFile" : "funcmap.csv",
+    "MidimapFile" : "hercules.xlsx",
     "WindowsMidiName" : "DJControl Starlight"
 }

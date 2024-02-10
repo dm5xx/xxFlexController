@@ -1,5 +1,6 @@
 var Controller = null;
 const Config = require("./public/config.json");
+const defaults = require("./public/defaults.json");
 
 const FlexDominator = require("./flexdominator.js");
 const EventEmitter = require('node:events');
@@ -9,42 +10,21 @@ if(Config.WindowsMidiName == "DJControl Starlight")
     Controller = require("./djcontrollerstarlight.js");
 
 const masterEmitter = new EventEmitter();
-const controller = new Controller(Config.WindowsMidiName, Config.MidimapFile, Config.FuncmapFile, masterEmitter);
+const controller = new Controller(Config.WindowsMidiName, Config.MidimapFile, masterEmitter);
 
-const flexDominator = new FlexDominator(masterEmitter);
-const xxFlex = new xxFlexRadio(Config.FlexIP, Config.FlexPort);
-
-var timeLock = false;
+const flexDominator = new FlexDominator(masterEmitter, defaults);
+const xxFlex = new xxFlexRadio(Config.FlexIP, Config.FlexPort, defaults);
 
 masterEmitter.on("ce", function (elm)
 {
-    // switch(elm.Type)
-    // {
-    //     case "Jog":
-    //         if(!timeLock)
-    //         {
-    //             timeLock = true;
-                //console.log("Fire for"+JSON.stringify(elm));
-    //             setTimeout(() => timeLock = false, Config.JogCoolDown);
-    //         };
-    //         break;
-    //     case "Btn":
-    //     case "Poti":
-    //         console.log("Fire for"+JSON.stringify(elm));
-    //     break; 
-    // }
-
-    // if(!timeLock && elm.MappedTo!="")
-    // {
-        try
-        {
-            xxFlex.fire(flexDominator[elm.MappedTo](elm, xxFlex));
-        }
-        catch(error)
-        {
-            console.log("Method not found");
-        }
-    //}
+    try
+    {
+        xxFlex.fire(flexDominator[elm.MappedTo](elm, xxFlex));
+    }
+    catch(error)
+    {
+        console.log("Method not found");
+    }
 
     // 3 is handled as a basefunctionality in djcontroller class
     if(elm.BtnTyp == 2)
@@ -60,4 +40,12 @@ masterEmitter.on("ce", function (elm)
 masterEmitter.on("ct", function (freq)
 {
     xxFlex.fire("display panf s "+ xxFlex.DisplayPan.StreamId + " center="+freq);
+});
+
+masterEmitter.on("def", function (freq, mod)
+{
+    xxFlex.fire("slice r 0");
+    xxFlex.fire("slice r 1");
+    xxFlex.fire("slice create frequ="+freq+" ant=ANT1 mode="+mod);
+    xxFlex.fire("slice create frequ="+(freq+0.050) +" ant=ANT1 mode="+mod);
 });

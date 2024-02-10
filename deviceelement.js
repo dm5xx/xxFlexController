@@ -1,5 +1,5 @@
 class deviceElement {
-    constructor(nam="", typ ="", par="", ctype="", chan="", cont="", onv=127, offv=0, id = "", mapto = "", btnTyp=0, grpid=0) {
+    constructor(par="", nam="", typ ="", ctype="", chan="", cont="", onv=127, offv=0, id = "", mapto = "", btnTyp=0, grpid=0) {
         this.Part = par;
         this.Name = nam;
         this.Type = typ;

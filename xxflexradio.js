@@ -1,7 +1,7 @@
 const { Radio } = require('flexradio-js/Radio');
 
 class xxFlexRadio extends Radio{
-    constructor(ip, port) 
+    constructor(ip, port, defconf) 
     {
         super({ip: ip, port: port});
 
@@ -12,9 +12,9 @@ class xxFlexRadio extends Radio{
         this.Slice1 = {};
         this.DisplayPan = {};
 
-        this.CWFilter = [50,100,250,400,500,800,1000,3000];
-        this.Filter = [1200,1800,2100,2400,2700,2900,3300,4000,6000];
-        this.PanBW = [0.005, 0.010, 0.050, 0.100, 0.250];
+        this.CWFilter = defconf.CWFilter;
+        this.Filter = defconf.Filter;
+        this.PanBW = defconf.PanBW;
  
         this.on('connected', function() {
             console.log('connected to radio');
@@ -38,10 +38,32 @@ class xxFlexRadio extends Radio{
                                 this.Slice0.InitFilterBW = this.Slice0.filter_hi-this.Slice0.filter_lo;
                             }
                         }
+                        else
+                        {
+                            if(this.CWFilter.indexOf(this.Slice0.filter_hi-this.Slice0.filter_lo) > -1)
+                            {
+                                this.Slice0.InitFilterBW = this.Slice0.filter_hi-this.Slice0.filter_lo;
+                            }
+                        }
                     }
                     else if(status.topic == "slice/1")
                     {
                         this.Slice1 = { ...this.Slice1, ...status.payload};
+
+                        if(this.Slice1.mode != "CW")
+                        {
+                            if(this.Filter.indexOf(this.Slice1.filter_hi-this.Slice1.filter_lo) > -1)
+                            {
+                                this.Slice1.InitFilterBW = this.Slice1.filter_hi-this.Slice1.filter_lo;
+                            }
+                        }
+                        else
+                        {
+                            if(this.CWFilter.indexOf(this.Slice1.filter_hi-this.Slice1.filter_lo) > -1)
+                            {
+                                this.Slice1.InitFilterBW = this.Slice1.filter_hi-this.Slice1.filter_lo;
+                            }
+                        }
                     }
                     else if(status.topic.startsWith("display/pan/"))
                     {
@@ -56,12 +78,7 @@ class xxFlexRadio extends Radio{
                 }
             }
         });
-        
-        // radio.on('meter', function(meter) {
-        //     // capture asynchronous/realtime meter data, need to `sub meter` to get these
-        //     console.log('received meters: ' + JSON.stringify(meter));
-        // });
-        
+                
         this.on('error', function(error) {
             console.log(error);
         });

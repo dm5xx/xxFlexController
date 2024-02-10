@@ -1,18 +1,15 @@
 const controller = require("./controller");
 
 class djcontrollerstarlight extends controller {
-    constructor(conname, mapfilename, funcmapfilename, masteremit) {
-        super(conname, mapfilename, funcmapfilename, masteremit);
+    constructor(conname, mapfilename, masteremit) {
+        super(conname, mapfilename, masteremit);
     }
 
     handle(msg)
     {
         if(this.isOnIgnoreList(msg))
             return;
-
-        //console.log(msg);
-        //return;
-
+        
         let res = -1;
         let id = msg.channel+"|"+msg.controller;
 
