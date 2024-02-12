@@ -8,7 +8,10 @@ class flexDominator {
 
     xmit(elm, flx)
     {
-        return "xmit "+elm.State;
+
+        let sl = this.getRequestedSlice(elm);
+        this.Emitter.emit("cptt", sl, elm.State);
+        //return "xmit "+elm.State;
     }
 
     modes(elm, flx)

@@ -42,6 +42,14 @@ masterEmitter.on("ct", function (freq)
     xxFlex.fire("display panf s "+ xxFlex.DisplayPan.StreamId + " center="+freq);
 });
 
+masterEmitter.on("cptt", function (sli, sta)
+{
+    if(xxFlex["Slice"+sli].tx==0)
+        xxFlex.fire("slice s "+sli+" tx=1");
+    xxFlex.fire("xmit "+sta);
+});
+
+
 masterEmitter.on("def", function (freq, mod)
 {
     xxFlex.fire("slice r 0");

@@ -80,11 +80,13 @@ class xxFlexRadio extends Radio{
         });
                 
         this.on('error', function(error) {
-            console.log(error);
+            console.log("Error: "+error.error+" - Trying to reconnect!");
+            setTimeout(() => this.connect(), 3000);
         });
 
         this.on('close', function() {
             console.log("Closed!");
+            setTimeout(() => this.connect(), 3000);
         });
 
 
