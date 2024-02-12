@@ -1,7 +1,7 @@
 <h1 align="center">xxFlexradioController</h1>
 <h4 align="center"> a DM5XX Project </h4>
 
-![Generate beautiful Repository Readme](public/xxHercules.png)
+![](public/xxHercules.PNG)
 
 <p align="center">
 <br>
@@ -15,6 +15,9 @@ Yes! Here is something for you! How about using an external DJ-Midi-Controller t
 <p>
 Just buy a Hercules DJ-Control Starlight USB, download the software here (using the BatchStarter.exe for Windows 10/11 to start it), install the controller, edit the public/config.json and choose your FlexRadios-IP and !!!!WOW!!!! ITS WORKING OUT OF THE BOX!!!!
 </p>
+
+![](public/menu.PNG)
+
 
 ### Where to buy?
 Amazon, Ebay - even used. Its damn cheap!
