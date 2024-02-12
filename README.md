@@ -1,6 +1,6 @@
 <h1 align="center">xxFlexradioController</h1>
 
-<img src="../../xxHercules.png">
+<img src="./blob/master/xxHercules.png">
 <h4 align="center"> a DM5XX Project </h4>
 
 <p align="center">
