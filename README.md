@@ -18,7 +18,6 @@ Just buy a Hercules DJ-Control Starlight USB, download the software here (using 
 
 ![](public/menu.PNG)
 
-
 ### Where to buy?
 Amazon, Ebay - even used. Its damn cheap!
 
@@ -28,12 +27,19 @@ https://eshop.hercules.com/en_us/djcontrol-starlight.html
 Buy from Thomann (EU, about 75€):
 https://www.thomann.de/intl/hercules_dj_control_starlight.htm
 
+### What else?
+You need more beautiful, useful an worth every cent ham radio hardware => Go to <a href="http://hamparts.shop" target=_blank>HAMPARTS.SHOP</a></br>
+There you can find some more stuff from us - we give something back to the community, so help us develop some cool ham radio parts!
+
 ### FAQ
 Q: Which controllers are supported?
-A: Only a Hercules DJ Control Starlight USB controller is supported so far.
+A: Only a Hercules DJ Control Starlight USB controller is supported so far. Since its damn cheap and reliable, why wasting my time with others... :P
 
 Q: Can you support controller xyz?
-A: Yes, i can, but you need to donate one to me! Since this software is GLP3 - just create a pull reqeust with a new controller. I will add it to the project.
+A: Yes, i can, but you need to donate one to me! Since this software is GLP3 - just create a pull request with a new controller impolemented. I will add it to the project.
 
 Q: Can you please add function xyz?
 A: Yes, i can - if you cant, i wld add this function if the need and the time permits. 
+
+Q: I need help....
+A: No problem, contact me, dm5xx, under the domain @gmx.de or take a look here: <a href="http://www.remoteswitch.de" target=_blank>www.remoteswitch.de</a>
