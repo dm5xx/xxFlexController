@@ -24,6 +24,7 @@ masterEmitter.on("ce", function (elm)
     catch(error)
     {
         console.log("Method not found");
+        return;
     }
 
     // 3 is handled as a basefunctionality in djcontroller class
