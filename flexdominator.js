@@ -1,9 +1,8 @@
 class flexDominator {
     constructor(masterEmit, defcon) 
     {
-        this.NotValidModes = defcon.NotValidModes;
-        this.NotValidSteps = defcon.NotValidSteps;
         this.Emitter = masterEmit;
+        this.Defcon = defcon;
     }
 
     xmit(elm, flx)
@@ -17,7 +16,7 @@ class flexDominator {
     modes(elm, flx)
     {
         let sl = this.getRequestedSlice(elm);
-        let n_mode = this.#getNext(flx["Slice"+sl].mode, flx["Slice"+sl].mode_list, this.NotValidModes);
+        let n_mode = this.#getNext(flx["Slice"+sl].mode, flx["Slice"+sl].mode_list, this.Defcon.NotValidModes);
 
         return "slice s "+ sl + " mode=" + n_mode;
     }
@@ -105,7 +104,7 @@ class flexDominator {
     steps(elm, flx)
     {
         let sl = this.getRequestedSlice(elm);
-        flx["Slice"+sl].step = this.#getNext(flx["Slice"+sl].step, flx["Slice"+sl].step_list, this.NotValidSteps);
+        flx["Slice"+sl].step = this.#getNext(flx["Slice"+sl].step, flx["Slice"+sl].step_list, this.Defcon.NotValidSteps);
 
         return "slice s "+ sl + " step=" + flx["Slice"+sl].step;
     }
@@ -263,6 +262,44 @@ class flexDominator {
     monitor(elm, flx)
     {
         return "transmit s mon="+elm.State;
+    }
+
+    cwxLoopBtnL(elm, flx)
+    {
+        switch (elm.Id) {
+            case "6|16":
+                if(this.Defcon.CWMakro[0] !== undefined)
+                    return "cwx send "+this.Defcon.CWMakro[0]; 
+            case "6|17":
+                if(this.Defcon.CWMakro[1] !== undefined)
+                    return "cwx send "+this.Defcon.CWMakro[1];
+            case "6|18":
+                if(this.Defcon.CWMakro[2] !== undefined)
+                    return "cwx send "+this.Defcon.CWMakro[2];
+            case "6|19":
+                if(this.Defcon.CWMakro[3] !== undefined)
+                    return "cwx send "+this.Defcon.CWMakro[3];
+        }
+        return null;
+    }
+
+    cwxLoopBtnR(elm, flx)
+    {
+        switch (elm.Id) {
+            case "7|16":
+                if(this.Defcon.CWMakro[4] !== undefined)
+                    return "cwx send "+this.Defcon.CWMakro[4];                 
+            case "7|17":
+                if(this.Defcon.CWMakro[5] !== undefined)
+                    return "cwx send "+this.Defcon.CWMakro[5];
+            case "7|18":
+                if(this.Defcon.CWMakro[6] !== undefined)
+                    return "cwx send "+this.Defcon.CWMakro[6];
+            case "7|19":
+                if(this.Defcon.CWMakro[7] !== undefined)
+                    return "cwx send "+this.Defcon.CWMakro[7];             
+        }
+        return null;
     }
 
     setdefault(elm, flx)

@@ -98,6 +98,8 @@ class xxFlexRadio extends Radio{
 
     fire(cmd)
     {
+        if(cmd == null) 
+           return;
         this.send(cmd, function(response) {
             //console.log('recevied response: ' + JSON.stringify(response));
         });
