@@ -1,23 +1,3 @@
-Direkt zum Haupttext
-Den Free Software Supporter abonnieren: 
-E-Mail-Adresse
- 	Der FSF beitreten!
- GNU Betriebssystem
-Gefördert von der Free Software Foundation
- [Suche auf www.gnu.org]   [Other languages] 
-ÜBER GNU PHILOSOPHIE LIZENZEN BILDUNG SOFTWARE DISTROS DOKUMENTATION SCHADSOFTWARE MITMACHEN AUDIO & VIDEO GRAFIKEN FUN WER IST GNU? SOFTWARE-VERZEICHNIS HARDWARE-DATENBANK SEITENÜBERSICHT
-Diese Übersetzung berücksichtigt möglicherweise nicht mehr die seit 2022-01-10 gemachten Änderungen der englischsprachigen Originalfassung (die Unterschiede). Wenden Sie sich bitte unter <www-de-translators> an das Übersetzungsteam, wenn Sie mithelfen möchten diese Übersetzung zu aktualisieren.
-GNU General Public License 3
-[GPLv3]
-GPLv3: Eine Kurzanleitung
-GPLv3: Warum aktualisieren
-GNU-Lizenzen: Häufig gestellte Fragen
-GNU-Lizenzen: Tipps
-GNU GPL: Inoffizielle Übersetzungen
-Die GNU GPL in anderen Formaten (auf Englisch): Nur Text, Texinfo, TeX, HTML (au­to­nom), OpenDocument-Text, DocBook 4/5, reStructuredText, Markdown und RTF.
-GNU-Lizenzen: Logos
-GNU GPL: Alte Versionen
-GNU-Lizenzen: Lizenzverletzungen
 GNU GENERAL PUBLIC LICENSE
 Version 3, 29 June 2007
 
