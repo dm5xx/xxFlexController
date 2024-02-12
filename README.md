@@ -1,7 +1,7 @@
 <h1 align="center">xxFlexradioController</h1>
 <h4 align="center"> a DM5XX Project </h4>
 
-![Generate beautiful Repository Readme](public/xxHercules.png)
+![](public/xxHercules.png)
 
 <p align="center">
 <br>
