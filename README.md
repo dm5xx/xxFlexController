@@ -41,7 +41,7 @@ Q: Which controllers are supported?
 A: Only a Hercules DJ Control Starlight USB controller is supported so far. Since its damn cheap and reliable, why wasting my time with others... :P
 
 Q: Can you support controller xyz?
-A: Yes, i can, but you need to donate one to me! Since this software is GLP3 - just create a pull request with a new controller implemented. I will add it to the project.
+A: Yes, i can, but you need to donate one to me! Since this software is GLP3 - just implement it for yourself, create a pull request with a new controller implementation included. I will add it to the project.
 
 Q: Can you please add function xyz?
 A: Yes, i can - if you cant, i wld add this function if the need and the time permits. 
