@@ -16,7 +16,7 @@ Yes! Here is something for you! How about using an external DJ-Midi-Controller t
 Just buy a Hercules DJ-Control Starlight USB, download the software here (using the BatchStarter.exe for Windows 10/11 to start it - hint: install donetframework first => complete package is in the <a href="http://www.hamradioland.de/rh.zip" target=_blank>DOWNLOAD package for WINDOWS 10/11</a> here!), install the controller, edit the public/config.json and choose your FlexRadios-IP and !!!!WOW!!!! ITS WORKING OUT OF THE BOX!!!!
 </p>
 <p>
-  The Software is designed to use allmost of the buttons of the hercules console. Down below you can see how the buttons are mapped (which cld be changed in public/hercules.xlsx). What is described for Slice A will also be on Slice B - Green, Yellow, Purple work for each Slices A and B. <p>Since they are the same for both Slices, i only described them for the left side :)</b> Blue is global and not slice specific functionality. 
+  The Software is designed to use allmost of the buttons of the hercules console. Down below you can see how the buttons are mapped (which cld be changed in public/hercules.xlsx). What is described for Slice A will also be on Slice B - Green, Yellow, Purple work for each Slices A and B. <b>Since they are the same for both Slices, i only described them for the left side :)</b><br/> Blue means global and not slice specific functionality. 
 </p>
 
 ![](public/overview.PNG)
