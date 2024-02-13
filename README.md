@@ -5,7 +5,7 @@
 
 <p align="center">
 <br>
-<h2>You like FlexRadio? Your spent your last money on a Flex6600, 6400, 6500? Right decission! But now you need to save money for your Maestro? Man, this might take a while, i know... So what to do meanwhile? Hey - grab 75€ and you are back in the game!<br></h2>
+<h2>You like FlexRadio? Your spent your last money on a Flex6600, 6400, 6500? Right decission! But now you need to save money for your Maestro? Man, this might take a while, i know... So what to do meanwhile? Hey - grab 75€ and you are back in the game until you can buy a maestro :P!<br></h2>
 </p>
 
 <p>
