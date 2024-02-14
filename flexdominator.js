@@ -269,16 +269,16 @@ class flexDominator {
         switch (elm.Id) {
             case "6|16":
                 if(this.Defcon.CWMakro[0] !== undefined)
-                    return "cwx send "+this.Defcon.CWMakro[0]; 
+                    return "cwx send "+this.#convertSpace(this.Defcon.CWMakro[0]); 
             case "6|17":
                 if(this.Defcon.CWMakro[1] !== undefined)
-                    return "cwx send "+this.Defcon.CWMakro[1];
+                    return "cwx send "+this.#convertSpace(this.Defcon.CWMakro[1]);
             case "6|18":
                 if(this.Defcon.CWMakro[2] !== undefined)
-                    return "cwx send "+this.Defcon.CWMakro[2];
+                    return "cwx send "+this.#convertSpace(this.Defcon.CWMakro[2]);
             case "6|19":
                 if(this.Defcon.CWMakro[3] !== undefined)
-                    return "cwx send "+this.Defcon.CWMakro[3];
+                    return "cwx send "+this.#convertSpace(this.Defcon.CWMakro[3]);
         }
         return null;
     }
@@ -288,18 +288,23 @@ class flexDominator {
         switch (elm.Id) {
             case "7|16":
                 if(this.Defcon.CWMakro[4] !== undefined)
-                    return "cwx send "+this.Defcon.CWMakro[4];                 
+                    return "cwx send "+this.#convertSpace(this.Defcon.CWMakro[4]);                 
             case "7|17":
                 if(this.Defcon.CWMakro[5] !== undefined)
-                    return "cwx send "+this.Defcon.CWMakro[5];
+                    return "cwx send "+this.#convertSpace(this.Defcon.CWMakro[5]);
             case "7|18":
                 if(this.Defcon.CWMakro[6] !== undefined)
-                    return "cwx send "+this.Defcon.CWMakro[6];
+                    return "cwx send "+this.#convertSpace(this.Defcon.CWMakro[6]);
             case "7|19":
                 if(this.Defcon.CWMakro[7] !== undefined)
-                    return "cwx send "+this.Defcon.CWMakro[7];             
+                    return "cwx send "+this.#convertSpace(this.Defcon.CWMakro[7]);             
         }
         return null;
+    }
+
+    #convertSpace(txtcmd)
+    {
+        return txtcmd.replaceAll(" ", String.fromCharCode(127));
     }
 
     setdefault(elm, flx)
