@@ -312,6 +312,11 @@ class flexDominator {
         this.Emitter.emit("def", flx.Slice0.RF_frequency, flx.Slice0.mode);
     }
 
+    configMode(elm, flx)
+    {
+        this.Emitter.emit("con");
+    }
+
     getRequestedSlice(elm)
     {
         if(elm.Part == "B")

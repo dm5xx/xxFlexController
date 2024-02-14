@@ -115,6 +115,24 @@ class djcontrollerstarlight extends controller {
         this.Output.send("noteon", resultLed);
     }
 
+    switchLedRed()
+    {
+        this.handelBaseColor("1|35", 64);
+        this.handelBaseColor("2|35", 64);
+    }
+
+    switchLedPurple()
+    {
+        this.handelBaseColor("1|35", 67);
+        this.handelBaseColor("2|35", 67);
+    }
+
+    switchLedGreen()
+    {
+        this.handelBaseColor("1|35", 93);
+        this.handelBaseColor("2|35", 93);
+    }
+
     handleHardware(element)
     {
         if(element.Type=="Btn")

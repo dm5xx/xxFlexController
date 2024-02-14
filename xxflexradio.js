@@ -1,7 +1,7 @@
 const { Radio } = require('flexradio-js/Radio');
 
 class xxFlexRadio extends Radio{
-    constructor(ip, port, defconf) 
+    constructor(ip, port, defconf, emitt) 
     {
         super({ip: ip, port: port});
 
@@ -15,9 +15,12 @@ class xxFlexRadio extends Radio{
         this.CWFilter = defconf.CWFilter;
         this.Filter = defconf.Filter;
         this.PanBW = defconf.PanBW;
+
+        this.MasterEmitter = emitt;
  
         this.on('connected', function() {
             console.log('connected to radio');
+            this.MasterEmitter.emit("connected");
         });
 
         this.on('status', function(status) {
@@ -82,11 +85,14 @@ class xxFlexRadio extends Radio{
         this.on('error', function(error) {
             console.log("Error: "+error.error+" - Trying to reconnect!");
             setTimeout(() => this.connect(), 3000);
+
+            this.MasterEmitter.emit("error");
         });
 
         this.on('close', function() {
             console.log("Closed!");
             setTimeout(() => this.connect(), 3000);
+            this.MasterEmitter.emit("error");
         });
 
 
