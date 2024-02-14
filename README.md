@@ -9,8 +9,11 @@
 </p>
 
 <p>
-Yes! Here is something for you! How about using an external DJ-Midi-Controller to control your FlexRadio? Thanks to FlexRadio and Stephen Houser this is already possible - but now its even easier!
-<p>No more Node-Red-Setup needed, no Raspberry setup, no update hell, no need to become a linux expert - and no need to use an Ipad, OSX or whatever!
+  Yes! Here is something for you! How about using an external DJ-Midi-Controller to control your FlexRadio? Thanks to FlexRadio and Stephen Houser this is already possible - but now its even easier!
+</p>
+<p>No more Node-Red-Setup needed, no Raspberry setup, no update hell, no need to become a linux expert - and no need to use an Ipad, OSX or whatever!</p> 
+<p>
+  <b>And even better: Your friends all have flex radios and they let you play with them? EASY going! You can jump through all the different flex radios with your fingertips! Take a look at the entering configuration mode instructions down below!</b>
 </p>
 <p>
 Just buy a Hercules DJ-Control Starlight USB, download the software here (using the BatchStarter.exe for Windows 10/11 to start it - hint: install donetframework first => complete package is in the <a href="http://www.hamradioland.de/rh.zip" target=_blank>DOWNLOAD package for WINDOWS 10/11</a> here!), install the controller, edit the public/config.json and choose your FlexRadios-IP and !!!!WOW!!!! ITS WORKING OUT OF THE BOX!!!!
@@ -22,6 +25,8 @@ Just buy a Hercules DJ-Control Starlight USB, download the software here (using 
 ![](public/overview.PNG)
 
 ![](public/menu.PNG)
+
+![](public/config_flex.PNG)
 
 ### Where to buy?
 Amazon, Ebay - even used. Its damn cheap!
