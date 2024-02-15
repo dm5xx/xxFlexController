@@ -21,12 +21,23 @@ Just buy a Hercules DJ-Control Starlight USB, download the software here (using 
 <p>
   The Software is designed to use allmost of the buttons of the hercules console. Down below you can see how the buttons are mapped (which cld be changed in public/hercules.xlsx). What is described for Slice A will also be on Slice B - Green, Yellow, Purple work for each Slices A and B. <b>Since they are the same for both Slices, i only described them for the left side :)</b><br/> Blue means global and not slice specific functionality. 
 </p>
+<p>
+  <b>ADVACNED</b>: Still not enough actors?</b> Your xxFlexradioController is coming with 2 Layers! You can for example have Layer 1 setup (mapped) for DXing, and Layer 2 for contest. You can switch any time. Default (after restart) will be Layer 1. See instructions down below.
+</p>
+<p>
+  <b>Thanks to FlexRadio! You designed a master piec of SDR! AND: Thanks for sharing the API with your community. This is something really special!</b>
+</p>
+<p>
+  <b>Current Version: 0.9c - 20240215</b>
+</p>
 
 ![](public/overview.PNG)
 
 ![](public/menu.PNG)
 
 ![](public/config_flex.PNG)
+
+![](public/layer.PNG)
 
 ### Where to buy?
 Amazon, Ebay - even used. Its damn cheap!
