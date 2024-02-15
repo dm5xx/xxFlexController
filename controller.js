@@ -12,21 +12,40 @@ class controller {
         this.OldCalledElement = new deviceElement();
         this.CurrentCalledElement = new deviceElement();
 
-        readXlsxFile('./public/'+mapfilename).then((rows) => {
-            this.Elements = [];    
+        this.Elements = [];    
+        this.Elements1 = [];    
+        this.CurrentLayerName = "Elements";
+
+        readXlsxFile('./public/'+mapfilename, { sheet: "midimap"}).then((rows) => {
             for(let a=0; a < rows.length; a++)
             {
                 let item = rows[a];
-                this.Elements.push(new deviceElement(item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7], item[8], item[9], item[10], item[11]));
+                this["Elements"].push(new deviceElement(item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7], item[8], item[9], item[10], item[11]));
+            }
+        });
+
+        readXlsxFile('./public/'+mapfilename, { sheet: "midimap2"}).then((rows) => {
+            for(let a=0; a < rows.length; a++)
+            {
+                let item = rows[a];
+                this["Elements1"].push(new deviceElement(item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7], item[8], item[9], item[10], item[11]));
             }
 
-            this.switchLedGreen();
-        }
-        );
+            setTimeout(() => this.switchLedGreen(), 2000);
+        });
 
         this.Input.on('message', (msg) => {
             this.handle(msg);
         });
+
+    }
+
+    setCurrentLayer(layernr)
+    {
+        if(layernr==0)
+            this.CurrentLayerName = "Elements";
+        else
+            this.CurrentLayerName = "Elements1";
     }
 
     closePorts()

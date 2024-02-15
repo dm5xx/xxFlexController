@@ -16,83 +16,83 @@ class djcontrollerstarlight extends controller {
         if(msg._type == "noteon")
             id = msg.channel+"|"+msg.note;
 
-        res = this.Elements.findIndex((elm) => (id.localeCompare(elm.Id) == 0 && elm.MsgType.localeCompare(msg._type) == 0));        
+        res = this[this.CurrentLayerName].findIndex((elm) => (id.localeCompare(elm.Id) == 0 && elm.MsgType.localeCompare(msg._type) == 0));        
         Object.assign(this.OldCalledElement, this.CurrentCalledElement);
 
-        if(res > -1 && msg._type == this.Elements[res].MsgType)
+        if(res > -1 && msg._type == this[this.CurrentLayerName][res].MsgType)
         {
-            if(this.Elements[res].Type=="Btn")
+            if(this[this.CurrentLayerName][res].Type=="Btn")
             {
-                if(msg.velocity == 127 && this.Elements[res].GrpId > 0)
+                if(msg.velocity == 127 && this[this.CurrentLayerName][res].GrpId > 0)
                 {
-                    let grpMembers = this.Elements.filter(eli => eli.GrpId == this.Elements[res].GrpId);
+                    let grpMembers = this[this.CurrentLayerName].filter(eli => eli.GrpId == this[this.CurrentLayerName][res].GrpId);
 
                     grpMembers.forEach(element => {
-                        if(element.Id != this.Elements[res].Id)
+                        if(element.Id != this[this.CurrentLayerName][res].Id)
                         {
                             if(element.State == 1)
                             {
-                                let gin = this.Elements.findIndex((elm) => elm.Id == element.Id);        
+                                let gin = this[this.CurrentLayerName].findIndex((elm) => elm.Id == element.Id);        
 
                                 if(gin > -1)
                                 {
-                                    if(this.Elements[gin].State == 1)
+                                    if(this[this.CurrentLayerName][gin].State == 1)
                                     {
-                                        this.Elements[gin].State = 0;
-                                        this.handleHardware(this.Elements[gin]);
+                                        this[this.CurrentLayerName][gin].State = 0;
+                                        this.handleHardware(this[this.CurrentLayerName][gin]);
                                     }
                                 }
                             }
                         }
                     });
                 }
-                if(this.Elements[res].BtnTyp != 3)
+                if(this[this.CurrentLayerName][res].BtnTyp != 3)
                 {
                     if(msg.velocity == 127)
                     {
-                        this.Elements[res].toggleState();
-                        this.handleHardware(this.Elements[res]);
+                        this[this.CurrentLayerName][res].toggleState();
+                        this.handleHardware(this[this.CurrentLayerName][res]);
                     }    
                 }
                 else {
                     if(msg.velocity == 127)
                     {                        
-                        this.Elements[res].OnState();
+                        this[this.CurrentLayerName][res].OnState();
                     }
                     else
                     {
-                        this.Elements[res].OffState();
+                        this[this.CurrentLayerName][res].OffState();
                     }
-                    this.handleHardware(this.Elements[res]);
+                    this.handleHardware(this[this.CurrentLayerName][res]);
                 }
             }
             else
             {
-                this.Elements[res].State = msg.value;
+                this[this.CurrentLayerName][res].State = msg.value;
 
-                if(this.Elements[res].Type== "Jog" || this.OldCalledElement.State !== this.Elements[res].State)
-                    this.handleHardware(this.Elements[res]);
+                if(this[this.CurrentLayerName][res].Type== "Jog" || this.OldCalledElement.State !== this[this.CurrentLayerName][res].State)
+                    this.handleHardware(this[this.CurrentLayerName][res]);
             }
-            Object.assign(this.CurrentCalledElement, this.Elements[res]);
+            Object.assign(this.CurrentCalledElement, this[this.CurrentLayerName][res]);
         }
     }
 
 
     setElementandLedOff(id)
     {
-        res = this.Elements.findIndex((elm) => elm.Id == id);
-        this.Elements[res].State = 0;
-        this.handleHardware(this.Elements[res]);
+        res = this[this.CurrentLayerName].findIndex((elm) => elm.Id == id);
+        this[this.CurrentLayerName][res].State = 0;
+        this.handleHardware(this[this.CurrentLayerName][res]);
     }
 
     switchLedOff(id)
     {
-        for(let i=0; i < this.Elements.length; i++)
+        for(let i=0; i < this[this.CurrentLayerName].length; i++)
         {
-            if(this.Elements[i].Id == id)
+            if(this[this.CurrentLayerName][i].Id == id)
             {
-                this.Elements[i].State = 0;
-                this.switchLed(this.Elements[i]);
+                this[this.CurrentLayerName][i].State = 0;
+                this.switchLed(this[this.CurrentLayerName][i]);
                 return
             }
         }
@@ -160,10 +160,10 @@ class djcontrollerstarlight extends controller {
 
     handelBaseColor(id, col)
     {
-        let res = this.Elements.findIndex((elm) => elm.Id == id);        
-        this.Elements[res].State = col;
+        let res = this[this.CurrentLayerName].findIndex((elm) => elm.Id == id);        
+        this[this.CurrentLayerName][res].State = col;
 
-        this.Output.send("noteon", {channel: this.Elements[res].Channel, note: this.Elements[res].Controller, velocity: this.Elements[res].State});
+        this.Output.send("noteon", {channel: this[this.CurrentLayerName][res].Channel, note: this[this.CurrentLayerName][res].Controller, velocity: this[this.CurrentLayerName][res].State});
         // 3, // Dunkelblau
         // 20, // hellblau
         // 93, // grün

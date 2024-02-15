@@ -18,13 +18,14 @@ const flexDominator = new FlexDominator(masterEmitter, defaults);
 var xxFlex = new xxFlexRadio(Config.FlexIP, Config.FlexPort, defaults, masterEmitter);
 var controller = new Controller(Config.WindowsMidiName, Config.MidimapFile, masterEmitter);
 
-var inConfigMode = false;
+Global.InConfigMode = false;
+Global.Layer = 0;
 
 masterEmitter.on("ce", function (elm)
 {
     try
     {
-        if(!inConfigMode)
+        if(!Global.InConfigMode)
         {
             if(flexDominator[elm.MappedTo]=== undefined)
                 console.log("Key "+elm.Id+" not mapped to function");
@@ -107,13 +108,13 @@ masterEmitter.on("def", function (freq, mod)
 
 masterEmitter.on("con", function ()
 {
-    if(inConfigMode)
+    if(Global.InConfigMode)
     {
-        inConfigMode = false;
+        Global.InConfigMode = false;
     }
     else
     {
-        inConfigMode = true;
+        Global.InConfigMode = true;
         controller.switchLedPurple();
     }
 });
@@ -126,6 +127,29 @@ masterEmitter.on("connected", function ()
 masterEmitter.on("error", function ()
 {
     controller.switchLedRed();
+});
+
+masterEmitter.on("tgl", function (elm)
+{
+    if(Global.Layer==0)
+    {
+        Global.Layer = 1;
+        if(elm.State==0)
+        {
+            elm.State = 1;
+            controller.switchLed(elm);            
+        }
+    }
+    else
+    {
+        Global.Layer = 0;
+        if(elm.State==1)
+        {
+            elm.State = 0;
+            controller.switchLed(elm);            
+        }
+    }
+    controller.setCurrentLayer(Global.Layer);
 });
 
 
@@ -144,7 +168,7 @@ function switchToConfig(nr, elm)
     setTimeout((elm, em) => {
         xxFlex = new xxFlexRadio(Config.FlexIP, Config.FlexPort, defaults, em);
         controller = new Controller(Config.WindowsMidiName, Config.MidimapFile, em);
-        inConfigMode = false;
+        Global.InConfigMode = false;
         setTimeout(() => {controller.switchLedOff(elm.Id);},3000);
     }, 1000, elm, masterEmitter);
 

@@ -317,6 +317,12 @@ class flexDominator {
         this.Emitter.emit("con");
     }
 
+    toggleLayer(elm, flx)
+    {
+        //elm.toggleState();
+        this.Emitter.emit("tgl", elm);
+    }
+
     getRequestedSlice(elm)
     {
         if(elm.Part == "B")
