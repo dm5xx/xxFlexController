@@ -28,7 +28,7 @@ Just buy a Hercules DJ-Control Starlight USB, download the software here (using 
   <b>ADVACNED</b>: Still not enough actors?</b> Your xxFlexradioController is coming with 2 Layers! You can for example have Layer 1 setup (mapped) for DXing, and Layer 2 for contest. You can switch any time. Default (after restart) will be Layer 1. See instructions down below.
 </p>
 <p>
-  <b>Thanks to FlexRadio! You designed a master piec of SDR! AND: Thanks for sharing the API with your community. This is something really special!</b>
+  <b>Thanks to FlexRadio! You created a master piece of SDR! AND: Thanks for sharing the API with your community. This is something really special!</b>
 </p>
 <p>
   <b>Current Version: 0.9c - 20240215</b>
