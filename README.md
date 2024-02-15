@@ -1,5 +1,5 @@
 <h1 align="center">xxFlexradioController</h1>
-<h4 align="center"> a DM5XX Project </h4>
+<h4 align="center"> brought to you by I	&#10084; D4C -- a DM5XX Project</h4>
 
 ![](public/xxHercules.PNG)
 
@@ -65,5 +65,9 @@ A: Yes, i can, but you need to donate one to me! Since this software is GLP3 - j
 Q: Can you please add function xyz?
 A: Yes, i can - if you cant, i wld add this function if the need and the time permits. 
 
-Q: I need help....
+Q: Hey, i want to try to screw everything up and edit the hercules.xlsx - why did u choose excel? Microsoft is evil!
+A: Because its the most common and most easy way to "update" and "map" something. If you dont have excel at home, take a look at the free office365 web version, google sheets or open office calc. 
+since you dont map every day, ask friends for help :)
+
+Q: I need help.... Bug-Reports?
 A: No problem, contact me, dm5xx, under the domain @gmx.de or take a look here: <a href="http://www.remoteswitch.de" target=_blank>www.remoteswitch.de</a>
