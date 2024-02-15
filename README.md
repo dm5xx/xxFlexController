@@ -1,5 +1,5 @@
 <h1 align="center">xxFlexradioController</h1>
-<h4 align="center"> a DM5XX Project </h4>
+<h4 align="center"> brought to you by I	&#10084; D4C -- a DM5XX Project</h4>
 
 ![](public/xxHercules.PNG)
 
