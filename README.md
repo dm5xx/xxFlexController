@@ -16,7 +16,7 @@
   <b>And even better: Your friends all have flex radios and they let you play with them? EASY going! You can jump through all the different flex radios with your fingertips! Take a look at the entering configuration mode instructions down below!</b>
 </p>
 <p>
-xxFlexradioController DJ Console Hercules Starlight supports 3 Faders, 2 Turning-Wheel with 1 Touch-Btn in the middle, 6 Rotatry potis, 26 Buttons (using 2x Cue+4, 2x Loop+4), 4 globaly used buttons => THATS A TOTAL of 43 actors! Not enough? IN 2 LAYERS => 86 possible actors assignable! Jump to "ADVANCED" for more info.
+xxFlexradioController DJ Console Hercules Starlight supports 3 Faders, 2 Turning-Wheels with 1 Touch-Btn in the middle, 6 Rotary potis, 26 Buttons (using 2x Cue+4, 2x Loop+4), 4 globaly used buttons => THATS A TOTAL of 43 actors! Not enough? IN 2 LAYERS => 86 possible actors assignable! Jump to "ADVANCED" for more info.
 </p>
 <p>
 Just buy a Hercules DJ-Control Starlight USB, download the software here (using the BatchStarter.exe for Windows 10/11 to start it - hint: install donetframework first => complete package is in the <a href="https://www.hamradioland.de/rh.zip" target=_blank>DOWNLOAD package for WINDOWS 10/11</a> here!), install the controller, edit the public/config.json and choose your FlexRadios-IP and !!!!WOW!!!! ITS WORKING OUT OF THE BOX!!!!
