@@ -31,7 +31,7 @@ Just buy a Hercules DJ-Control Starlight USB, download the software here (using 
   <b>Thanks to FlexRadio! You created a master piece of SDR! AND: Thanks for sharing the API with your community. This is something really special!</b>
 </p>
 <p>
-  <b>Current Version: 0.9c - 20240215</b>
+  <b>Current Version: 0.9c - 20240215</b> Find a quick documentation [here](./public/doku.pdf)!
 </p>
 
 ![](public/overview.PNG)
