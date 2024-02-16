@@ -87,7 +87,7 @@ masterEmitter.on("ce", function (elm)
 
 masterEmitter.on("ct", function (freq)
 {
-        xxFlex.fire("display panf s "+ xxFlex.DisplayPan.StreamId + " center="+freq);
+        xxFlex.fire("display pan s "+ xxFlex.DisplayPan.StreamId + " center="+freq);
 });
 
 masterEmitter.on("cptt", function (sli, sta)

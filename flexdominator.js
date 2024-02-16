@@ -184,6 +184,12 @@ class flexDominator {
         return "display panf s "+ flx["DisplayPan"].StreamId + " bandwidth=" + flx["DisplayPan"].bandwidth;
     }
 
+    center(elm, flx)
+    {
+        let sl = this.getRequestedSlice(elm);
+        this.Emitter.emit("ct", flx["Slice"+sl].RF_frequency);
+    }
+
     fadePan(elm, flx)
     {
         let val = this.#Spreader(this.#hundret27to100Converter(elm.State), 1, 50);
