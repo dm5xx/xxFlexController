@@ -22,7 +22,7 @@ xxFlexradioController DJ Console Hercules Starlight supports 3 Faders, 2 Turning
 Just buy a Hercules DJ-Control Starlight USB, download the software here (using the BatchStarter.exe for Windows 10/11 to start it - hint: install donetframework first => complete package is in the <a href="https://www.hamradioland.de/rh.zip" target=_blank>DOWNLOAD package for WINDOWS 10/11</a> here!), install the controller, edit the public/config.json and choose your FlexRadios-IP and !!!!WOW!!!! ITS WORKING OUT OF THE BOX!!!!
 </p>
 <p>
-  The Software is designed to use allmost of the buttons of the hercules console. Down below you can see how the buttons are mapped (which cld be changed in public/hercules.xlsx). What is described for Slice A will also be on Slice B - Green, Yellow, Purple work for each Slices A and B. <b>Since they are the same for both Slices, i only described them for the left side :)</b><br/> Blue means global and not slice specific functionality. 
+  The Software is designed to use allmost of the buttons of the hercules console. Down below you can see how the buttons are mapped (which cld be changed in public/hercules.xlsx). What is described for Slice A will also be on Slice B - Green, Yellow, Purple work for each Slices A and B. <b>Since they are the same for both Slices, i only described them for the left side :)</b><br/> Blue means global and not slice specific functionality. COntroller is also working in multiFlex environments. 
 </p>
 <p>
   <b>ADVANCED</b>: Still not enough actors?</b> Your xxFlexradioController is coming with 2 Layers! You can for example have Layer 1 setup (mapped) for DXing, and Layer 2 for contest. You can switch any time. Default (after restart) will be Layer 1. See instructions down below.
@@ -31,7 +31,7 @@ Just buy a Hercules DJ-Control Starlight USB, download the software here (using 
   <b>Thanks to FlexRadio! You created a master piece of SDR! AND: Thanks for sharing the API with your community. This is something really special!</b>
 </p>
 <p>
-  <b>Current Version: 0.9c - 20240215</b> Find a quick documentation  <a href="https://www.hamradioland.de/rh.pdf" target=_blank>here</a>
+  <b>Current Version: 0.9d - 20240218</b> Find a quick documentation  <a href="https://www.hamradioland.de/rh.pdf" target=_blank>here</a>
 </p>
 
 ![](public/overview.PNG)
