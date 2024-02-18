@@ -10,7 +10,7 @@ class flexDominator {
     {
 
         let sl = this.getRequestedSlice(elm);
-        this.Emitter.emit("cptt", sl, elm.State);
+        this.Emitter.emit("cptt", sl, this.getRealSlice(sl, flx), elm.State);
         //return "xmit "+elm.State;
     }
 
@@ -159,8 +159,6 @@ class flexDominator {
 
             flx["Slice"+sl].filter_hi= flx["Slice"+sl].filter_lo+n_fil;
         }
-        
-
 
         flx["Slice"+sl].InitFilterBW = flx["Slice"+sl].filter_hi-flx["Slice"+sl].filter_lo;
 

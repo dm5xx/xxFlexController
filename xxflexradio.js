@@ -1,5 +1,7 @@
 const { Radio } = require('flexradio-js/Radio');
 
+const cp = require('child_process');
+
 class xxFlexRadio extends Radio{
     constructor(ip, port, defconf, emitt) 
     {
@@ -22,10 +24,13 @@ class xxFlexRadio extends Radio{
             console.log('connected to radio');
             this.MasterEmitter.emit("connected");
             setTimeout(() => this.fire("sub client all"),2000);
-            //setTimeout(() => this.fire("sub slice all"),6000);
         });
 
-        this.Station = "DESKTOP-G2EMGRM";
+        if(defconf.StationName === undefined || defconf.StationName == "")
+            this.Station = process.env.COMPUTERNAME; 
+        else
+            this.Station = defconf.StationName; 
+        
         this.ClientHandle = "";
         this.SliceNumbs = [];
         this.IsInit = false;
@@ -74,33 +79,24 @@ class xxFlexRadio extends Radio{
                             }
                         }
                     }
-                    // else
-                    // {
-                    //     console.log("Waiting for init sequence...");
-                    //     return;
-                    // }
-
                     
+                    if(status.payload.client_handle != this.ClientHandle)
+                        return;
+
+                    let reqSlice = status.topic.split("/");
+
+                    if(reqSlice[0] == "slice")
+                    {
+                        if(!this.SliceNumbs.includes(reqSlice[1]))
+                        {
+                            if(this.SliceNumbs.length<2)
+                                this.SliceNumbs.push(reqSlice[1]);
+                        }
+                    }
+
                     if(this.IsInit && status.topic == "slice/"+this.SliceNumbs[0])
                     {
                         this.execSlice0(status.payload);
-
-                        // this.Slice0 = { ...this.Slice0, ...status.payload};
-
-                        // if(this.Slice0.mode != "CW")
-                        // {
-                        //     if(this.Filter.indexOf(this.Slice0.filter_hi-this.Slice0.filter_lo) > -1)
-                        //     {
-                        //         this.Slice0.InitFilterBW = this.Slice0.filter_hi-this.Slice0.filter_lo;
-                        //     }
-                        // }
-                        // else
-                        // {
-                        //     if(this.CWFilter.indexOf(this.Slice0.filter_hi-this.Slice0.filter_lo) > -1)
-                        //     {
-                        //         this.Slice0.InitFilterBW = this.Slice0.filter_hi-this.Slice0.filter_lo;
-                        //     }
-                        // }
                     }
                     else if(this.IsInit && status.topic == "slice/"+this.SliceNumbs[1])
                     {
@@ -136,6 +132,14 @@ class xxFlexRadio extends Radio{
 
     execSlice0(payload)
     {
+        if(payload.active==0 && payload.in_use ==0)
+        {
+            this.SliceNumbs = this.SliceNumbs.splice(0,1);
+            return;
+        }
+
+        let dd = this.fire("slice list");
+
         this.Slice0 = { ...this.Slice0, ...payload};
 
         if(this.Slice0.mode != "CW")
@@ -156,6 +160,12 @@ class xxFlexRadio extends Radio{
 
     execSlice1(payload)
     {
+        if(payload.active==0 && payload.in_use ==0)
+        {
+            this.SliceNumbs = this.SliceNumbs.splice(1,1);
+            return;
+        }
+
         this.Slice1 = { ...this.Slice1, ...payload};
 
         if(this.Slice1.mode != "CW")
@@ -174,14 +184,22 @@ class xxFlexRadio extends Radio{
         }
     }
 
-
     fire(cmd)
     {
         if(cmd == null) 
            return;
-        this.send(cmd, function(response) {
+
+        this.send(cmd, function(res) {
             //console.log('recevied response: ' + JSON.stringify(response));
         });
+    }
+
+    getSliceList()
+    {
+        this.send("slice list", (res) => {
+            this.MasterEmitter.emit("responseList", res);
+            //console.log('recevied response: ' + JSON.stringify(response));
+        });        
     }
 }
 

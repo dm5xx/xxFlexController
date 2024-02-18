@@ -1,4 +1,5 @@
 {
+    "StationName" : "",
     "CWMakro" : [ "DM5XX", "DM5XX", "DM5XX", "DM5XX", "ur 5nn", "tu"],
     "NotValidModes" : ["AM", "SAM", "FM", "NFM", "DFM"],
     "NotValidSteps" : [ 1,1000, 2000,3000],

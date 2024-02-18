@@ -90,9 +90,9 @@ masterEmitter.on("ct", function (freq)
         xxFlex.fire("display pan s "+ xxFlex.DisplayPan.StreamId + " center="+freq);
 });
 
-masterEmitter.on("cptt", function (sli, sta)
+masterEmitter.on("cptt", function (sl, sli, sta)
 {
-    if(xxFlex["Slice"+sli].tx==0)
+    if(xxFlex["Slice"+sl].tx==0)
         xxFlex.fire("slice s "+sli+" tx=1");
     xxFlex.fire("xmit "+sta);
 });
@@ -129,6 +129,11 @@ masterEmitter.on("error", function ()
     controller.switchLedRed();
 });
 
+masterEmitter.on("responseList", function (item)
+{
+    console.log(item);
+});
+
 masterEmitter.on("tgl", function (elm)
 {
     if(Global.Layer==0)
@@ -151,7 +156,6 @@ masterEmitter.on("tgl", function (elm)
     }
     controller.setCurrentLayer(Global.Layer);
 });
-
 
 function switchToConfig(nr, elm)
 {
