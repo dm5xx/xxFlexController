@@ -21,7 +21,15 @@ class xxFlexRadio extends Radio{
         this.on('connected', function() {
             console.log('connected to radio');
             this.MasterEmitter.emit("connected");
+            setTimeout(() => this.fire("sub client all"),2000);
+            //setTimeout(() => this.fire("sub slice all"),6000);
         });
+
+        this.Station = "DESKTOP-G2EMGRM";
+        this.ClientHandle = "";
+        this.SliceNumbs = [];
+        this.IsInit = false;
+        this.initTemp = [];
 
         this.on('status', function(status) {
             // capture asynchronous status messages
@@ -30,54 +38,79 @@ class xxFlexRadio extends Radio{
             {
                 try {
 
-                    if(status.topic == "slice/0")
+                    if(!this.IsInit)
                     {
-                        this.Slice0 = { ...this.Slice0, ...status.payload};
-
-                        if(this.Slice0.mode != "CW")
+                        if(!status.topic.startsWith("client"))
                         {
-                            if(this.Filter.indexOf(this.Slice0.filter_hi-this.Slice0.filter_lo) > -1)
-                            {
-                                this.Slice0.InitFilterBW = this.Slice0.filter_hi-this.Slice0.filter_lo;
-                            }
+                            this.initTemp.push(status);
+                            return;    
                         }
                         else
                         {
-                            if(this.CWFilter.indexOf(this.Slice0.filter_hi-this.Slice0.filter_lo) > -1)
+                            if(status.payload.station == this.Station)
                             {
-                                this.Slice0.InitFilterBW = this.Slice0.filter_hi-this.Slice0.filter_lo;
-                            }
-                        }
-                    }
-                    else if(status.topic == "slice/1")
-                    {
-                        this.Slice1 = { ...this.Slice1, ...status.payload};
+                                let cvalarr = status.topic.split("/");
+                                this.ClientHandle = cvalarr[1];
 
-                        if(this.Slice1.mode != "CW")
-                        {
-                            if(this.Filter.indexOf(this.Slice1.filter_hi-this.Slice1.filter_lo) > -1)
-                            {
-                                this.Slice1.InitFilterBW = this.Slice1.filter_hi-this.Slice1.filter_lo;
-                            }
-                        }
-                        else
-                        {
-                            if(this.CWFilter.indexOf(this.Slice1.filter_hi-this.Slice1.filter_lo) > -1)
-                            {
-                                this.Slice1.InitFilterBW = this.Slice1.filter_hi-this.Slice1.filter_lo;
+                                let dot = this.initTemp.filter((elm) => elm.payload.client_handle == this.ClientHandle && elm.topic.startsWith("slice")).sort((a, b) => a.payload.RF_frequency - b.payload.RF_frequency);
+                                let cnt =0;
+
+                                dot.forEach(element => {
+
+                                    if(element.type=="status" && element.topic.startsWith("slice/"))
+                                    {
+                                        let svalue = parseInt(element.topic.split("/")[1]);
+
+                                        if(!this.SliceNumbs.includes(svalue) && this.SliceNumbs.length<2)
+                                        {
+                                            this.SliceNumbs.push(svalue);
+                                            this["execSlice"+cnt](element.payload);
+                                            cnt++;
+                                        }                                        
+                                    }
+                                });
+                                this.IsInit = true;
+                                console.log("Initialize successful. The System is ready to use. Have fun!");
                             }
                         }
                     }
-                    else if(status.topic.startsWith("display/pan/"))
+                    // else
+                    // {
+                    //     console.log("Waiting for init sequence...");
+                    //     return;
+                    // }
+
+                    
+                    if(this.IsInit && status.topic == "slice/"+this.SliceNumbs[0])
                     {
-                        let arr = status.topic.split("/");
-                        this.DisplayPan = { ...this.DisplayPan, ...status.payload };
-                        this.DisplayPan.StreamId = arr[2];
+                        this.execSlice0(status.payload);
+
+                        // this.Slice0 = { ...this.Slice0, ...status.payload};
+
+                        // if(this.Slice0.mode != "CW")
+                        // {
+                        //     if(this.Filter.indexOf(this.Slice0.filter_hi-this.Slice0.filter_lo) > -1)
+                        //     {
+                        //         this.Slice0.InitFilterBW = this.Slice0.filter_hi-this.Slice0.filter_lo;
+                        //     }
+                        // }
+                        // else
+                        // {
+                        //     if(this.CWFilter.indexOf(this.Slice0.filter_hi-this.Slice0.filter_lo) > -1)
+                        //     {
+                        //         this.Slice0.InitFilterBW = this.Slice0.filter_hi-this.Slice0.filter_lo;
+                        //     }
+                        // }
+                    }
+                    else if(this.IsInit && status.topic == "slice/"+this.SliceNumbs[1])
+                    {
+                        this.execSlice1(status.payload);
+
                     }
                 }
                 catch(err)
                 {
-                    console.log("Whats else: " + status);
+                    console.log("Whats else: " + status + "but crashed..");
                 }
             }
         });
@@ -97,10 +130,50 @@ class xxFlexRadio extends Radio{
 
 
         this.connect();
-        //setTimeout(() => this.fire("ddd"), 5000);
         this.fire("sub slice all");
         this.fire("sub pan all");
     }
+
+    execSlice0(payload)
+    {
+        this.Slice0 = { ...this.Slice0, ...payload};
+
+        if(this.Slice0.mode != "CW")
+        {
+            if(this.Filter.indexOf(this.Slice0.filter_hi-this.Slice0.filter_lo) > -1)
+            {
+                this.Slice0.InitFilterBW = this.Slice0.filter_hi-this.Slice0.filter_lo;
+            }
+        }
+        else
+        {
+            if(this.CWFilter.indexOf(this.Slice0.filter_hi-this.Slice0.filter_lo) > -1)
+            {
+                this.Slice0.InitFilterBW = this.Slice0.filter_hi-this.Slice0.filter_lo;
+            }
+        }
+    }
+
+    execSlice1(payload)
+    {
+        this.Slice1 = { ...this.Slice1, ...payload};
+
+        if(this.Slice1.mode != "CW")
+        {
+            if(this.Filter.indexOf(this.Slice1.filter_hi-this.Slice1.filter_lo) > -1)
+            {
+                this.Slice1.InitFilterBW = this.Slice1.filter_hi-this.Slice1.filter_lo;
+            }
+        }
+        else
+        {
+            if(this.CWFilter.indexOf(this.Slice1.filter_hi-this.Slice1.filter_lo) > -1)
+            {
+                this.Slice1.InitFilterBW = this.Slice1.filter_hi-this.Slice1.filter_lo;
+            }
+        }
+    }
+
 
     fire(cmd)
     {

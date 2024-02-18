@@ -102,8 +102,8 @@ masterEmitter.on("def", function (freq, mod)
 {
     xxFlex.fire("slice r 0");
     xxFlex.fire("slice r 1");
-    xxFlex.fire("slice create frequ="+freq+" ant=ANT1 mode="+mod);
-    xxFlex.fire("slice create frequ="+(freq+0.050) +" ant=ANT1 mode="+mod);
+    xxFlex.fire("slice create freq="+freq+" ant=ANT1 mode="+mod);
+    xxFlex.fire("slice create freq="+(freq+0.050) +" ant=ANT1 mode="+mod);
 });
 
 masterEmitter.on("con", function ()

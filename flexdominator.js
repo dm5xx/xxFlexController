@@ -5,6 +5,7 @@ class flexDominator {
         this.Defcon = defcon;
     }
 
+    // todo
     xmit(elm, flx)
     {
 
@@ -18,7 +19,8 @@ class flexDominator {
         let sl = this.getRequestedSlice(elm);
         let n_mode = this.#getNext(flx["Slice"+sl].mode, flx["Slice"+sl].mode_list, this.Defcon.NotValidModes);
 
-        return "slice s "+ sl + " mode=" + n_mode;
+        flx["Slice"+sl].mode = n_mode;
+        return "slice s "+ this.getRealSlice(sl, flx) + " mode=" + n_mode;
     }
 
     #getNext(mode, modelist, notlist = null)
@@ -66,23 +68,23 @@ class flexDominator {
         let getRealRit = this.#Spreader(elm.State, ritfac)
 
         if(getRealRit == 0 )
-            return "slice s "+ sl + " rit_on=01 rit_freq=0";
+            return "slice s "+ this.getRealSlice(sl, flx) + " rit_on=01 rit_freq=0";
 
-        return "slice s "+ sl + " rit_on=1 rit_freq=" + this.#Spreader(elm.State, ritfac);
+        return "slice s "+ this.getRealSlice(sl, flx) + " rit_on=1 rit_freq=" + this.#Spreader(elm.State, ritfac);
     }
 
     volume(elm, flx)
     {
         let sl = this.getRequestedSlice(elm);
         //audio client id slice 0 gain 10
-        return "audio client "+ flx.client_handle + " slice " + sl + " gain " + this.#hundret27to100Converter(elm.State);
+        return "audio client "+ flx.client_handle + " slice " +  this.getRealSlice(sl, flx) + " gain " + this.#hundret27to100Converter(elm.State);
     }
 
     agc(elm, flx)
     {
         let sl = this.getRequestedSlice(elm);
 
-        return "slice s "+ sl + " agc_threshold=" + elm.State;
+        return "slice s "+ this.getRealSlice(sl, flx) + " agc_threshold=" + elm.State;
     }
 
     vfo(elm, flx)
@@ -97,7 +99,7 @@ class flexDominator {
         {
             flx["Slice"+sl].RF_frequency= flx["Slice"+sl].RF_frequency-flx["Slice"+sl].step*0.000001;
         }
-        return "slice tune "+ sl + " " + flx["Slice"+sl].RF_frequency;
+        return "slice tune "+  this.getRealSlice(sl, flx) + " " + flx["Slice"+sl].RF_frequency;
         // flx.RF_frequency
     }
 
@@ -106,7 +108,7 @@ class flexDominator {
         let sl = this.getRequestedSlice(elm);
         flx["Slice"+sl].step = this.#getNext(flx["Slice"+sl].step, flx["Slice"+sl].step_list, this.Defcon.NotValidSteps);
 
-        return "slice s "+ sl + " step=" + flx["Slice"+sl].step;
+        return "slice s "+ this.getRealSlice(sl, flx) + " step=" + flx["Slice"+sl].step;
     }
 
     filters(elm, flx)
@@ -114,7 +116,7 @@ class flexDominator {
         let sl = this.getRequestedSlice(elm);
 
         let fildif = flx["Slice"+sl].filter_hi-flx["Slice"+sl].filter_lo;
-        if(flx["Slice"+sl].mode=="CW")
+        if(flx["Slice"+sl].mode=="CW" || flx["Slice"+sl].mode=="AM")
         {
             let n_fil = this.#getNext(fildif, flx.CWFilter, null)
 
@@ -123,16 +125,46 @@ class flexDominator {
             flx["Slice"+sl].filter_hi= half;
 
         }
+        else if(flx["Slice"+sl].mode=="LSB" || flx["Slice"+sl].mode=="DIGL")
+        {
+            flx["Slice"+sl].filter_hi = -100;
+
+            fildif = (-1)*flx["Slice"+sl].filter_lo+flx["Slice"+sl].filter_hi;
+            let n_fil = this.#getNext(fildif, flx.Filter, null);
+
+            flx["Slice"+sl].filter_lo= flx["Slice"+sl].filter_hi-n_fil;
+        }
+        else if(flx["Slice"+sl].mode=="RTTY")
+        {
+            let fildif = flx["Slice"+sl].filter_hi-flx["Slice"+sl].filter_lo;
+
+            if(fildif == 270)
+                fildif=250;
+
+            let n_fil = this.#getNext(fildif, flx.CWFilter, null)
+
+            let half = n_fil/2;
+
+            flx["Slice"+sl].filter_lo= -half-85;
+            flx["Slice"+sl].filter_hi= half-85;
+
+            flx["Slice"+sl].filter_hi= flx["Slice"+sl].filter_lo+n_fil;
+        }
         else
         {
+            flx["Slice"+sl].filter_lo = 100;
+
+            fildif = flx["Slice"+sl].filter_hi-flx["Slice"+sl].filter_lo
             let n_fil = this.#getNext(fildif, flx.Filter, null);
 
             flx["Slice"+sl].filter_hi= flx["Slice"+sl].filter_lo+n_fil;
         }
+        
+
 
         flx["Slice"+sl].InitFilterBW = flx["Slice"+sl].filter_hi-flx["Slice"+sl].filter_lo;
 
-        return "filt "+sl+" "+ flx["Slice"+sl].filter_lo +" "+flx["Slice"+sl].filter_hi;
+        return "filt "+ this.getRealSlice(sl, flx)+" "+ flx["Slice"+sl].filter_lo +" "+flx["Slice"+sl].filter_hi;
     }
 
     toggleRXANT(elm, flx)
@@ -153,7 +185,7 @@ class flexDominator {
         else
             flx["Slice"+sl].rxant = flx["Slice"+sl].txant;
 
-        return "slice s "+ sl + " rxant=" + flx["Slice"+sl].rxant;
+        return "slice s "+ this.getRealSlice(sl, flx) + " rxant=" + flx["Slice"+sl].rxant;
     }
 
     toggleTXANT(elm, flx)
@@ -165,23 +197,23 @@ class flexDominator {
         else
             flx["Slice"+sl].txant = "ANT1";
 
-        return "slice s "+ sl + " txant=" + flx["Slice"+sl].txant;
+        return "slice s "+ this.getRealSlice(sl, flx) + " txant=" + flx["Slice"+sl].txant;
     }
 
     panBW(elm, flx)
     {
-        if(flx.PanBW.indexOf(flx["DisplayPan"].bandwidth) == -1)
-        {
-            flx["DisplayPan"].bandwidth = flx.PanBW[flx.PanBW.length-1];
-        }
-
-        let n_bw = this.#getNext(flx["DisplayPan"].bandwidth, flx.PanBW, null);
-        flx["DisplayPan"].bandwidth = n_bw;
-
         let sl = this.getRequestedSlice(elm);
 
+        if(flx.PanBW.indexOf(flx["Slice"+sl].panbandwidth) == -1)
+        {
+            flx["Slice"+sl].panbandwidth = flx.PanBW[flx.PanBW.length-1];
+        }
+
+        let n_bw = this.#getNext(flx["Slice"+sl].panbandwidth, flx.PanBW, null);
+        flx["Slice"+sl].panbandwidth = n_bw;
+
         setTimeout(() => this.Emitter.emit("ct", flx["Slice"+sl].RF_frequency), 1000);
-        return "display panf s "+ flx["DisplayPan"].StreamId + " bandwidth=" + flx["DisplayPan"].bandwidth;
+        return "display panf s "+ flx["Slice"+sl].pan + " bandwidth=" + flx["Slice"+sl].panbandwidth;
     }
 
     center(elm, flx)
@@ -198,15 +230,15 @@ class flexDominator {
 
         if(cv < 50)
         {
-            return "audio client "+ flx.client_handle + " slice 0 pan " + cv;
+            return "audio client "+ flx.client_handle + " slice "+ this.getRealSlice(0, flx)+" pan " + cv;
         }
-        return "audio client "+ flx.client_handle + " slice 1 pan " + cv;
+        return "audio client "+ flx.client_handle + " slice "+ this.getRealSlice(1, flx)+" pan " + cv;
     }
 
     freeFilter(elm, flx)
     {
 
-        let sl = this.getRequestedSlice(elm);
+        let sl = this.getRequestedSlice(elm, flx);
         let val = (this.#hundret27to100Converter(elm.State));
 
         let fildif = flx["Slice"+sl].InitFilterBW;
@@ -226,7 +258,7 @@ class flexDominator {
             else{
                 newval= flx["Slice"+sl].filter_lo + flx["Slice"+sl].filter_hi+(((val-50)*2/100)*fildif);
             }    
-            return "filt "+sl+" "+ flx["Slice"+sl].filter_lo +" "+newval;
+            return "filt "+this.getRealSlice(sl, flx)+" "+ flx["Slice"+sl].filter_lo +" "+newval;
         }
         else if(flx["Slice"+sl].mode=="LSB")
         {
@@ -241,7 +273,7 @@ class flexDominator {
             else{
                 newval= flx["Slice"+sl].filter_lo - (((val-50)*2/100)*fildif);
             }    
-            return "filt "+sl+" "+ newval +" "+flx["Slice"+sl].filter_hi;
+            return "filt "+this.getRealSlice(sl, flx)+" "+ newval +" "+flx["Slice"+sl].filter_hi;
         }
         else if(flx["Slice"+sl].mode=="CW")
         {
@@ -261,7 +293,7 @@ class flexDominator {
                 neloval=-1*half-((val-50)*2/100)*half;
                 newval=half+((val-50)*2/100)*half;
             }    
-            return "filt "+sl+" "+ neloval +" "+newval;
+            return "filt "+this.getRealSlice(sl, flx)+" "+ neloval +" "+newval;
         }
     }
 
@@ -334,6 +366,13 @@ class flexDominator {
         if(elm.Part == "B")
             return 1;
         return 0;
+    }
+
+    getRealSlice(nr, flx)
+    {
+        if(nr == 1)
+            return flx.SliceNumbs[1];
+        return flx.SliceNumbs[0];
     }
 }
 
