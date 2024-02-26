@@ -1,5 +1,5 @@
 <h1 align="center">xxFlexradioController "Hercules"</h1>
-<h4 align="center"> brought to you by I	&#10084; D4C -- a DM5XX Project</h4>
+<h4 align="center"> brought to you by I	&#10084; D4C -- a DM5XX Project -- License: GPL3.0</h4>
 
 ![](public/xxHercules.PNG)
 
@@ -31,7 +31,10 @@ Just buy a Hercules DJ-Control Starlight USB, download the software here (using 
   <b>Thanks to FlexRadio! You created a master piece of SDR! AND: Thanks for sharing the API with your community. This is something really special!</b>
 </p>
 <p>
-  <b>Current Version: 1.00RC1 - 20240219</b> Find a quick documentation  <a href="https://www.hamradioland.de/rh.pdf" target=_blank>here</a>
+  Find a quick documentation  <a href="https://www.hamradioland.de/rh.pdf" target=_blank>here</a>
+</p>
+<p>
+  <b>Current Version: 1.02 - 20240226 (added debug mode, default controllerhandler)</b>
 </p>
 
 ![](public/overview.PNG)
