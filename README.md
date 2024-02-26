@@ -1,5 +1,5 @@
 <h1 align="center">xxFlexradioController "Hercules"</h1>
-<h4 align="center"> brought to you by I	&#10084; D4C -- a DM5XX Project License: GPL3.0</h4>
+<h4 align="center"> brought to you by I	&#10084; D4C -- a DM5XX Project -- License: GPL3.0</h4>
 
 ![](public/xxHercules.PNG)
 
