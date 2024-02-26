@@ -1,8 +1,8 @@
 const controller = require("./controller");
 
 class djcontrollerstarlight extends controller {
-    constructor(conname, mapfilename, masteremit) {
-        super(conname, mapfilename, masteremit);
+    constructor(config, masteremit) {
+        super(config, masteremit);
     }
 
     handle(msg)

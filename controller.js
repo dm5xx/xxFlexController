@@ -3,10 +3,10 @@ const deviceElement = require("./deviceelement.js");
 const readXlsxFile = require('read-excel-file/node');
 
 class controller {
-    constructor(contName, mapfilename, masteremit) 
+    constructor(config, masteremit) // config.WindowsMidiName, config.MidimapFile
     {    
-        this.Input = new easymidi.Input(contName);
-        this.Output = new easymidi.Output(contName);
+        this.Input = new easymidi.Input(config.WindowsMidiName);
+        this.Output = new easymidi.Output(config.WindowsMidiName);
         this.MasterEmitter = masteremit;
 
         this.OldCalledElement = new deviceElement();
@@ -15,8 +15,9 @@ class controller {
         this.Elements = [];    
         this.Elements1 = [];    
         this.CurrentLayerName = "Elements";
+        this.Config = config;
 
-        readXlsxFile('./public/'+mapfilename, { sheet: "midimap"}).then((rows) => {
+        readXlsxFile('./public/'+config.MidimapFile, { sheet: "midimap"}).then((rows) => {
             for(let a=0; a < rows.length; a++)
             {
                 let item = rows[a];
@@ -24,7 +25,7 @@ class controller {
             }
         });
 
-        readXlsxFile('./public/'+mapfilename, { sheet: "midimap2"}).then((rows) => {
+        readXlsxFile('./public/'+config.MidimapFile, { sheet: "midimap2"}).then((rows) => {
             for(let a=0; a < rows.length; a++)
             {
                 let item = rows[a];
@@ -35,9 +36,10 @@ class controller {
         });
 
         this.Input.on('message', (msg) => {
+            if(this.Config.Debug == true)
+                console.log(msg);
             this.handle(msg);
         });
-
     }
 
     setCurrentLayer(layernr)

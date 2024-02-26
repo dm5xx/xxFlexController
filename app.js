@@ -2,6 +2,8 @@ var Controller = null;
 
 const Global = require("./public/global.json");
 var Config = require("./public/config"+Global.default+".json");
+if(Config.Debug === undefined)
+    Config.Debug = false;
 
 const defaults = require("./public/defaults.json");
 
@@ -19,7 +21,7 @@ const masterEmitter = new EventEmitter();
 const flexDominator = new FlexDominator(masterEmitter, defaults);
 
 var xxFlex = new xxFlexRadio(Config.FlexIP, Config.FlexPort, defaults, masterEmitter);
-var controller = new Controller(Config.WindowsMidiName, Config.MidimapFile, masterEmitter);
+var controller = new Controller(Config, masterEmitter);
 
 Global.InConfigMode = false;
 Global.Layer = 0;
