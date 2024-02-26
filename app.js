@@ -189,11 +189,15 @@ function switchToConfig(nr, elm)
 
     Config = require("./public/config"+nr+".json");
 
+    console.log("I am controlling Flex @ "+Config.FlexIP+" now");
+    
     setTimeout((elm, em) => {
         xxFlex = new xxFlexRadio(Config.FlexIP, Config.FlexPort, defaults, em);
         controller = new Controller(Config, em);
         Global.InConfigMode = false;
-        setTimeout(() => {controller.switchLedOff(elm.Id);},3000);
+        setTimeout(() => {
+            controller.switchLedOff(elm.Id);
+        },3000);
     }, 1000, elm, masterEmitter);
 
 }
