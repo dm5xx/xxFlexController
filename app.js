@@ -191,7 +191,7 @@ function switchToConfig(nr, elm)
 
     setTimeout((elm, em) => {
         xxFlex = new xxFlexRadio(Config.FlexIP, Config.FlexPort, defaults, em);
-        controller = new Controller(Config.WindowsMidiName, Config.MidimapFile, em);
+        controller = new Controller(Config, em);
         Global.InConfigMode = false;
         setTimeout(() => {controller.switchLedOff(elm.Id);},3000);
     }, 1000, elm, masterEmitter);
