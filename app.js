@@ -11,6 +11,9 @@ const xxFlexRadio = require("./xxflexradio.js");
 
 if(Config.WindowsMidiName == "DJControl Starlight")
     Controller = require("./djcontrollerstarlight.js");
+else {
+    Controller = require("./djcontrollerstarlight.js"); // starlight will be default
+}
 
 const masterEmitter = new EventEmitter();
 const flexDominator = new FlexDominator(masterEmitter, defaults);
