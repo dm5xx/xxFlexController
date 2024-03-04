@@ -359,6 +359,18 @@ class flexDominator {
         this.Emitter.emit("tgl", elm);
     }
 
+    toggleSlices(elm, flx)
+    {
+       flx.SliceNumbs.reverse(); 
+
+       let s0 = flx.Slice0;
+       let s1 = flx.Slice1;
+       
+       flx.Slice0 = s1;
+       flx.Slice1 = s0;
+   
+    }
+
     getRequestedSlice(elm)
     {
         if(elm.Part == "B")

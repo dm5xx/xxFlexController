@@ -105,25 +105,15 @@ masterEmitter.on("cptt", function (sl, sli, sta)
 
 masterEmitter.on("def", function (freq, mod)
 {
-    if(xxFlex.SliceNumbs.length==1)
-    {
-        xxFlex.fire("slice r "+xxFlex.SliceNumbs[0]);
-        xxFlex.SliceNumbs = [];
+    xxFlex.fire("slice r "+xxFlex.SliceNumbs[0]);
+    xxFlex.fire("slice r "+xxFlex.SliceNumbs[1]);
+    xxFlex.SliceNumbs = [];
 
-        xxFlex.fire("slice create freq="+freq+" ant=ANT1 mode="+mod);
-        xxFlex.fire("slice create freq="+(freq+0.005) +" ant=ANT1 mode="+mod);    
-    }
-    else if(xxFlex.SliceNumbs.length==2)
-    {
-        xxFlex.fire("slice r "+xxFlex.SliceNumbs[1]);
-        xxFlex.SliceNumbs.slice(0, -1);
-        xxFlex.fire("slice create freq="+(freq+0.005) +" ant=ANT1 mode="+mod);
-    }
-    else
-    {
-        xxFlex.fire("slice create freq="+freq+" ant=ANT1 mode="+mod);
-        xxFlex.fire("slice create freq="+(freq+0.005) +" ant=ANT1 mode="+mod);    
-    }
+    xxFlex.fire("slice create freq="+(freq) +" ant=ANT1 mode="+mod);    
+    xxFlex.fire("slice create freq="+(freq+0.005) +" ant=ANT1 mode="+mod);
+    
+    xxFlex.fire("slice t 0 "+(freq+0.001));    
+    xxFlex.fire("slice t 1 "+(freq+0.006));
 });
 
 masterEmitter.on("con", function ()
