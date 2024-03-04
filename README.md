@@ -34,7 +34,7 @@ Just buy a Hercules DJ-Control Starlight USB, download the software here (using 
   Find a quick documentation  <a href="https://www.hamradioland.de/rh.pdf" target=_blank>here</a>
 </p>
 <p>
-  <b>Current Version: 1.02 - 20240226 (added debug mode, default controllerhandler)</b>
+  <b>Current Version: 1.02 - 20240226 (added debug mode, default controllerhandler, fixes)</b>
 </p>
 
 ![](public/overview.PNG)
