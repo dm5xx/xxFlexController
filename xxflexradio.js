@@ -80,7 +80,7 @@ class xxFlexRadio extends Radio{
                         }
                     }
                     
-                    if(status.payload.client_handle != this.ClientHandle)
+                    if(status.payload.client_handle !== undefined && status.payload.client_handle != this.ClientHandle)
                         return;
 
                     let reqSlice = status.topic.split("/");
