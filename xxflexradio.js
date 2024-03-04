@@ -75,6 +75,7 @@ class xxFlexRadio extends Radio{
                                     }
                                 });
                                 this.IsInit = true;
+                                this.initTemp = [];
                                 console.log("Initialize successful. The System is ready to use. Have fun!");
                             }
                         }
@@ -82,17 +83,24 @@ class xxFlexRadio extends Radio{
                     
                     if(status.payload.client_handle !== undefined && status.payload.client_handle != this.ClientHandle)
                         return;
-                    else if(status.client === undefined || status.client != this.ClientHandle)
-                        return;
 
                     let reqSlice = status.topic.split("/");
 
+                    if(status.client === undefined || status.client != this.ClientHandle)
+                    {   
+                        if(status.client === undefined)
+                            return;
+
+                        if(reqSlice[0] == "slice" && !this.SliceNumbs.includes(parseInt(reqSlice[1])))
+                            return;
+                    }
+
                     if(reqSlice[0] == "slice")
                     {
-                        if(!this.SliceNumbs.includes(reqSlice[1]))
+                        if(!this.SliceNumbs.includes(parseInt(reqSlice[1])))
                         {
                             if(this.SliceNumbs.length<2)
-                                this.SliceNumbs.push(reqSlice[1]);
+                                this.SliceNumbs.push(parseInt(reqSlice[1]));
                         }
                     }
 
