@@ -167,6 +167,83 @@ masterEmitter.on("tgl", function (elm)
     controller.setCurrentLayer(Global.Layer);
 });
 
+var wasSingle = false;
+
+masterEmitter.on("fadeSO2R", function (flx, mode, a, b)
+{
+    if(mode < 2)
+    {
+        wasSingle = true;
+        xxFlex.fire("audio client "+ flx.client_handle + " slice "+ a +" pan 50");
+        xxFlex.fire("audio client "+ flx.client_handle + " slice "+ b +" pan 50");
+    
+        if(mode==0)
+        {
+    
+            xxFlex.fire("audio client "+ flx.client_handle + " slice "+ a +" mute 0");
+            xxFlex.fire("audio client "+ flx.client_handle + " slice "+ b +" mute 1");
+            return;
+        }
+        else if(mode=1)
+        {
+            xxFlex.fire("audio client "+ flx.client_handle + " slice "+ a +" mute 1");
+            xxFlex.fire("audio client "+ flx.client_handle + " slice "+ b +" mute 0");
+            return;
+        }    
+    }
+    else
+    {
+        if(wasSingle==true)
+        {
+            xxFlex.fire("audio client "+ flx.client_handle + " slice "+ a +" mute 0");
+            xxFlex.fire("audio client "+ flx.client_handle + " slice "+ b +" mute 0");
+
+            xxFlex.fire("audio client "+ flx.client_handle + " slice "+ a +" pan 0");
+            xxFlex.fire("audio client "+ flx.client_handle + " slice "+ b +" pan 100");
+            wasSingle =false;
+        }
+        return;
+    }
+});
+
+masterEmitter.on("fadeSO2RMix", function (flx, mode, a, b)
+{
+    if(mode < 2)
+    {
+        wasSingle = true;
+        xxFlex.fire("audio client "+ flx.client_handle + " slice "+ a +" pan 50");
+        xxFlex.fire("audio client "+ flx.client_handle + " slice "+ b +" pan 50");
+    
+        if(mode==0)
+        {
+    
+            xxFlex.fire("audio client "+ flx.client_handle + " slice "+ a +" mute 0");
+            xxFlex.fire("audio client "+ flx.client_handle + " slice "+ b +" mute 1");
+            return;
+        }
+        else if(mode=1)
+        {
+            xxFlex.fire("audio client "+ flx.client_handle + " slice "+ a +" mute 1");
+            xxFlex.fire("audio client "+ flx.client_handle + " slice "+ b +" mute 0");
+            return;
+        }    
+    }
+    else
+    {
+        if(wasSingle==true)
+        {
+            xxFlex.fire("audio client "+ flx.client_handle + " slice "+ a +" mute 0");
+            xxFlex.fire("audio client "+ flx.client_handle + " slice "+ b +" mute 0");
+
+            xxFlex.fire("audio client "+ flx.client_handle + " slice "+ a +" pan 30");
+            xxFlex.fire("audio client "+ flx.client_handle + " slice "+ b +" pan 70");
+
+            wasSingle = false;
+        }
+        return;
+    }
+});
+
 function switchToConfig(nr, elm)
 {
     if(nr>Global.configs)

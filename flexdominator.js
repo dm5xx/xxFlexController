@@ -233,6 +233,44 @@ class flexDominator {
         return "audio client "+ flx.client_handle + " slice "+ this.getRealSlice(1, flx)+" pan " + cv;
     }
 
+    fadeSO2R(elm, flx)
+    {
+        let val = this.#hundret27to100Converter(elm.State);
+
+        if(val<3)
+        {
+            this.Emitter.emit("fadeSO2R", flx, 0, this.getRealSlice(0, flx), this.getRealSlice(1, flx));
+        }
+        else if(val>97)
+        {
+            this.Emitter.emit("fadeSO2R", flx, 1, this.getRealSlice(0, flx), this.getRealSlice(1, flx));
+
+        }
+        else
+        {
+            this.Emitter.emit("fadeSO2R", flx, 2, this.getRealSlice(0, flx), this.getRealSlice(1, flx));
+        }
+    }
+
+    fadeSO2RMix(elm, flx)
+    {
+        let val = this.#hundret27to100Converter(elm.State);
+
+        if(val<3)
+        {
+            this.Emitter.emit("fadeSO2RMix", flx, 0, this.getRealSlice(0, flx), this.getRealSlice(1, flx));
+        }
+        else if(val>97)
+        {
+            this.Emitter.emit("fadeSO2RMix", flx, 1, this.getRealSlice(0, flx), this.getRealSlice(1, flx));
+
+        }
+        else
+        {
+            this.Emitter.emit("fadeSO2RMix", flx, 2, this.getRealSlice(0, flx), this.getRealSlice(1, flx))
+        }
+    }
+
     freeFilter(elm, flx)
     {
 
