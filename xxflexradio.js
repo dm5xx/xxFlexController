@@ -196,7 +196,7 @@ class xxFlexRadio extends Radio{
 
     fire(cmd)
     {
-        if(cmd == null) 
+        if(cmd == null || cmd.includes("undefined") || cmd.includes("NaN")) 
            return;
 
         this.send(cmd, function(res) {

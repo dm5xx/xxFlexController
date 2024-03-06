@@ -222,6 +222,9 @@ class flexDominator {
 
     fadePan(elm, flx)
     {
+        if(flx.SliceNumbs.length < 2)
+            return null;
+        
         let val = this.#Spreader(this.#hundret27to100Converter(elm.State), 1, 50);
 
         let cv = (50+val);
@@ -235,6 +238,9 @@ class flexDominator {
 
     fadeSO2R(elm, flx)
     {
+        if(flx.SliceNumbs.length < 2)
+            return null;
+
         let val = this.#hundret27to100Converter(elm.State);
 
         if(val<3)
@@ -254,6 +260,9 @@ class flexDominator {
 
     fadeSO2RMix(elm, flx)
     {
+        if(flx.SliceNumbs.length < 2)
+            return null;
+
         let val = this.#hundret27to100Converter(elm.State);
 
         if(val<3)
