@@ -118,6 +118,7 @@ class xxFlexRadio extends Radio{
             if(this.Slice0.in_use==0)
             {
                 this.SliceNumbs.splice(0, 1);
+                Object.assign(this.Slice0, this.Slice1);
             }
             return;
         }
@@ -127,6 +128,7 @@ class xxFlexRadio extends Radio{
             if(this.Slice1.in_use==0)
             {
                 this.SliceNumbs.splice(1, 1);
+                Object.assign(this.Slice1, this.Slice0);
             }
             return;
         }
