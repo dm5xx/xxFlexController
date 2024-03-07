@@ -21,8 +21,8 @@ class xxFlexRadio extends Radio{
         this.on('connected', function() {
             console.log('connected to radio');
             this.MasterEmitter.emit("connected");
-            this.fire("sub client all");
-            //setTimeout(() => this.fire("sub client all"),2000);
+            //this.fire("sub client all");
+            setTimeout(() => this.fire("sub client all"),2000);
         });
 
         if(defconf.StationName === undefined || defconf.StationName == "")
@@ -88,7 +88,31 @@ class xxFlexRadio extends Radio{
             }
             catch(err)
             {
-                console.log("Whats else: " + status + "but crashed..");
+                //console.log("Whats else: " + status + "but crashed..");
+
+                if(status.topic.startsWith("slice/") && status.payload.RF_frequency !== undefined)
+                {
+                    let reqSlice = status.topic.split("/");
+
+                    let svalue = parseInt(reqSlice[1]);
+                    if(this.SliceNumbs.includes(svalue))
+                    {
+                        if(this.IsInit && status.topic == "slice/"+this.SliceNumbs[0])
+                        {
+                            this.execSlice0(status.payload);                            
+                            // check if slice is active or not... remove/add to numslices array
+                            if(status.payload.in_use !== undefined)
+                                this.handleActiveStateOfSlice(0);
+                        }
+                        else if(this.IsInit && status.topic == "slice/"+this.SliceNumbs[1])
+                        {
+                            this.execSlice1(status.payload);
+                            // check if slice is active or not... remove/add to numslices array
+                            if(status.payload.in_use !== undefined)
+                                this.handleActiveStateOfSlice(1);
+                        }
+                    }
+                }
             }
         });
                 
