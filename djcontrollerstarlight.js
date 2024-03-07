@@ -161,9 +161,16 @@ class djcontrollerstarlight extends controller {
     handelBaseColor(id, col)
     {
         let res = this[this.CurrentLayerName].findIndex((elm) => elm.Id == id);        
-        this[this.CurrentLayerName][res].State = col;
-
-        this.Output.send("noteon", {channel: this[this.CurrentLayerName][res].Channel, note: this[this.CurrentLayerName][res].Controller, velocity: this[this.CurrentLayerName][res].State});
+        
+        try
+        {
+            this[this.CurrentLayerName][res].State = col;
+            this.Output.send("noteon", {channel: this[this.CurrentLayerName][res].Channel, note: this[this.CurrentLayerName][res].Controller, velocity: this[this.CurrentLayerName][res].State});    
+        }
+        catch(err)
+        {
+            return;
+        }
         // 3, // Dunkelblau
         // 20, // hellblau
         // 93, // grün
