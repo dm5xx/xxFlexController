@@ -35,8 +35,9 @@ Just buy a Hercules DJ-Control Starlight USB, download the software here (using 
 </p>
 <p>
   <b>Current Version:<br> 
-    1.03 - 2024035 (added crossfader fadeSO2R and fadeSO2RMix, bugfixes, WARNING if you have the software already: app.exe must be updated, but hercules.xlxs must also be update since new functions added)</b><br>
-    1.02 - 20240226 (added debug mode, default controllerhandler, fixes)</b>
+    1.0.5 - 2024037 (technical refactoring, enabled external contestlog-support)</b><br>
+    1.0.3 - 2024035 (added crossfader fadeSO2R and fadeSO2RMix, bugfixes, WARNING if you have the software already: app.exe must be updated, but hercules.xlxs must also be update since new functions added)</b><br>
+    1.0.2 - 20240226 (added debug mode, default controllerhandler, fixes)</b>
 </p>
 
 ![](public/overview.PNG)
@@ -77,6 +78,5 @@ since you dont map every day, ask friends for help :)
 Q: I need help.... Bug-Reports?
 A: No problem, contact me, dm5xx, under the domain @gmx.de or take a look here: <a href="http://www.remoteswitch.de" target=_blank>www.remoteswitch.de</a>
 
-### Known issues in the actual version and might be fixed in the next version
+### Known issues
 - slice a and slice b might change their order => use "shift" to change them back
-- in some circumstances, especially when closing a slice, it seems u cannot control the remaining slice => manually move the frequency of the slice in smartsdr a little bit and it comes resonsive agn. 
