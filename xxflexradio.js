@@ -26,9 +26,9 @@ class xxFlexRadio extends Radio{
         });
 
         if(defconf.StationName === undefined || defconf.StationName == "")
-            this.Station = process.env.COMPUTERNAME; 
+            this.Station = process.env.COMPUTERNAME.replace(String.fromCharCode(32), String.fromCharCode(127)); 
         else
-            this.Station = defconf.StationName; 
+            this.Station = defconf.StationName.replace(String.fromCharCode(32), String.fromCharCode(127)); 
         
         this.ClientHandle = "";
         this.SliceNumbs = [];
