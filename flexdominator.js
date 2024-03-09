@@ -10,6 +10,9 @@ class flexDominator {
     {
 
         let sl = this.getRequestedSlice(elm);
+
+        flx["Slice"+sl].tx = elm.State;
+        
         this.Emitter.emit("cptt", sl, this.getRealSlice(sl, flx), elm.State);
         //return "xmit "+elm.State;
     }

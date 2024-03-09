@@ -26,6 +26,8 @@ var controller = new Controller(Config, masterEmitter);
 Global.InConfigMode = false;
 Global.Layer = 0;
 
+console.log("Control your flex like hercules @Version " + "1.0.5");
+
 masterEmitter.on("ce", function (elm)
 {
     try
