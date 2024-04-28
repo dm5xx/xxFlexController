@@ -42,7 +42,7 @@ Just buy a Hercules DJ-Control Starlight USB, download the software here (using 
 </p>
 <p>
   <b>Current Version:<br> 
-    1.0.6 - 20240428 (added RitFreq for Phone/CW to defalt.json)<br>
+    1.0.6 - 20240428 added RitFreq for Phone/CW to defalt.json (overwrite app.exe, overwrite and change public/defaults.json<br>
     1.0.5 - 2024037 (technical refactoring, enabled external contestlog-support)<br>
     1.0.3 - 2024035 (added crossfader fadeSO2R and fadeSO2RMix, bugfixes, WARNING if you have the software already: app.exe must be updated, but hercules.xlxs must also be update since new functions added)<br>
     1.0.2 - 20240226 (added debug mode, default controllerhandler, fixes)</b>
