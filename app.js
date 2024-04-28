@@ -5,7 +5,10 @@ var Config = require("./public/config"+Global.default+".json");
 if(Config.Debug === undefined)
     Config.Debug = false;
 
-const defaults = require("./public/defaults.json");
+var defaults = require("./public/defaults.json"); //    "RitFreq" : [70,7]
+
+if(defaults.RitFreq === undefined)
+    defaults.RitFreq = [5000,1000];
 
 const FlexDominator = require("./flexdominator.js");
 const EventEmitter = require('node:events');

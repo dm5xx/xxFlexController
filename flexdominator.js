@@ -63,10 +63,9 @@ class flexDominator {
     {
         let sl = this.getRequestedSlice(elm);
 
-
-        let ritfac = 70
+        let ritfac = this.Defcon.RitFreq[0]/63;
         if(flx["Slice"+sl].mode == "CW")
-            ritfac=7;
+            ritfac=this.Defcon.RitFreq[1]/63;
 
         let getRealRit = this.#Spreader(elm.State, ritfac)
 
