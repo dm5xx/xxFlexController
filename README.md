@@ -5,7 +5,7 @@
 
 <p align="center">
 <br>
-<h2>You like FlexRadio? Your spent your last money on a Flex6600, 6400, 6500? Right decission! But now you need to save money for your Maestro? Man, this might take a while, i know... So what to do meanwhile? Hey - grab 75€ and you are back in the game until you can buy a maestro :P!<br></h2>
+<h2>You like FlexRadio? Your spent your last money on a Flex6xxx? Right decission! But now you need to save money for your Maestro? Man, this might take a while, i know... So what to do meanwhile? Hey - grab 75€ and you are back in the game until you can buy a maestro :P!<br></h2>
 </p>
 
 <p>
@@ -19,7 +19,14 @@
 xxFlexradioController DJ Console Hercules Starlight supports 3 Faders, 2 Turning-Wheels with 1 Touch-Btn in the middle, 6 Rotary potis, 26 Buttons (using 2x Cue+4, 2x Loop+4), 4 globaly used buttons => THATS A TOTAL of 43 actors! Not enough? IN 2 LAYERS => 86 possible actors assignable! Jump to "ADVANCED" for more info.
 </p>
 <p>
-Just buy a Hercules DJ-Control Starlight USB, download the software here (using the BatchStarter.exe for Windows 10/11 to start it - $\color{red}{hint:}$ $\color{red}{install}$ $\color{red}{donetframework}$ $\color{red}{first}$ => complete package is in the <a href="https://www.hamradioland.de/rh.zip" target=_blank>DOWNLOAD package for WINDOWS 10/11 here</a>!), install the controller, edit the public/config.json and choose your FlexRadios-IP and !!!!WOW!!!! ITS WORKING OUT OF THE BOX!!!!
+Just buy a Hercules DJ-Control Starlight USB, download the software here (using the BatchStarter.exe for Windows 10/11 to start it - $\color{red}{hint:}$ $\color{red}{install}$ $\color{red}{donetframework}$ $\color{red}{first}$ => complete package is in the <a href="https://www.hamradioland.de/rh.zip" target=_blank>DOWNLOAD package for WINDOWS 10/11 here</a>!), install the controller, edit the public/config.json and choose your FlexRadios-IP and !!!!WOW!!!! ITS WORKING OUT OF THE BOX!!!! If not => <a href="https://www.hamradioland.de/rh.pdf" target=_blank>Read the Manual</a> :P </p>
+<p>It still doesnt work? Step 0: Are you relly shure you have a Hercule DJ Controller Starlight USB?
+<br/>It still doesnt work? Step 1: Did you install the provided dotnetframework?
+<br/>It still doesnt work? Step 2: Are you sure you provided the right IP-Adress to the Flex in the config?
+<br/>It still doesnt work? Step 3: Did u start the Batchstarter + your SmartSDR-Software?
+<br/>It still doesnt work? Step 4: If you changed the StationName (no longer you ComputerName), did you privide the new StationName in the configuration?
+<br/>It still doesnt work? Step 5: Did you really read the <a href="https://www.hamradioland.de/rh.pdf" target=_blank>manual</a>?
+<br/>It still doesnt work? Step 6: Write me an email, i gonna help you.
 </p>
 <p>
   The Software is designed to use allmost of the buttons of the hercules console. Down below you can see how the buttons are mapped (which cld be changed in public/hercules.xlsx). What is described for Slice A will also be on Slice B - Green, Yellow, Purple work for each Slices A and B. <b>Since they are the same for both Slices, i only described them for the left side :)</b><br/> Blue means global and not slice specific functionality. COntroller is also working in multiFlex environments. 
