@@ -23,7 +23,7 @@ else {
 const masterEmitter = new EventEmitter();
 const flexDominator = new FlexDominator(masterEmitter, defaults);
 
-var xxFlex = new xxFlexRadio(Config.FlexIP, Config.FlexPort, defaults, masterEmitter);
+var xxFlex = new xxFlexRadio(Config, defaults, masterEmitter);
 var controller = new Controller(Config, masterEmitter);
 
 Global.InConfigMode = false;

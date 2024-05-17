@@ -1,9 +1,15 @@
+https://github.com/flexradio/smartsdr-api-docs/wiki/SmartSDR-TCPIP-API
+
+C<seq_number>|command
+
 https://github.com/K6TU/smartsdr-objective-c/blob/master/Radio.h
 
 LPMiniMK3 MIDI
 
 const s1 = "MIDIIN2 (LPMiniMK3 MIDI)";
 const s2 = "LPMiniMK3 MIDI";
+
+Example client id 240614F0-DAE8-406D-9B09-BC29B974F89B
 
 slice-object
 {

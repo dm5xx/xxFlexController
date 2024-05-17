@@ -2,12 +2,14 @@ const { Radio } = require('flexradio-js/Radio');
 const cp = require('child_process');
 
 class xxFlexRadio extends Radio{
-    constructor(ip, port, defconf, emitt) 
+    constructor(con, defconf, emitt) 
     {
-        super({ip: ip, port: port});
+        super({ip: con.FlexIP, port: con.FlexPort});
 
-        this.IP = ip;
-        this.Port = port;
+        this.IP = con.FlexIP;
+        this.ConfigX = con;
+
+        this.Port = con.FlexPort;
 
         this.Slice0 = {};
         this.Slice1 = {};
@@ -22,20 +24,33 @@ class xxFlexRadio extends Radio{
             console.log('connected to radio');
             this.MasterEmitter.emit("connected");
             //this.fire("sub client all");
-            setTimeout(() => this.fire("sub client all"),2000);
+            setTimeout(() => { 
+                this.fire("sub client all");
+                if(this.SmartSDRClientID !== undefined && this.SmartSDRClientID != "")
+                {
+                    this.fire("client bind client_id="+this.SmartSDRClientID);
+                    console.log("Following SmartSDR with id "+this.SmartSDRClientID);
+                }
+                else
+                {
+                    console.log("PTT-Control in multiflex might not work propperly.");
+                }
+                this.fire("sub radio all");
+            },2000);
         });
 
-        if(defconf.StationName === undefined || defconf.StationName == "")
+        if(this.ConfigX.StationName === undefined || this.ConfigX.StationName == "")
             this.Station = process.env.COMPUTERNAME.replace(String.fromCharCode(32), String.fromCharCode(127)); 
         else
-            this.Station = defconf.StationName.replace(String.fromCharCode(32), String.fromCharCode(127)); 
+            this.Station = this.ConfigX.StationName.replace(String.fromCharCode(32), String.fromCharCode(127)); 
+        
+        if(this.ConfigX.SmartSDRClientID !== undefined || this.ConfigX.SmartSDRClientID != "")
+            this.SmartSDRClientID = this.ConfigX.SmartSDRClientID; 
         
         this.ClientHandle = "";
         this.SliceNumbs = [];
         this.IsInit = false;
         this.initTemp = [];
-
-
 
         this.on('status', function(status) {
             // capture asynchronous status messages
@@ -83,6 +98,17 @@ class xxFlexRadio extends Radio{
                             if(status.payload.in_use !== undefined)
                                 this.handleActiveStateOfSlice(1);
                         }
+                    }
+                }
+                else
+                {
+                    if(this.SmartSDRClientID !== undefined && this.SmartSDRClientID == "" && status.payload.station !== undefined && status.payload.station == this.Station)
+                    {
+                      this.SmartSDRClientID = status.payload.client_id;
+                      console.log("Looking for your SmartSDR-Client-ID! client_id="+status.payload.client_id);
+                      console.log("If you want to use Multiflex with propper PTT-Control, please add \"SmartSDRClientID\": "+status.payload.client_id+" to default.json. See manual!");
+                      console.log("If you dont add this, multiflex will work, but there might be PTT-Controller-Issues");
+                      this.fire("unsub radio all");
                     }
                 }
             }
@@ -133,6 +159,7 @@ class xxFlexRadio extends Radio{
         this.connect();
         this.fire("sub slice all");
         this.fire("sub pan all");
+        this.fire("sub radio all");
     }
 
     handleActiveStateOfSlice(ab)
@@ -239,6 +266,12 @@ class xxFlexRadio extends Radio{
                     this.ClientHandle = cvalarr[1];
                 }
             }
+
+            if(this.HerculesHandle == undefined || this.HerculesHandle == "")
+            {
+                this.HerculesHandle = this.initTemp[0].client;
+            }
+            
 
             let dot = this.initTemp.filter((elm) => elm.payload.client_handle == this.ClientHandle && elm.topic.startsWith("slice")) //.sort((a, b) => a.payload.RF_frequency - b.payload.RF_frequency);
             if(dot.length>1)
