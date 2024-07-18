@@ -1,3 +1,5 @@
+nexe app.js --biuld -t
+
 https://github.com/flexradio/smartsdr-api-docs/wiki/SmartSDR-TCPIP-API
 
 C<seq_number>|command

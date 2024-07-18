@@ -42,7 +42,8 @@ Just buy a Hercules DJ-Control Starlight USB, download the software here (using 
 </p>
 <p>
   <b>Current Version:<br> 
-    1.0.6 - 20240428 added RitFreq for Phone/CW to defalt.json (overwrite app.exe, overwrite and change public/defaults.json<br>
+    1.1.0 - 20240718 added XIT, use different public-config dirs, Multiflex with multi instances, bugfixes - BREAKING CHANGE see manual! <a href="https://www.hamradioland.de/rh.zip" target=_blank>Latest Version</a><br>
+    1.0.6 - 20240428 added RitFreq for Phone/CW to defalt.json (overwrite app.exe, overwrite and change public/defaults.json <a href="https://www.hamradioland.de/rh106.zip" target=_blank>Old 1.0.6</a><br>
     1.0.5 - 2024037 (technical refactoring, enabled external contestlog-support)<br>
     1.0.3 - 2024035 (added crossfader fadeSO2R and fadeSO2RMix, bugfixes, WARNING if you have the software already: app.exe must be updated, but hercules.xlxs must also be update since new functions added)<br>
     1.0.2 - 20240226 (added debug mode, default controllerhandler, fixes)</b>
@@ -87,4 +88,4 @@ Q: I need help.... Bug-Reports?
 A: No problem, contact me, dm5xx, under the domain @gmx.de or take a look here: <a href="http://www.remoteswitch.de" target=_blank>www.remoteswitch.de</a>
 
 ### Known issues
-- slice a and slice b might change their order => use "shift" to change them back
+none

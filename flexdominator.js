@@ -70,9 +70,25 @@ class flexDominator {
         let getRealRit = this.#Spreader(elm.State, ritfac)
 
         if(getRealRit == 0 )
-            return "slice s "+ this.getRealSlice(sl, flx) + " rit_on=01 rit_freq=0";
+            return "slice s "+ this.getRealSlice(sl, flx) + " rit_on=0 rit_freq=0";
 
         return "slice s "+ this.getRealSlice(sl, flx) + " rit_on=1 rit_freq=" + this.#Spreader(elm.State, ritfac);
+    }
+
+    xit(elm, flx)
+    {
+        let sl = this.getRequestedSlice(elm);
+
+        let ritfac = this.Defcon.RitFreq[0]/63;
+        if(flx["Slice"+sl].mode == "CW")
+            ritfac=this.Defcon.RitFreq[1]/63;
+
+        let getRealRit = this.#Spreader(elm.State, ritfac)
+
+        if(getRealRit == 0 )
+            return "slice s "+ this.getRealSlice(sl, flx) + " xit_on=0 xit_freq=0";
+
+        return "slice s "+ this.getRealSlice(sl, flx) + " xit_on=1 xit_freq=" + this.#Spreader(elm.State, ritfac);
     }
 
     volume(elm, flx)

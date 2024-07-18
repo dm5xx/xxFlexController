@@ -1,11 +1,16 @@
 var Controller = null;
 
-const Global = require("./public/global.json");
-var Config = require("./public/config"+Global.default+".json");
+var configdir = "public";
+const Global = require("./"+configdir+"/global.json");
+
+if(Global.publicdirnum !== undefined && Global.publicdirnum > 0)
+    configdir = configdir+Global.publicdirnum;
+
+var Config = require("./"+configdir+"/config"+Global.default+".json");
 if(Config.Debug === undefined)
     Config.Debug = false;
 
-var defaults = require("./public/defaults.json"); //    "RitFreq" : [70,7]
+var defaults = require("./"+configdir+"/defaults.json"); //    "RitFreq" : [70,7]
 
 if(defaults.RitFreq === undefined)
     defaults.RitFreq = [5000,1000];
@@ -24,7 +29,7 @@ const masterEmitter = new EventEmitter();
 const flexDominator = new FlexDominator(masterEmitter, defaults);
 
 var xxFlex = new xxFlexRadio(Config, defaults, masterEmitter);
-var controller = new Controller(Config, masterEmitter);
+var controller = new Controller(Config, masterEmitter, configdir);
 
 Global.InConfigMode = false;
 Global.Layer = 0;
@@ -259,7 +264,7 @@ function switchToConfig(nr, elm)
     xxFlex.disconnect();
     controller.closePorts();
 
-    Config = require("./public/config"+nr+".json");
+    Config = require("./"+configdir+"/config"+nr+".json");
 
     console.log("I am controlling Flex @ "+Config.FlexIP+" now");
     

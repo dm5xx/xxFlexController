@@ -1,4 +1,5 @@
 {
     "configs" : 1,
-    "default" : 1
+    "default" : 1,
+    "publicdirnum" : 0
 }

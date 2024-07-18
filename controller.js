@@ -3,7 +3,7 @@ const deviceElement = require("./deviceelement.js");
 const readXlsxFile = require('read-excel-file/node');
 
 class controller {
-    constructor(config, masteremit) // config.WindowsMidiName, config.MidimapFile
+    constructor(config, masteremit, publicdirname) // config.WindowsMidiName, config.MidimapFile
     {    
         this.Input = new easymidi.Input(config.WindowsMidiName);
         this.Output = new easymidi.Output(config.WindowsMidiName);
@@ -17,7 +17,7 @@ class controller {
         this.CurrentLayerName = "Elements";
         this.Config = config;
 
-        readXlsxFile('./public/'+config.MidimapFile, { sheet: "midimap"}).then((rows) => {
+        readXlsxFile('./'+publicdirname+'/'+config.MidimapFile, { sheet: "midimap"}).then((rows) => {
             for(let a=0; a < rows.length; a++)
             {
                 let item = rows[a];
@@ -25,7 +25,7 @@ class controller {
             }
         });
 
-        readXlsxFile('./public/'+config.MidimapFile, { sheet: "midimap2"}).then((rows) => {
+        readXlsxFile('./'+publicdirname+'/'+config.MidimapFile, { sheet: "midimap2"}).then((rows) => {
             for(let a=0; a < rows.length; a++)
             {
                 let item = rows[a];
