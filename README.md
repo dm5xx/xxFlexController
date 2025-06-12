@@ -5,7 +5,7 @@
 
 <p align="center">
 <br>
-<h2>You like FlexRadio? Your spent your last money on a Flex6xxx? Right decission! But now you need to save money for your Maestro? Man, this might take a while, i know... So what to do meanwhile? Hey - grab 75€ and you are back in the game until you can buy a maestro :P!<br></h2>
+<h2>You like FlexRadio? Your spent your last money on a Flex6xxx/Flex8xxx? Right decission! But now you need to save money for your Maestro? Man, this might take a while, i know... So what to do meanwhile? Hey - grab 75€ and you are back in the game until you can buy a maestro :P!<br></h2>
 </p>
 
 <p>
@@ -29,7 +29,7 @@ Just buy a Hercules DJ-Control Starlight USB, download the software here (using 
 <br/>It still doesnt work? Step 6: Write me an email, i gonna help you.
 </p>
 <p>
-  The Software is designed to use allmost of the buttons of the hercules console. Down below you can see how the buttons are mapped (which cld be changed in public/hercules.xlsx). What is described for Slice A will also be on Slice B - Green, Yellow, Purple work for each Slices A and B. <b>Since they are the same for both Slices, i only described them for the left side :)</b><br/> Blue means global and not slice specific functionality. COntroller is also working in multiFlex environments. 
+  The Software is designed to use allmost of the buttons of the hercules console. Down below you can see how the buttons are mapped (which cld be changed in public/hercules.xlsx). What is described for Slice A will also be on Slice B - Green, Yellow, Purple work for each Slices A and B. <b>Since they are the same for both Slices, i only described them for the left side :)</b><br/> Blue means global and not slice specific functionality. Controller is also working in multiFlex environments. 
 </p>
 <p>
   <b>ADVANCED</b>: Still not enough actors?</b> Your xxFlexradioController is coming with 2 Layers! You can for example have Layer 1 setup (mapped) for DXing, and Layer 2 for contest. You can switch any time. Default (after restart) will be Layer 1. See instructions down below.
