@@ -449,6 +449,17 @@ class flexDominator {
             return flx.SliceNumbs[1];
         return flx.SliceNumbs[0];
     }
+    tune(elm, flx) 
+    {
+        // En el objeto 'elm', State 1 es presionado (velocity 127) 
+        // y State 0 es soltado (velocity 0)
+        let val = (elm.State == 1) ? "1" : "0";
+        
+        console.log("Comando TUNE -> " + (val == "1" ? "ACTIVADO" : "DESACTIVADO"));
+        
+        // Comando oficial de la API de FlexRadio
+        return "radio tune " + val;
+    }
 }
 
 module.exports = flexDominator; 
