@@ -1,9 +1,10 @@
 {
-    "FlexIP" : "192.168.0.110",
+    "FlexIP" : "192.168.0.208",
     "FlexPort" : 4992,
     "JogCoolDown" : 100,
     "MidimapFile" : "hercules.xlsx",
     "WindowsMidiName" : "DJControl Starlight",
-    "StationName" : "",
-    "SmartSDRClientID" : ""
+	"Debug" : true,
+    "StationName" : "ZENBOOKCUCA",
+    "SmartSDRClientID" : "4CDA4364-236D-42C6-831B-D09696EB0E03"
 }

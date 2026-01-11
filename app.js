@@ -16,7 +16,7 @@ if(defaults.RitFreq === undefined)
     defaults.RitFreq = [5000,1000];
 
 const FlexDominator = require("./flexdominator.js");
-const EventEmitter = require('node:events');
+const EventEmitter = require('events');
 const xxFlexRadio = require("./xxflexradio.js");
 
 if(Config.WindowsMidiName == "DJControl Starlight")
