@@ -1,4 +1,9 @@
-nexe app.js --biuld -t
+# Build Windows EXE + ZIP (pkg):
+#   npm run build
+#   (alias: npm run build:exe)
+# Output: dist/xxHercules.exe + dist/public/  and  ./rh.zip (Inhalt von dist/)
+# Start from dist/ (cwd) so ./public configs resolve. BatchStarter can launch xxHercules.exe there.
+
 
 https://github.com/flexradio/smartsdr-api-docs/wiki/SmartSDR-TCPIP-API
 

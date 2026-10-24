@@ -1,12 +1,22 @@
 var Controller = null;
 
+const fs = require("fs");
+const path = require("path");
+
+// Load JSON from process.cwd() so pkg EXE works with dist/public next to the binary
+function loadConfigJson(relPath)
+{
+    const full = path.join(process.cwd(), relPath);
+    return JSON.parse(fs.readFileSync(full, "utf8"));
+}
+
 var configdir = "public";
-const Global = require("./"+configdir+"/global.json");
+const Global = loadConfigJson(path.join(configdir, "global.json"));
 
 if(Global.publicdirnum !== undefined && Global.publicdirnum > 0)
     configdir = configdir+Global.publicdirnum;
 
-var Config = require("./"+configdir+"/config"+Global.default+".json");
+var Config = loadConfigJson(path.join(configdir, "config"+Global.default+".json"));
 if(Config.Debug === undefined)
     Config.Debug = false;
 
@@ -16,7 +26,7 @@ if(Config.JogCoolDown === undefined)
 const log = require("./logger.js");
 log.setDebug(Config.Debug);
 
-var defaults = require("./"+configdir+"/defaults.json"); //    "RitFreq" : [70,7]
+var defaults = loadConfigJson(path.join(configdir, "defaults.json")); //    "RitFreq" : [70,7]
 
 if(defaults.RitFreq === undefined)
     defaults.RitFreq = [5000,1000];
@@ -272,7 +282,7 @@ function switchToConfig(nr, elm)
     xxFlex.disconnect();
     controller.closePorts();
 
-    Config = require("./"+configdir+"/config"+nr+".json");
+    Config = loadConfigJson(path.join(configdir, "config"+nr+".json"));
     if(Config.Debug === undefined)
         Config.Debug = false;
     if(Config.JogCoolDown === undefined)
@@ -282,8 +292,8 @@ function switchToConfig(nr, elm)
     log.info("I am controlling Flex @ "+Config.FlexIP+" now");
     
     setTimeout((elm, em) => {
-        xxFlex = new xxFlexRadio(Config.FlexIP, Config.FlexPort, defaults, em);
-        controller = new Controller(Config, em);
+        xxFlex = new xxFlexRadio(Config, defaults, em);
+        controller = new Controller(Config, em, configdir);
         Global.InConfigMode = false;
         setTimeout(() => {
             controller.switchLedOff(elm.Id);

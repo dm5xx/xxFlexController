@@ -14,6 +14,10 @@ Requires **Node.js ≥ 18** (tested with current Node on Windows; system install
 npm install
 npm start
 # or: node app.js
+
+# Windows EXE for distribution (pkg):
+npm run build:exe
+# → dist/xxHercules.exe + dist/public/  (run from dist/)
 ```
 
 MIDI uses `@julusian/midi` (via `easymidi`); allow its install scripts if npm prompts (`npm install-scripts approve @julusian/midi`).

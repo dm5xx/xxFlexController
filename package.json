@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "Hercules DJ Starlight MIDI bridge to FlexRadio (SmartSDR / AetherSDR MultiFlex)",
   "main": "app.js",
+  "bin": "app.js",
   "scripts": {
     "start": "node app.js",
+    "build:exe": "pkg . --output dist/xxHercules.exe && node scripts/copy-dist-assets.js && node scripts/zip-dist.js",
+    "build": "npm run build:exe",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engines": {
@@ -17,7 +20,22 @@
     "flexradio-js": "^1.1.0",
     "read-excel-file": "^5.7.1"
   },
+  "devDependencies": {
+    "@yao-pkg/pkg": "^6.12.0"
+  },
   "allowScripts": {
     "@julusian/midi@3.1.0": true
+  },
+  "pkg": {
+    "targets": [
+      "node22-win-x64"
+    ],
+    "outputPath": "dist",
+    "assets": [
+      "node_modules/@julusian/midi/prebuilds/**/*"
+    ],
+    "publicPackages": [
+      "*"
+    ]
   }
 }
