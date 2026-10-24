@@ -15,16 +15,23 @@ npm install
 npm start
 # or: node app.js
 
+# Browser UI (Terminal + Configs): public/global.json → "JsonEditor": true (default)
+# "RunInBackground": true (default) → re-spawn hidden (brief console flash OK); tab close exits (~15s)
+# "RunInBackground": false → visible console; tab close does NOT exit
+# UI only: npm run editor  |  node app.js --editor  |  xxHercules.exe --editor
+# → http://127.0.0.1:<JsonEditorPort>/  (default 5555) Terminal + Configs tabs
+
 # Windows EXE for distribution (pkg):
 npm run build:exe
 # → dist/xxHercules.exe + dist/public/  (run from dist/)
+# Config UI: xxHercules.exe --editor  (from dist/)
 ```
 
 MIDI uses `@julusian/midi` (via `easymidi`); allow its install scripts if npm prompts (`npm install-scripts approve @julusian/midi`).
 
-Logging: `logger.js` — **info/warn/error** always; **debug** only if `Debug: true` in config (MIDI raw, unmapped keys, init chatter).
+Logging: `logger.js` — **info/warn/error** always; **debug** only if `Debug: true` in `public/global.json` (MIDI raw, unmapped keys, init chatter).
 
-Windows users often start via `BatchStarter.exe` (needs .NET). A GUI client (SmartSDR or AetherSDR) should be running; set Flex IP in `public/configN.json`.
+A GUI client (SmartSDR or AetherSDR) should be running; set Flex IP in `public/configN.json` (or use the config editor).
 
 ## MultiFlex with SmartSDR or AetherSDR
 
@@ -39,8 +46,9 @@ Windows users often start via `BatchStarter.exe` (needs .NET). A GUI client (Sma
 
 | Goal | Touch |
 |------|--------|
-| Flex IP / station / GUI client id | `public/config*.json`, `public/global.json` |
-| Default filters / RIT / modes | `public/defaults.json` |
+| Flex IP / station / GUI client id | `public/config*.json`, `public/global.json` (or `npm run editor`) |
+| Default filters / RIT / modes | `public/defaults.json` (or editor) |
+| Browser config UI | `configeditor.js` |
 | Button → function mapping | Excel midimap (`MidimapFile`, usually `hercules.xlsx`) |
 | New radio command | `flexdominator.js` (+ map name in Excel) |
 | MIDI / LED behavior | `djcontrollerstarlight.js`, `controller.js` |

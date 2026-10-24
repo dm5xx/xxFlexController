@@ -1,5 +1,11 @@
 {
-    "configs" : 1,
-    "default" : 1,
-    "publicdirnum" : 0
+    "configs": 1,
+    "default": 1,
+    "publicdirnum": 0,
+    "JsonEditor": true,
+    "JsonEditorPort": 5555,
+    "RunInBackground": true,
+    "OverlayText": "Closing this browser tab will also close the Hercules app.",
+    "OverlayTime": 4,
+    "Debug": false
 }

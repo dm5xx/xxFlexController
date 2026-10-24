@@ -6,6 +6,7 @@
   "bin": "app.js",
   "scripts": {
     "start": "node app.js",
+    "editor": "node configeditor.js",
     "build:exe": "pkg . --output dist/xxHercules.exe && node scripts/copy-dist-assets.js && node scripts/zip-dist.js",
     "build": "npm run build:exe",
     "test": "echo \"Error: no test specified\" && exit 1"
