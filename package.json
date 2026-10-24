@@ -8,8 +8,11 @@
     "start": "node app.js",
     "editor": "node configeditor.js",
     "build:exe": "pkg . --output dist/xxHercules.exe && node scripts/copy-dist-assets.js && node scripts/zip-dist.js",
+    "prebuild": "npm run test:hw",
     "build": "npm run build:exe",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test ./test/flexdominator.test.js ./test/configeditor-api.test.js",
+    "test:hw": "node --test ./test/hardware.test.js",
+    "test:flex": "node --test ./test/flex-live.test.js"
   },
   "engines": {
     "node": ">=18"

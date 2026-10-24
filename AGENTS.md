@@ -12,6 +12,9 @@ Requires **Node.js ≥ 18** (tested with current Node on Windows; system install
 
 ```bash
 npm install
+npm test          # unit/API checks (no MIDI/Flex required)
+npm run test:hw   # MIDI list + Flex TCP (runs on prebuild)
+npm run test:flex # manual: VFO/mode/filter/volume/RIT/XIT/RXANT/panBW/PTT via Flex status feedback
 npm start
 # or: node app.js
 
@@ -25,6 +28,7 @@ npm start
 npm run build:exe
 # → dist/xxHercules.exe + dist/public/  (run from dist/)
 # Config UI: xxHercules.exe --editor  (from dist/)
+# Before release: docs/SMOKE.md (manual) + npm test
 ```
 
 MIDI uses `@julusian/midi` (via `easymidi`); allow its install scripts if npm prompts (`npm install-scripts approve @julusian/midi`).
