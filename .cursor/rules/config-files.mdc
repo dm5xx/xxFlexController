@@ -24,7 +24,7 @@ alwaysApply: false
 
 ## MultiFlex (usually no GUI keys needed)
 
-By default Hercules **auto-binds** to SmartSDR or AetherSDR running on **this PC** (UDP discovery `gui_client_ips` / host / station). Remote MultiFlex GUIs on other machines are ignored.
+By default Hercules **auto-binds** to SmartSDR or AetherSDR running on **this PC** (TCP client status: station / program / host). Optional `FlexDiscovery: true` enables UDP 4992 `gui_client_ips` (can close the GUI on some Win10 setups if the GUI started first). Remote MultiFlex GUIs on other machines are ignored.
 
 Optional overrides (normally omit):
 

@@ -82,7 +82,7 @@ Org index: https://github.com/flexradio
 
 ## MultiFlex / station (SmartSDR or AetherSDR)
 
-- Default: auto-bind **local** SmartSDR/AetherSDR only (same PC — discovery IP / host / station); ignore remote MultiFlex GUIs
+- Default: auto-bind **local** SmartSDR/AetherSDR only (same PC — TCP station/program/host; optional `FlexDiscovery` for UDP `gui_client_ips`); ignore remote MultiFlex GUIs
 - GUI client ID config keys are optional overrides; normally omit them
 - Empty `StationName` → `COMPUTERNAME` (spaces → DEL char)
 - Same radio TCP; Hercules does not embed either GUI

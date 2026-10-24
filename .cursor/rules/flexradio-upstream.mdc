@@ -25,7 +25,7 @@ alwaysApply: true
 
 **AetherSDR** ([aethersdr/AetherSDR](https://github.com/aethersdr/AetherSDR), [docs.aethersdr.com](https://docs.aethersdr.com) / [Multi-Flex](https://docs.aethersdr.com/multi-flex)) is an alternate **GUI client** for the same FlexRadio TCP API — not a second radio protocol.
 
-- Hercules stays a non-GUI TCP client; auto-`client bind` to **local** SmartSDR/AetherSDR only (same PC via discovery IP)
+- Hercules stays a non-GUI TCP client; auto-`client bind` to **local** SmartSDR/AetherSDR only (same PC via TCP status; optional UDP discovery)
 - Do **not** embed AetherSDR source or add its MIDI/TCI stacks here
 - GUI ID config keys are optional overrides only
 

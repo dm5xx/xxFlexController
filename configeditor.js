@@ -36,7 +36,8 @@ const ALLOWED = new Set([
 /** Optional nicer labels/hints; form fields are always built from the JSON keys. */
 const FIELD_META = {
     FlexIP: { label: "Flex IP", hint: "Radio IP address" },
-    FlexPort: { label: "Flex Port", hint: "Usually 4992" },
+    FlexPort: { label: "Flex Port", hint: "Usually 4992 (TCP). Do not confuse with UDP discovery." },
+    FlexDiscovery: { label: "Flex UDP discovery", hint: "Bind UDP 4992 for gui_client_ips (MultiFlex IP filter). Default off — on Win10 can close AetherSDR/SmartSDR if the GUI started first" },
     MidimapFile: { label: "Midimap file", hint: "e.g. hercules.xlsx" },
     WindowsMidiName: { label: "MIDI device name", hint: "As shown by the OS" },
     StationName: { label: "Station name", hint: "Empty = auto / computer name" },

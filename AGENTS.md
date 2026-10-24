@@ -41,10 +41,11 @@ A GUI client (SmartSDR or AetherSDR) should be running; set Flex IP in `public/c
 
 1. Enable multiFLEX on the radio.
 2. Config needs only `FlexIP` (etc.) — **no GUI client IDs required**.
-3. Hercules auto-detects SmartSDR/AetherSDR on **this PC** via Flex UDP discovery (`gui_client_ips` / host / station) and binds that client; other network MultiFlex GUIs are ignored.
-4. Start local SmartSDR **or** [AetherSDR](https://github.com/aethersdr/AetherSDR); switching locally rebinds automatically.
-5. Optional overrides only: `GuiClientID`, `GuiProgram`, `SmartSDRClientID`, `AetherSDRClientID`.
-6. Docs: [AetherSDR Multi-Flex](https://docs.aethersdr.com/multi-flex)
+3. Hercules auto-detects SmartSDR/AetherSDR on **this PC** via TCP client status (station / program / host) and binds that client; other network MultiFlex GUIs are ignored.
+4. **UDP discovery (port 4992) is off by default** (`FlexDiscovery` in `configN.json`). Optional MultiFlex IP filter (`gui_client_ips`); on some **Windows 10** PCs sharing UDP 4992 with an already-running GUI closes that app — leave off or start Hercules first.
+5. Start local SmartSDR **or** [AetherSDR](https://github.com/aethersdr/AetherSDR); switching locally rebinds automatically.
+6. Optional overrides only: `GuiClientID`, `GuiProgram`, `SmartSDRClientID`, `AetherSDRClientID`.
+7. Docs: [AetherSDR Multi-Flex](https://docs.aethersdr.com/multi-flex)
 
 ## Where to change what
 

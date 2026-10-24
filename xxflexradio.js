@@ -78,7 +78,15 @@ class xxFlexRadio extends Radio{
         this.initTemp = [];
         this.pendingGuiResync = false;
 
-        this.startDiscoveryListener();
+        // UDP discovery binds port 4992 (same as SmartSDR/AetherSDR). On some Windows 10
+        // setups that steals/breaks the GUI's discovery socket and the GUI window closes
+        // if it was started first. Local GUI bind works via TCP client status (station/
+        // program/host) without discovery — enable only when needed for MultiFlex IP filter.
+        this.FlexDiscovery = (con.FlexDiscovery === true || con.FlexDiscovery === "true");
+        if(this.FlexDiscovery)
+            this.startDiscoveryListener();
+        else
+            log.debug("Flex UDP discovery off (default) — local GUI via TCP status only");
 
         this.on('status', function(status) {
             // capture asynchronous status messages
