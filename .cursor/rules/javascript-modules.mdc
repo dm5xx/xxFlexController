@@ -1,0 +1,22 @@
+---
+description: JS module patterns for controller, radio, and MIDI code
+globs: "*.js"
+alwaysApply: false
+---
+
+# JavaScript modules
+
+## Architecture
+
+- Event bus: `masterEmitter` in `app.js` — controller emits `"ce"` with a device element; Flex path uses `xxFlex.fire(...)`
+- New radio actions: add method on `flexDominator` named like the Excel `MappedTo` column; return a SmartSDR command string or emit via the emitter (e.g. PTT)
+- New MIDI hardware: implement like `djcontrollerstarlight.js` (extends/uses `controller`), select via `Config.WindowsMidiName` in `app.js`
+- Layers: `Elements` (layer 0) and `Elements1` (layer 1) from Excel sheets `midimap` / `midimap2`
+
+## Style
+
+- Keep CommonJS; classes with `constructor` as elsewhere
+- Use existing helpers in `flexDominator` (`getRequestedSlice`, `#hundret27to100Converter`, etc.) instead of reimplementing
+- Debug: respect `Config.Debug`; log with `console.log`
+- Avoid breaking MultiFlex / `GuiClientID` (legacy `SmartSDRClientID`) / `StationName` / `GuiProgram` without an explicit request
+- Radio JS patterns: learn from [stephenhouser/node-red-contrib-flexradio](https://github.com/stephenhouser/node-red-contrib-flexradio); keep changes in `xxflexradio.js` — never introduce Node-RED; GUI peer may be SmartSDR or AetherSDR via bind only

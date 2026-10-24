@@ -1,0 +1,26 @@
+---
+description: Checklist for adding a new MIDI controller
+globs: "{djcontroller*.js,controller.js,app.js,deviceelement.js}"
+alwaysApply: false
+---
+
+# New MIDI controller
+
+Follow the Starlight pattern; do not rewrite the Flex/command layer.
+
+## Steps
+
+1. Add `djcontroller<name>.js` that `require`s and **extends** `controller`
+2. Implement at least: `handle(msg)`, `handleHardware(element)`, LED helpers as needed, optional `isOnIgnoreList`
+3. On every meaningful control change emit: `this.MasterEmitter.emit("ce", element)` with a `deviceElement` (Id, Type, MappedTo, State, BtnTyp, GrpId, …)
+4. Wire selection in `app.js` by `Config.WindowsMidiName` (keep Starlight as fallback default)
+5. Ship Excel midimap sheets `midimap` / `midimap2` with same column layout as Starlight; set `MidimapFile` + `WindowsMidiName` in `configN.json`
+6. Reuse `flexdominator` `MappedTo` names; add new radio methods only if a new function is required
+
+## MIDI / element rules
+
+- Element Id format: `"channel|controller"` (or note for `noteon`)
+- Types: `Btn`, pots/faders, `Jog` — match existing Excel/Type handling
+- Button groups: `GrpId > 0` = mutually exclusive like Starlight
+- `BtnTyp == 3` = momentary (velocity 127 on / else off); otherwise toggle on 127
+- Base class already loads Excel into `Elements` / `Elements1` and opens easymidi I/O

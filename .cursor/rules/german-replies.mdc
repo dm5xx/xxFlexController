@@ -1,0 +1,10 @@
+---
+description: Reply to the user in German
+alwaysApply: true
+---
+
+# Language
+
+- Answer the user in **German** (clear, concise technical German)
+- Keep code, identifiers, file paths, API/command strings, and commit messages in English as in the repo
+- Use German for explanations, summaries, and questions; English terms (MIDI, Slice, MultiFlex, SmartSDR) are fine when standard

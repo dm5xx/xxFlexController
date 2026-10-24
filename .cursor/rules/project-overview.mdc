@@ -1,0 +1,28 @@
+---
+description: xxFlexController project context and stack
+alwaysApply: true
+---
+
+# xxFlexradioController (Hercules)
+
+Node.js bridge: Hercules DJ Control Starlight (MIDI) → FlexRadio SmartSDR TCP/IP API.
+
+- Entry: `app.js` — loads config, wires EventEmitter, FlexRadio, MIDI controller
+- Radio: `xxflexradio.js` — extends `flexradio-js` `Radio`, sends API commands via `fire()`; **inspired by** Stephen Houser’s Flex JS stack (see below), not a Node-RED app
+- Commands: `flexdominator.js` — maps controller actions to SmartSDR command strings
+- MIDI base: `controller.js` + `deviceelement.js`; Starlight: `djcontrollerstarlight.js`
+- Config: `public/global.json` + `public/configN.json` + `defaults.json`; MIDI map = Excel (`hercules.xlsx`)
+- Multi-config: `publicdirnum` / `config1`…`config8` for multiple Flex radios / MultiFlex
+- GUI peer: **SmartSDR or AetherSDR** (same TCP API; bind via `GuiClientID` / Station)
+- License: GPL-3.0 — **no Node-RED** in this project
+
+## Sources
+
+| Need | Where |
+|------|--------|
+| Official APIs / SDKs / protocol | [github.com/flexradio](https://github.com/flexradio) ([smartsdr-api-docs](https://github.com/flexradio/smartsdr-api-docs), [TCPIP wiki](https://github.com/flexradio/smartsdr-api-docs/wiki/SmartSDR-TCPIP-API)) |
+| JS examples, PROTOCOL.md, how Flex is done in JavaScript | [stephenhouser/node-red-contrib-flexradio](https://github.com/stephenhouser/node-red-contrib-flexradio) — **reference only**; do not add Node-RED here |
+| Alternate GUI client / MultiFlex with AetherSDR | [aethersdr/AetherSDR](https://github.com/aethersdr/AetherSDR), [docs.aethersdr.com](https://docs.aethersdr.com) — same radio TCP; do not embed AetherSDR |
+| Other transceivers via AetherSDR (ideas / examples) | [aethersdr/Aether-gate](https://github.com/aethersdr/Aether-gate) — reference only when extending beyond Flex; do not vendor unless asked |
+
+Prefer matching existing CommonJS style (`require`/`module.exports`). Do not introduce TypeScript, bundlers, Node-RED, or frameworks unless asked.

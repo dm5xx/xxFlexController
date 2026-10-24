@@ -71,6 +71,9 @@ You need more beautiful, useful and worth every cent ham radio hardware => Go to
 There you can find some more stuff from us - we give something back to the community, so help us develop some cool ham radio parts!
 
 ### FAQ
+Q: SmartSDR only — or AetherSDR too?
+A: Same FlexRadio TCP/MultiFlex path. Hercules auto-follows SmartSDR or AetherSDR on <b>this PC</b> (no GUI client IDs needed). Other MultiFlex clients on the network are ignored.
+
 Q: Which controllers are supported?
 A: Only a Hercules DJ Control Starlight USB controller is supported so far. Since its damn cheap and reliable, why wasting my time with others... :P
 

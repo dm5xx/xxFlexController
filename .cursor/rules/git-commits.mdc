@@ -1,0 +1,25 @@
+---
+description: Commit message style for this repository
+alwaysApply: true
+---
+
+# Git commits
+
+Only commit when the user explicitly asks.
+
+## Message style (match history)
+
+Short, plain English, imperative or factual — like existing history:
+
+- `fixed multiflex ptt issue`
+- `Add .vscode and .git to .gitignore`
+- `Update README.md`
+- `final 1.1.0`
+
+Prefer one line. Mention version or breaking config changes when relevant. No Conventional Commits required (`feat:`, `fix:` optional, not mandatory).
+
+## Do not
+
+- Commit secrets, local Flex IPs if the user wants privacy, or `node_modules`
+- Amend/push unless the user asks
+- Empty commits

@@ -1,0 +1,39 @@
+---
+description: Editing public JSON and MIDI mapping config
+globs: "public/**/*.json"
+alwaysApply: false
+---
+
+# Config (`public/`)
+
+## Files
+
+- `global.json`: `default` (active config number), `configs`, `publicdirnum` (0 = `public`, else `publicN`)
+- `configN.json`: radio/MIDI (+ optional MultiFlex overrides)
+- `defaults.json`: filters, PanBW, RitFreq, mode lists
+
+## `configN.json` keys
+
+| Key | Role |
+|-----|------|
+| `FlexIP`, `FlexPort` | Radio (port usually 4992) |
+| `WindowsMidiName`, `MidimapFile` | MIDI device + Excel map |
+| `StationName` | Optional; empty → Windows computer name |
+| `Debug`, `JogCoolDown` | Optional |
+
+## MultiFlex (usually no GUI keys needed)
+
+By default Hercules **auto-binds** to SmartSDR or AetherSDR running on **this PC** (UDP discovery `gui_client_ips` / host / station). Remote MultiFlex GUIs on other machines are ignored.
+
+Optional overrides (normally omit):
+
+| Key | Role |
+|-----|------|
+| `GuiClientID` | Fixed bind — disables auto-switch |
+| `SmartSDRClientID` / `AetherSDRClientID` | Optional allow-list hints |
+| `GuiProgram` | Prefer `"AetherSDR"` or `"SmartSDR"` if both local |
+
+## Rules
+
+- Do not invent new required keys without updating the JS that reads them
+- MIDI mapping lives in the Excel file named by `MidimapFile`, not in JSON

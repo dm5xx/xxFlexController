@@ -5,5 +5,5 @@
     "MidimapFile" : "hercules.xlsx",
     "WindowsMidiName" : "DJControl Starlight",
     "StationName" : "",
-    "SmartSDRClientID" : ""
+    "Debug" : false
 }

@@ -1,0 +1,42 @@
+---
+description: Canonical FlexRadio API docs and JS reference sources
+alwaysApply: true
+---
+
+# FlexRadio upstream
+
+## 1. Protocol / official APIs
+
+**Canonical:** [github.com/flexradio](https://github.com/flexradio)
+
+- [smartsdr-api-docs](https://github.com/flexradio/smartsdr-api-docs) + [TCPIP API wiki](https://github.com/flexradio/smartsdr-api-docs/wiki/SmartSDR-TCPIP-API)
+- Do not invent SmartSDR command syntax; match upstream + existing `flexdominator.js` / `xxflexradio.js`
+
+## 2. JavaScript examples (not Node-RED in this app)
+
+**JS / web implementation reference:** [stephenhouser/node-red-contrib-flexradio](https://github.com/stephenhouser/node-red-contrib-flexradio)
+
+- Use for JS patterns, PROTOCOL notes, decoding, and how `flexradio-js` talks to the radio
+- `xxflexradio.js` is **inspired by / derived from** that ecosystem (extends `flexradio-js` `Radio`)
+- **Never** add Node-RED, Node-RED nodes, or Node-RED flows to this project — standalone Node only
+- Prefer adapting ideas into `xxflexradio.js` / `flexdominator.js` like the existing code
+
+## 3. GUI clients on MultiFlex (SmartSDR or AetherSDR)
+
+**AetherSDR** ([aethersdr/AetherSDR](https://github.com/aethersdr/AetherSDR), [docs.aethersdr.com](https://docs.aethersdr.com) / [Multi-Flex](https://docs.aethersdr.com/multi-flex)) is an alternate **GUI client** for the same FlexRadio TCP API — not a second radio protocol.
+
+- Hercules stays a non-GUI TCP client; auto-`client bind` to **local** SmartSDR/AetherSDR only (same PC via discovery IP)
+- Do **not** embed AetherSDR source or add its MIDI/TCI stacks here
+- GUI ID config keys are optional overrides only
+
+## 4. Other radios via AetherSDR (ideas only)
+
+**Aether-gate** ([aethersdr/Aether-gate](https://github.com/aethersdr/Aether-gate)) — “AetherSDR for any radio”: bridge that presents Hamlib/CAT/LAN/SoapySDR gear to AetherSDR as if it were Flex (pan/waterfall/control; RX+control today).
+
+- Use as **inspiration / implementation examples** when planning extensions beyond native Flex
+- Do **not** vendor or require Aether-gate in this repo unless explicitly asked
+- Prefer learning patterns (protocol facade, CAT mapping) over copying the whole stack
+
+## 5. Local vs upstream
+
+MIDI/controller mapping stays in this repo. Flex protocol from flexradio; Flex-in-JS from Houser (no Node-RED); GUI peer may be SmartSDR or AetherSDR; non-Flex ideas may come from Aether-gate.
