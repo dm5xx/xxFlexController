@@ -21,7 +21,7 @@
 xxFlexradioController DJ Console Hercules Starlight supports 3 Faders, 2 Turning-Wheels with 1 Touch-Btn in the middle, 6 Rotary potis, 26 Buttons (using 2x Cue+4, 2x Loop+4), 4 globaly used buttons => THATS A TOTAL of 43 actors! Not enough? IN 2 LAYERS => 86 possible actors assignable! Jump to "ADVANCED" for more info.
 </p>
 <p>
-Just buy a Hercules DJ-Control Starlight USB, download the software here (using the BatchStarter.exe for Windows 10/11 to start it - complete package is in the <a href="rh.zip" target=_blank>DOWNLOAD package for WINDOWS 10/11 here</a>!), install the controller, edit the public/config.json and choose your FlexRadios-IP and !!!!WOW!!!! ITS WORKING OUT OF THE BOX!!!! If not => [OLD VERSION=>New Manual in the making] <a href="https://www.hamradioland.de/rh.pdf" target=_blank>Read the Manual</a> :P </p>
+Just buy a Hercules DJ-Control Starlight USB, download the software here (complete package is in the <a href="https://github.com/dm5xx/xxFlexController/raw/master/rh.zip" download>DOWNLOAD package for WINDOWS 10/11 here</a>!), unzip, run xxHercules.exe, edit public/config1.json (Flex IP) and !!!!WOW!!!! ITS WORKING OUT OF THE BOX!!!! If not => [OLD VERSION=>New Manual in the making] <a href="https://www.hamradioland.de/rh.pdf" target=_blank>Read the Manual</a> :P </p>
 <p>It still doesnt work? Step 0: Are you relly shure you have a Hercule DJ Controller Starlight USB?
 <br/>It still doesnt work? Step 2: Are you sure you provided the right IP-Adress to the Flex in the config?
 <br/>It still doesnt work? Step 3: Did u start your SmartSDR-Software?
