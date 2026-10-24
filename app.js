@@ -10,6 +10,12 @@ var Config = require("./"+configdir+"/config"+Global.default+".json");
 if(Config.Debug === undefined)
     Config.Debug = false;
 
+if(Config.JogCoolDown === undefined)
+    Config.JogCoolDown = 100;
+
+const log = require("./logger.js");
+log.setDebug(Config.Debug);
+
 var defaults = require("./"+configdir+"/defaults.json"); //    "RitFreq" : [70,7]
 
 if(defaults.RitFreq === undefined)
@@ -34,7 +40,9 @@ var controller = new Controller(Config, masterEmitter, configdir);
 Global.InConfigMode = false;
 Global.Layer = 0;
 
-console.log("Control your flex like hercules @Version " + "1.1.0RC1");
+log.info("Control your flex like hercules @Version " + "1.1.0RC1");
+if(Config.Debug)
+    log.info("Debug logging enabled");
 
 masterEmitter.on("ce", function (elm)
 {
@@ -43,7 +51,7 @@ masterEmitter.on("ce", function (elm)
         if(!Global.InConfigMode)
         {
             if(flexDominator[elm.MappedTo]=== undefined)
-                console.log("Key "+elm.Id+" not mapped to function");
+                log.debug("Key "+elm.Id+" not mapped to function");
             else
                 xxFlex.fire(flexDominator[elm.MappedTo](elm, xxFlex));
         }
@@ -85,7 +93,7 @@ masterEmitter.on("ce", function (elm)
     }
     catch(error)
     {
-        console.log("Method not found");
+        log.warn("Method not found");
         return;
     }
 
@@ -151,7 +159,7 @@ masterEmitter.on("error", function ()
 
 masterEmitter.on("responseList", function (item)
 {
-    console.log(item);
+    log.debug(item);
 });
 
 masterEmitter.on("tgl", function (elm)
@@ -259,14 +267,19 @@ function switchToConfig(nr, elm)
     if(nr>Global.configs)
         return;
 
-    console.log("Switchign to config"+nr);
+    log.info("Switching to config "+nr);
 
     xxFlex.disconnect();
     controller.closePorts();
 
     Config = require("./"+configdir+"/config"+nr+".json");
+    if(Config.Debug === undefined)
+        Config.Debug = false;
+    if(Config.JogCoolDown === undefined)
+        Config.JogCoolDown = 100;
+    log.setDebug(Config.Debug);
 
-    console.log("I am controlling Flex @ "+Config.FlexIP+" now");
+    log.info("I am controlling Flex @ "+Config.FlexIP+" now");
     
     setTimeout((elm, em) => {
         xxFlex = new xxFlexRadio(Config.FlexIP, Config.FlexPort, defaults, em);

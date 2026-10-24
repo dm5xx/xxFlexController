@@ -18,8 +18,9 @@ alwaysApply: false
 |-----|------|
 | `FlexIP`, `FlexPort` | Radio (port usually 4992) |
 | `WindowsMidiName`, `MidimapFile` | MIDI device + Excel map |
-| `StationName` | Optional; empty → Windows computer name |
-| `Debug`, `JogCoolDown` | Optional |
+| `StationName` | Optional; empty → computer name / auto from local GUI |
+| `JogCoolDown` | Min. ms between Jog (VFO) emits; default 100; `0` = no throttle |
+| `Debug` | `true` → verbose logs (MIDI, unmapped keys, init details); info/errors always shown |
 
 ## MultiFlex (usually no GUI keys needed)
 

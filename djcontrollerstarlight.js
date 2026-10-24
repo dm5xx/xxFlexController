@@ -1,4 +1,5 @@
 const controller = require("./controller");
+const log = require("./logger.js");
 
 class djcontrollerstarlight extends controller {
     constructor(config, masteremit, publicdirname) {
@@ -70,13 +71,36 @@ class djcontrollerstarlight extends controller {
             {
                 this[this.CurrentLayerName][res].State = msg.value;
 
-                if(this[this.CurrentLayerName][res].Type== "Jog" || this.OldCalledElement.State !== this[this.CurrentLayerName][res].State)
+                if(this[this.CurrentLayerName][res].Type == "Jog")
+                {
+                    if(this.shouldEmitJog(this[this.CurrentLayerName][res]))
+                        this.handleHardware(this[this.CurrentLayerName][res]);
+                }
+                else if(this.OldCalledElement.State !== this[this.CurrentLayerName][res].State)
+                {
                     this.handleHardware(this[this.CurrentLayerName][res]);
+                }
             }
             Object.assign(this.CurrentCalledElement, this[this.CurrentLayerName][res]);
         }
     }
 
+
+    shouldEmitJog(element)
+    {
+        let cd = Number(this.Config.JogCoolDown);
+        if(isNaN(cd) || cd <= 0)
+            return true;
+
+        let now = Date.now();
+        let id = element.Id;
+        let last = this.JogLastEmitMs[id];
+        if(last !== undefined && (now - last) < cd)
+            return false;
+
+        this.JogLastEmitMs[id] = now;
+        return true;
+    }
 
     setElementandLedOff(id)
     {
@@ -97,7 +121,7 @@ class djcontrollerstarlight extends controller {
             }
         }
 
-        console.log("Led not found");
+        log.debug("Led not found");
     }
 
     switchLed(element)

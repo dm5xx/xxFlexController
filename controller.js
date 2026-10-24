@@ -1,6 +1,7 @@
 const easymidi = require('easymidi');
 const deviceElement = require("./deviceelement.js");
 const readXlsxFile = require('read-excel-file/node');
+const log = require("./logger.js");
 
 class controller {
     constructor(config, masteremit, publicdirname) // config.WindowsMidiName, config.MidimapFile
@@ -16,6 +17,7 @@ class controller {
         this.Elements1 = [];    
         this.CurrentLayerName = "Elements";
         this.Config = config;
+        this.JogLastEmitMs = {}; // per-element throttle for Type "Jog" (JogCoolDown)
 
         readXlsxFile('./'+publicdirname+'/'+config.MidimapFile, { sheet: "midimap"}).then((rows) => {
             for(let a=0; a < rows.length; a++)
@@ -36,8 +38,7 @@ class controller {
         });
 
         this.Input.on('message', (msg) => {
-            if(this.Config.Debug == true)
-                console.log(msg);
+            log.debug(msg);
             this.handle(msg);
         });
     }

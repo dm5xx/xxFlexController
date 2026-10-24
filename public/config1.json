@@ -1,9 +1,9 @@
 {
     "FlexIP" : "192.168.0.110",
     "FlexPort" : 4992,
-    "JogCoolDown" : 100,
     "MidimapFile" : "hercules.xlsx",
     "WindowsMidiName" : "DJControl Starlight",
     "StationName" : "",
+    "JogCoolDown" : 100,
     "Debug" : false
 }

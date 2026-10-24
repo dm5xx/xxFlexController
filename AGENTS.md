@@ -18,6 +18,8 @@ npm start
 
 MIDI uses `@julusian/midi` (via `easymidi`); allow its install scripts if npm prompts (`npm install-scripts approve @julusian/midi`).
 
+Logging: `logger.js` — **info/warn/error** always; **debug** only if `Debug: true` in config (MIDI raw, unmapped keys, init chatter).
+
 Windows users often start via `BatchStarter.exe` (needs .NET). A GUI client (SmartSDR or AetherSDR) should be running; set Flex IP in `public/configN.json`.
 
 ## MultiFlex with SmartSDR or AetherSDR

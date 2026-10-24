@@ -1,6 +1,7 @@
 const { Radio } = require('flexradio-js/Radio');
 const os = require('os');
 const cp = require('child_process');
+const log = require("./logger.js");
 
 class xxFlexRadio extends Radio{
     constructor(con, defconf, emitt) 
@@ -28,7 +29,7 @@ class xxFlexRadio extends Radio{
         this.discoveryByHandle = {}; // normalized handle -> { ip, host, program, station }
  
         this.on('connected', function() {
-            console.log('connected to radio');
+            log.info('connected to radio');
             this.MasterEmitter.emit("connected");
             setTimeout(() => { 
                 this.fire("sub client all");
@@ -38,7 +39,7 @@ class xxFlexRadio extends Radio{
                 }
                 else
                 {
-                    console.log("Local GUI auto-select: waiting for SmartSDR/AetherSDR on this PC ("+[...this.localIpv4s].join(", ")+")...");
+                    log.info("Local GUI auto-select: waiting for SmartSDR/AetherSDR on this PC ("+[...this.localIpv4s].join(", ")+")...");
                 }
                 this.fire("sub radio all");
             },2000);
@@ -115,14 +116,14 @@ class xxFlexRadio extends Radio{
         });
                 
         this.on('error', function(error) {
-            console.log("Error: "+error.error+" - Trying to reconnect!");
+            log.error("Error: "+error.error+" - Trying to reconnect!");
             setTimeout(() => this.connect(), 3000);
 
             this.MasterEmitter.emit("error");
         });
 
         this.on('close', function() {
-            console.log("Closed!");
+            log.warn("Closed!");
             setTimeout(() => this.connect(), 3000);
             this.MasterEmitter.emit("error");
         });
@@ -148,11 +149,11 @@ class xxFlexRadio extends Radio{
                     return;
                 this.ingestDiscoveryGuiClients(msg.payload);
             });
-            console.log("Flex discovery listening for local GUI clients (gui_client_ips)…");
+            log.debug("Flex discovery listening for local GUI clients (gui_client_ips)…");
         }
         catch(err)
         {
-            console.log("Flex discovery unavailable ("+err.message+") — using station/host fallback for local GUI");
+            log.warn("Flex discovery unavailable ("+err.message+") — using station/host fallback for local GUI");
         }
     }
 
@@ -325,7 +326,7 @@ class xxFlexRadio extends Radio{
         {
             if(id !== undefined && id != "" && this.GuiClientID == id)
             {
-                console.log("Local GUI offline ("+(this.ActiveGuiLabel || id)+") — waiting for SmartSDR/AetherSDR on this PC...");
+                log.info("Local GUI offline ("+(this.ActiveGuiLabel || id)+") — waiting for SmartSDR/AetherSDR on this PC...");
                 this.clearActiveGuiBind();
             }
             return;
@@ -389,7 +390,7 @@ class xxFlexRadio extends Radio{
             return;
 
         this.ClientHandle = handle;
-        console.log("Using GUI client handle "+handle+" for slices ("+(this.ActiveGuiLabel || this.GuiClientID)+")");
+        log.info("Using GUI client handle "+handle+" for slices ("+(this.ActiveGuiLabel || this.GuiClientID)+")");
         this.scheduleSliceResync();
     }
 
@@ -434,7 +435,7 @@ class xxFlexRadio extends Radio{
         if(this.pendingGuiResync && this.SliceNumbs.length > 0 && this.Slice0.RF_frequency !== undefined)
         {
             this.pendingGuiResync = false;
-            console.log("Slices synced for GUI: "+this.SliceNumbs.join(",")+" freq="+this.Slice0.RF_frequency);
+            log.info("Slices synced for GUI: "+this.SliceNumbs.join(",")+" freq="+this.Slice0.RF_frequency);
         }
     }
 
@@ -511,7 +512,7 @@ class xxFlexRadio extends Radio{
         this.SmartSDRClientID = clientId;
         this.ActiveGuiLabel = label || "";
         this.fire("client bind client_id="+clientId);
-        console.log("Following GUI client"+(label ? (" ("+label+")") : "")+" with id "+clientId);
+        log.info("Following GUI client"+(label ? (" ("+label+")") : "")+" with id "+clientId);
         // Slice ownership follows the GUI handle (adoptGuiClientHandle); force refresh
         this.scheduleSliceResync();
     }
@@ -571,7 +572,7 @@ class xxFlexRadio extends Radio{
 
     startInitTimeout() {
         return setTimeout(() => {
-            console.log('Filling init data.. Hold on...');
+            log.debug('Filling init data.. Hold on...');
             this.execInitMsg();
         }, 3000);
     }
@@ -716,12 +717,12 @@ class xxFlexRadio extends Radio{
             this.initTemp = [];
             if(this.ClientHandle == "" || this.SliceNumbs.length == 0)
             {
-                console.log("Initialize: no GUI slices yet (ClientHandle="+this.ClientHandle+"). Waiting for AetherSDR/SmartSDR client status…");
+                log.info("Initialize: no GUI slices yet (ClientHandle="+this.ClientHandle+"). Waiting for AetherSDR/SmartSDR client status…");
                 this.pendingGuiResync = true;
             }
             else
             {
-                console.log("Initialize successful. GUI handle="+this.ClientHandle+" slices="+this.SliceNumbs.join(",")+". Have fun!");
+                log.info("Initialize successful. GUI handle="+this.ClientHandle+" slices="+this.SliceNumbs.join(",")+". Have fun!");
             }
         }
     }
