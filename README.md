@@ -13,7 +13,7 @@
 <p>
   Yes! Here is something for you! How about using an external DJ-Midi-Controller to control your FlexRadio? Thanks to FlexRadio and Stephen Houser this is already possible in Node-Red - but now its even easier!
 </p>
-<p>No more Node-Red-Setup needed, no Raspberry setup, no update hell, no need to become a linux expert - and no need to use an Ipad, OSX or whatever!</p> 
+<p>No more Node-Red-Setup needed, no Raspberry setup, no update hell or whatever!</p> 
 <p>
   <b>And even better: Your friends all have flex radios and they let you play with them? EASY going! You can jump through all the different flex radios with your fingertips! Take a look at the entering configuration mode instructions down below!</b>
 </p>
