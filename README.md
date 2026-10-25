@@ -21,12 +21,12 @@
 xxFlexradioController DJ Console Hercules Starlight supports 3 Faders, 2 Turning-Wheels with 1 Touch-Btn in the middle, 6 Rotary potis, 26 Buttons (using 2x Cue+4, 2x Loop+4), 4 globaly used buttons => THATS A TOTAL of 43 actors! Not enough? IN 2 LAYERS => 86 possible actors assignable! Jump to "ADVANCED" for more info.
 </p>
 <p>
-Just buy a Hercules DJ-Control Starlight USB, download the software here (complete package is in the <a href="https://github.com/dm5xx/xxFlexController/raw/master/rh.zip" download>DOWNLOAD package for WINDOWS 10/11 here</a>!), unzip, run xxHercules.exe, edit public/config1.json (Flex IP) and !!!!WOW!!!! ITS WORKING OUT OF THE BOX!!!! If not => [OLD VERSION=>New Manual in the making] <a href="https://www.hamradioland.de/rh.pdf" target=_blank>Read the Manual</a> :P </p>
+Just buy a Hercules DJ-Control Starlight USB, download the software here (complete package is in the <a href="https://github.com/dm5xx/xxFlexController/raw/master/rh.zip" download>DOWNLOAD package for WINDOWS 10/11 here</a>!), <b>unzip</b>, run <b>xxHercules.exe</b> next to the <b>public/</b> folder, set Flex IP (browser Configs tab or <code>public/config1.json</code>) and !!!!WOW!!!! ITS WORKING OUT OF THE BOX!!!! Manual: <a href="https://github.com/dm5xx/xxFlexController/raw/master/public/newmanual.pdf">newmanual.pdf</a> (Markdown: <a href="https://github.com/dm5xx/xxFlexController/raw/master/public/newmanual.md">newmanual.md</a>; older <a href="https://github.com/dm5xx/xxFlexController/raw/master/public/rh.pdf">rh.pdf</a>) :P </p>
 <p>It still doesnt work? Step 0: Are you relly shure you have a Hercule DJ Controller Starlight USB?
 <br/>It still doesnt work? Step 2: Are you sure you provided the right IP-Adress to the Flex in the config?
-<br/>It still doesnt work? Step 3: Did u start your SmartSDR-Software?
+<br/>It still doesnt work? Step 3: Did u start SmartSDR <b>or AetherSDR</b> on this PC?
 <br/>It still doesnt work? Step 4: If you changed the StationName (no longer you ComputerName), did you privide the new StationName in the configuration?
-<br/>It still doesnt work? Step 5: Did you really read the [OLD VERSION=>New Manual in the making]<a href="https://www.hamradioland.de/rh.pdf" target=_blank>manual</a>?
+<br/>It still doesnt work? Step 5: Did you really read the <a href="https://github.com/dm5xx/xxFlexController/raw/master/public/newmanual.pdf">manual</a>?
 <br/>It still doesnt work? Step 6: Write me an email, i gonna help you.
 </p>
 <p>
@@ -39,12 +39,14 @@ Just buy a Hercules DJ-Control Starlight USB, download the software here (comple
   <b>Thanks to FlexRadio! You created a master piece of SDR! AND: Thanks for sharing the API with your community. This is something really special!</b>
 </p>
 <p>
-  Find a quick documentation  [OLD VERSION=>New Manual in the making] <a href="https://www.hamradioland.de/rh.pdf" target=_blank>here</a>
+  Find the documentation: <a href="https://github.com/dm5xx/xxFlexController/raw/master/public/newmanual.pdf">public/newmanual.pdf</a>
+  (Markdown: <a href="https://github.com/dm5xx/xxFlexController/raw/master/public/newmanual.md">newmanual.md</a>,
+  older: <a href="https://github.com/dm5xx/xxFlexController/raw/master/public/rh.pdf">rh.pdf</a>)
 </p>
 <p>
   <b>Current Version:<br> 
-    1.5.0 - 20261024 added AetherSDR, changed Building process, added Auto-ClientID-Determination, added config file Editor. <b>BREAKING CHANGE! U need to use dist/... to start and adjust the configs under dist/public!</b>
-    1.1.0 - 20240718 added XIT, use different public-config dirs, Multiflex with multi instances, bugfixes - BREAKING CHANGE see manual! Latest Version in /dist folder!</a><br>
+    1.5.0 - 20261024 added AetherSDR, changed Building process, added Auto-ClientID-Determination, added config file Editor. <b>BREAKING CHANGE for ZIP users: unzip rh.zip → run xxHercules.exe next to public/ and edit public/*.json!</b><br>
+    1.1.0 - 20240718 added XIT, use different public-config dirs, Multiflex with multi instances, bugfixes - BREAKING CHANGE see manual!<br>
     1.0.6 - 20240428 added RitFreq for Phone/CW to defalt.json (overwrite app.exe, overwrite and change public/defaults.json <a href="https://www.hamradioland.de/rh106.zip" target=_blank>Old 1.0.6</a><br>
     1.0.5 - 2024037 (technical refactoring, enabled external contestlog-support)<br>
     1.0.3 - 2024035 (added crossfader fadeSO2R and fadeSO2RMix, bugfixes, WARNING if you have the software already: app.exe must be updated, but hercules.xlxs must also be update since new functions added)<br>

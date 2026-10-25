@@ -57,7 +57,6 @@ describe("config editor HTTP API", () =>
             publicdirnum: 0,
             JsonEditor: true,
             JsonEditorPort: TEST_PORT,
-            RunInBackground: false,
             OverlayText: "",
             OverlayTime: 0,
             Debug: false
@@ -90,8 +89,7 @@ describe("config editor HTTP API", () =>
         server = configeditor.start({
             port: TEST_PORT,
             openBrowser: false,
-            fatal: false,
-            exitOnBrowserClose: false
+            fatal: false
         });
     });
 

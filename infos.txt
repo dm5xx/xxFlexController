@@ -1,5 +1,7 @@
 # Build Windows EXE + ZIP (pkg):
 #   npm run build
+# npm run build:upversion
+# (or: npm run build -- --upversion)
 #   (alias: npm run build:exe)
 # Output: dist/xxHercules.exe + dist/public/  and  ./rh.zip (Inhalt von dist/)
 # Start from dist/ (cwd) so ./public configs resolve. BatchStarter can launch xxHercules.exe there.

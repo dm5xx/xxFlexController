@@ -7,18 +7,13 @@ const fs = require("fs");
 const path = require("path");
 const { exec, spawn } = require("child_process");
 const consolebridge = require("./consolebridge.js");
+const crashguard = require("./crashguard.js");
 
 const HOST = "127.0.0.1";
 const DEFAULT_PORT = 5555;
-const BROWSER_EXIT_GRACE_MS = 15000;
 const PUBLIC_DIR = path.join(process.cwd(), "public");
 
-/** When true (RunInBackground): exit process after last browser console SSE disconnect. */
-let exitOnBrowserClose = false;
-let consoleClients = 0;
-let sawBrowserOnce = false;
 let restarting = false;
-let browserExitTimer = null;
 
 const ALLOWED = new Set([
     "global.json",
@@ -48,7 +43,6 @@ const FIELD_META = {
     publicdirnum: { label: "Public dir number", hint: "0 = public/, N = publicN/" },
     JsonEditor: { label: "JSON editor", hint: "Start browser UI with the app" },
     JsonEditorPort: { label: "JSON editor port", hint: "Localhost port (default 5555); restart app after change" },
-    RunInBackground: { label: "Run in background", hint: "No console/taskbar window; closing browser tab exits the app" },
     OverlayText: { label: "Startup overlay text", hint: "Shown on open; empty = no overlay. Use \\n for new lines" },
     OverlayTime: { label: "Overlay time (s)", hint: "Seconds before overlay closes (default 4; 0 = off)" },
     CWMakro: { label: "CW macros", hint: "Comma-separated" },
@@ -133,37 +127,18 @@ function scheduleRestart()
 
     console.log("Config editor: scheduling restart → " + exe + " " + args.join(" "));
 
-    // Match RunInBackground: hidden daemon vs normal visible console
-    let runBg = exitOnBrowserClose;
-    try
-    {
-        const g = JSON.parse(fs.readFileSync(path.join(PUBLIC_DIR, "global.json"), "utf8"));
-        if(g.RunInBackground !== undefined)
-            runBg = !!g.RunInBackground;
-    }
-    catch(e) {}
-
     if(process.platform === "win32")
     {
         const argList = args.map((a) => "'" + String(a).replace(/'/g, "''") + "'").join(",");
         const exeQ = String(exe).replace(/'/g, "''");
         const cwdQ = String(cwd).replace(/'/g, "''");
-        const ps = runBg
-            ? [
-                "Start-Sleep -Seconds 2;",
-                "$env:HERCULES_BG='1';",
-                "Start-Process -FilePath '" + exeQ + "'",
-                args.length ? (" -ArgumentList @(" + argList + ")") : "",
-                " -WorkingDirectory '" + cwdQ + "'",
-                " -WindowStyle Hidden"
-            ].join("")
-            : [
-                "Start-Sleep -Seconds 2;",
-                "Start-Process -FilePath '" + exeQ + "'",
-                args.length ? (" -ArgumentList @(" + argList + ")") : "",
-                " -WorkingDirectory '" + cwdQ + "'",
-                " -WindowStyle Normal"
-            ].join("");
+        const ps = [
+            "Start-Sleep -Seconds 2;",
+            "Start-Process -FilePath '" + exeQ + "'",
+            args.length ? (" -ArgumentList @(" + argList + ")") : "",
+            " -WorkingDirectory '" + cwdQ + "'",
+            " -WindowStyle Normal"
+        ].join("");
         const lines = [
             "@echo off",
             "powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -Command " + quoteWin(ps),
@@ -180,57 +155,16 @@ function scheduleRestart()
     else
     {
         const shArgs = args.map((a) => "'" + String(a).replace(/'/g, "'\\''") + "'").join(" ");
-        const envPrefix = runBg ? "HERCULES_BG=1 " : "";
-        const env = runBg
-            ? Object.assign({}, process.env, { HERCULES_BG: "1" })
-            : process.env;
-        spawn("sh", ["-c", "sleep 2; cd '" + cwd.replace(/'/g, "'\\''") + "' && " + envPrefix + "exec '" + exe.replace(/'/g, "'\\''") + "' " + shArgs], {
+        spawn("sh", ["-c", "sleep 2; cd '" + cwd.replace(/'/g, "'\\''") + "' && exec '" + exe.replace(/'/g, "'\\''") + "' " + shArgs], {
             detached: true,
             stdio: "ignore",
             cwd,
-            env
+            env: process.env
         }).unref();
     }
 
     restarting = true;
-    if(browserExitTimer)
-    {
-        clearTimeout(browserExitTimer);
-        browserExitTimer = null;
-    }
     setTimeout(() => process.exit(0), 500);
-}
-
-function clearBrowserExitTimer()
-{
-    if(browserExitTimer)
-    {
-        clearTimeout(browserExitTimer);
-        browserExitTimer = null;
-    }
-}
-
-function armBrowserExitWatch()
-{
-    if(!exitOnBrowserClose || restarting)
-        return;
-    if(consoleClients > 0)
-    {
-        clearBrowserExitTimer();
-        return;
-    }
-    if(!sawBrowserOnce)
-        return;
-    if(browserExitTimer)
-        return;
-    browserExitTimer = setTimeout(() =>
-    {
-        browserExitTimer = null;
-        if(restarting || consoleClients > 0 || !exitOnBrowserClose)
-            return;
-        console.log("Browser console closed — exiting Hercules (RunInBackground)");
-        process.exit(0);
-    }, BROWSER_EXIT_GRACE_MS);
 }
 
 function handleConsoleStream(req, res)
@@ -243,10 +177,6 @@ function handleConsoleStream(req, res)
     });
     if(typeof res.flushHeaders === "function")
         res.flushHeaders();
-
-    consoleClients++;
-    sawBrowserOnce = true;
-    clearBrowserExitTimer();
 
     const send = (entry) =>
     {
@@ -272,8 +202,6 @@ function handleConsoleStream(req, res)
         cleaned = true;
         clearInterval(heartbeat);
         unsub();
-        consoleClients = Math.max(0, consoleClients - 1);
-        armBrowserExitWatch();
     };
     req.on("close", cleanup);
     res.on("close", cleanup);
@@ -286,9 +214,8 @@ async function handleApi(req, res, url)
 
     if(url.pathname === "/api/meta" && req.method === "GET")
     {
-        let overlayText = "Closing this browser tab will also close the Hercules app.";
+        let overlayText = "";
         let overlayTime = 4;
-        let runInBackground = true;
         try
         {
             const g = JSON.parse(fs.readFileSync(path.join(PUBLIC_DIR, "global.json"), "utf8"));
@@ -296,8 +223,6 @@ async function handleApi(req, res, url)
                 overlayText = g.OverlayText;
             if(g.OverlayTime != null && Number.isFinite(Number(g.OverlayTime)))
                 overlayTime = Number(g.OverlayTime);
-            if(g.RunInBackground !== undefined)
-                runInBackground = !!g.RunInBackground;
         }
         catch(e) {}
         return sendJson(res, 200, {
@@ -305,15 +230,13 @@ async function handleApi(req, res, url)
             fieldMeta: FIELD_META,
             files: listFiles(),
             overlayText,
-            overlayTime,
-            runInBackground
+            overlayTime
         });
     }
 
     if(url.pathname === "/api/restart" && req.method === "POST")
     {
         restarting = true;
-        clearBrowserExitTimer();
         sendJson(res, 200, { ok: true, restarting: true });
         console.log("Config editor: restart requested — relaunching Hercules…");
         setTimeout(scheduleRestart, 150);
@@ -1129,11 +1052,7 @@ function start(options)
     const openBrowser = opts.openBrowser !== false;
     const fatal = opts.fatal !== false;
     const port = resolvePort(opts);
-    exitOnBrowserClose = opts.exitOnBrowserClose === true;
     restarting = false;
-    consoleClients = 0;
-    sawBrowserOnce = false;
-    clearBrowserExitTimer();
 
     consolebridge.install();
 
@@ -1142,7 +1061,7 @@ function start(options)
         console.error("public/ not found at " + PUBLIC_DIR);
         console.error("Run from the folder that contains public/ (e.g. dist/).");
         if(fatal)
-            process.exit(1);
+            crashguard.holdOpen("public/ missing");
         return null;
     }
 
@@ -1178,7 +1097,7 @@ function start(options)
         else
             console.error("Config editor: " + (err.message || err));
         if(fatal)
-            process.exit(1);
+            crashguard.holdOpen(err);
     });
 
     server.listen(port, HOST, () =>
@@ -1186,8 +1105,6 @@ function start(options)
         const url = "http://" + HOST + ":" + port + "/";
         console.log("Hercules config editor: " + url);
         console.log("Editing folder: " + PUBLIC_DIR);
-        if(exitOnBrowserClose)
-            console.log("RunInBackground: app will exit ~"+ (BROWSER_EXIT_GRACE_MS / 1000) +"s after browser tab closes");
         if(fatal)
             console.log("Press Ctrl+C to stop.");
         if(openBrowser)
@@ -1204,6 +1121,9 @@ function start(options)
 }
 
 if(require.main === module)
+{
+    crashguard.install();
     start();
+}
 
 module.exports = { start, DEFAULT_PORT, HOST };

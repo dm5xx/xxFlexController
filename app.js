@@ -1,8 +1,10 @@
 var Controller = null;
 
+const crashguard = require("./crashguard.js");
+crashguard.install();
+
 const fs = require("fs");
 const path = require("path");
-const { spawn } = require("child_process");
 
 // Load JSON from process.cwd() so pkg EXE works with dist/public next to the binary
 function loadConfigJson(relPath)
@@ -11,50 +13,35 @@ function loadConfigJson(relPath)
     return JSON.parse(fs.readFileSync(full, "utf8"));
 }
 
-/**
- * Re-spawn hidden and exit parent (Windows "no console / no taskbar" background).
- * Like a Linux daemon: no window to focus. Child sets HERCULES_BG=1 to avoid a loop.
- */
-function daemonizeIfBackground(enabled)
-{
-    if(!enabled || process.env.HERCULES_BG === "1")
-        return false;
-    const child = spawn(process.execPath, process.argv.slice(1), {
-        detached: true,
-        stdio: "ignore",
-        cwd: process.cwd(),
-        env: Object.assign({}, process.env, { HERCULES_BG: "1" }),
-        windowsHide: true
-    });
-    child.unref();
-    process.exit(0);
-    return true;
-}
-
 // Browser config UI (no MIDI / radio): node app.js --editor
 if(process.argv.includes("--editor") || process.argv.includes("--edit-config"))
 {
     let editorPort = 5555;
-    let runInBackground = true;
     try
     {
         const g = loadConfigJson(path.join("public", "global.json"));
         if(g.JsonEditorPort != null && Number(g.JsonEditorPort) > 0)
             editorPort = Number(g.JsonEditorPort);
-        if(g.RunInBackground !== undefined)
-            runInBackground = !!g.RunInBackground;
     }
     catch(e) {}
-    daemonizeIfBackground(runInBackground);
     require("./configeditor.js").start({
-        port: editorPort,
-        exitOnBrowserClose: runInBackground
+        port: editorPort
     });
     return;
 }
 
 var configdir = "public";
-const Global = loadConfigJson(path.join(configdir, "global.json"));
+let Global;
+try
+{
+    Global = loadConfigJson(path.join(configdir, "global.json"));
+}
+catch(err)
+{
+    console.error("Failed to load public/global.json");
+    crashguard.holdOpen(err);
+    return;
+}
 
 if(Global.JsonEditor === undefined)
     Global.JsonEditor = true;
@@ -65,16 +52,11 @@ if(Global.JsonEditorPort === undefined)
 if(Global.Debug === undefined)
     Global.Debug = false;
 
-if(Global.RunInBackground === undefined)
-    Global.RunInBackground = true;
-
 if(Global.OverlayText === undefined)
-    Global.OverlayText = "Closing this browser tab will also close the Hercules app.";
+    Global.OverlayText = "";
 
 if(Global.OverlayTime === undefined)
     Global.OverlayTime = 4;
-
-daemonizeIfBackground(Global.RunInBackground);
 
 // Capture console for browser terminal (before first log lines)
 require("./consolebridge.js").install();
@@ -82,7 +64,17 @@ require("./consolebridge.js").install();
 if(Global.publicdirnum !== undefined && Global.publicdirnum > 0)
     configdir = configdir+Global.publicdirnum;
 
-var Config = loadConfigJson(path.join(configdir, "config"+Global.default+".json"));
+let Config;
+try
+{
+    Config = loadConfigJson(path.join(configdir, "config"+Global.default+".json"));
+}
+catch(err)
+{
+    console.error("Failed to load config"+Global.default+".json");
+    crashguard.holdOpen(err);
+    return;
+}
 
 if(Config.JogCoolDown === undefined)
     Config.JogCoolDown = 100;
@@ -90,7 +82,17 @@ if(Config.JogCoolDown === undefined)
 const log = require("./logger.js");
 log.setDebug(Global.Debug);
 
-var defaults = loadConfigJson(path.join(configdir, "defaults.json")); //    "RitFreq" : [70,7]
+let defaults;
+try
+{
+    defaults = loadConfigJson(path.join(configdir, "defaults.json")); //    "RitFreq" : [70,7]
+}
+catch(err)
+{
+    console.error("Failed to load defaults.json");
+    crashguard.holdOpen(err);
+    return;
+}
 
 if(defaults.RitFreq === undefined)
     defaults.RitFreq = [5000,1000];
@@ -108,13 +110,26 @@ else {
 const masterEmitter = new EventEmitter();
 const flexDominator = new FlexDominator(masterEmitter, defaults);
 
-var xxFlex = new xxFlexRadio(Config, defaults, masterEmitter);
-var controller = new Controller(Config, masterEmitter, configdir);
+var xxFlex;
+var controller;
+try
+{
+    xxFlex = new xxFlexRadio(Config, defaults, masterEmitter);
+    controller = new Controller(Config, masterEmitter, configdir);
+}
+catch(err)
+{
+    log.error("Failed to start radio/MIDI");
+    crashguard.holdOpen(err);
+    return;
+}
 
 Global.InConfigMode = false;
 Global.Layer = 0;
 
-log.info("Control your flex like hercules @Version " + "1.1.0RC1");
+log.info(Global.OverlayText && String(Global.OverlayText).trim()
+    ? String(Global.OverlayText).trim()
+    : "Hercules");
 if(Global.Debug)
     log.info("Debug logging enabled");
 
@@ -122,14 +137,9 @@ if(Global.JsonEditor)
 {
     require("./configeditor.js").start({
         fatal: false,
-        port: Global.JsonEditorPort,
-        exitOnBrowserClose: !!Global.RunInBackground
+        port: Global.JsonEditorPort
     });
     log.info("JSON config editor on http://127.0.0.1:"+Global.JsonEditorPort+"/ (JsonEditor)");
-    if(Global.RunInBackground)
-        log.info("RunInBackground: no console window; closing the browser tab will exit Hercules");
-    else
-        log.info("RunInBackground false: console visible; tab close does not exit the app");
 }
 else
     log.info("JSON config editor off (set JsonEditor true in public/global.json to enable)");

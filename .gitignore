@@ -2,3 +2,9 @@ node_modules
 .vscode
 .git
 dist
+.firecrawl
+public/newmanual.pdf-config.js
+public/d4c-logo.b64.txt
+public/manual-bg-page*.png
+public/manual-style-p*.png
+public/manual-bg.jpeg

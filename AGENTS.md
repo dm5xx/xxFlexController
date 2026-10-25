@@ -19,21 +19,23 @@ npm start
 # or: node app.js
 
 # Browser UI (Terminal + Configs): public/global.json → "JsonEditor": true (default)
-# "RunInBackground": true (default) → re-spawn hidden (brief console flash OK); tab close exits (~15s)
-# "RunInBackground": false → visible console; tab close does NOT exit
+# Console stays visible; closing the browser tab does not exit the app
+# OverlayText / OverlayTime in global.json = startup overlay in the browser (empty text = off)
 # UI only: npm run editor  |  node app.js --editor  |  xxHercules.exe --editor
 # → http://127.0.0.1:<JsonEditorPort>/  (default 5555) Terminal + Configs tabs
 
 # Windows EXE for distribution (pkg):
-npm run build:exe
-# → dist/xxHercules.exe + dist/public/  (run from dist/)
-# Config UI: xxHercules.exe --editor  (from dist/)
+npm run build              # → dist/ then rh.zip (zip root = xxHercules.exe + public/)
+npm run build:upversion    # same + bumps OverlayText "Build yyyymmddxx" (preferred)
+# End users unzip rh.zip and run xxHercules.exe next to public/ (no "dist" folder in the zip)
+# Docs: public/newmanual.md|pdf  ·  rebuild PDF: npm run docs:manual
+# Config UI: xxHercules.exe --editor
 # Before release: docs/SMOKE.md (manual) + npm test
 ```
 
 MIDI uses `@julusian/midi` (via `easymidi`); allow its install scripts if npm prompts (`npm install-scripts approve @julusian/midi`).
 
-Logging: `logger.js` — **info/warn/error** always; **debug** only if `Debug: true` in `public/global.json` (MIDI raw, unmapped keys, init chatter).
+Logging: `logger.js` — **info/warn/error** always; **debug** only if `Debug: true` in `public/global.json` (MIDI raw, unmapped keys, init chatter). `flexradio-js` `Radio[…]` / Discovery console spam is filtered unless Debug is on; command send/receive dumps stay suppressed even then.
 
 A GUI client (SmartSDR or AetherSDR) should be running; set Flex IP in `public/configN.json` (or use the config editor).
 

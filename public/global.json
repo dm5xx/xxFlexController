@@ -4,8 +4,7 @@
     "publicdirnum": 0,
     "JsonEditor": true,
     "JsonEditorPort": 5555,
-    "RunInBackground": true,
-    "OverlayText": "Closing this browser tab will also close the Hercules app.",
+    "OverlayText": "D4C presents... Hercules for Flex 6/8xxx SDR Version 1.5 Build 2026102505 - a DM5XX project",
     "OverlayTime": 4,
     "Debug": false
 }

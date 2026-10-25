@@ -9,8 +9,11 @@
     "editor": "node configeditor.js",
     "build:exe": "pkg . --output dist/xxHercules.exe && node scripts/copy-dist-assets.js && node scripts/zip-dist.js",
     "prebuild": "npm run test:hw",
-    "build": "npm run build:exe",
-    "test": "node --test ./test/flexdominator.test.js ./test/configeditor-api.test.js",
+    "build": "node scripts/run-build.js",
+    "build:upversion": "node scripts/run-build.js --upversion",
+    "docs:manual": "python scripts/gen-newmanual-pdf-config.py && npx --yes md-to-pdf public/newmanual.md --config-file public/newmanual.pdf-config.js --basedir public",
+    "docs:screens": "node scripts/capture-editor-screens.js",
+    "test": "node --test ./test/flexdominator.test.js ./test/configeditor-api.test.js ./test/bump-overlay-build.test.js ./test/run-build.test.js",
     "test:hw": "node --test ./test/hardware.test.js",
     "test:flex": "node --test ./test/flex-live.test.js"
   },
@@ -25,10 +28,12 @@
     "read-excel-file": "^5.7.1"
   },
   "devDependencies": {
-    "@yao-pkg/pkg": "^6.12.0"
+    "@yao-pkg/pkg": "^6.12.0",
+    "puppeteer": "^24.43.1"
   },
   "allowScripts": {
-    "@julusian/midi@3.1.0": true
+    "@julusian/midi@3.1.0": true,
+    "puppeteer@24.43.1": true
   },
   "pkg": {
     "targets": [
